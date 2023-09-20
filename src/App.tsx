@@ -1,11 +1,14 @@
 import { BrowserRouter } from 'react-router-dom'
 
 import { Router } from './Router'
+import { EmployeeContextProvider } from './contexts/employeeContext'
 
 function App() {
   return (
     <BrowserRouter>
-      <Router />
+      <EmployeeContextProvider>
+        <Router />
+      </EmployeeContextProvider>
     </BrowserRouter>
   )
 }

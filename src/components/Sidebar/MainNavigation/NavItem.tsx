@@ -15,10 +15,7 @@ export const NavItem = (props: NavItemProps) => {
       className="group flex items-center gap-2 rounded-lg px-3 py-2 hover:bg-yellow-50"
     >
       <div className="bg-gray600 p-2 rounded-md group-hover:bg-selectiveYellow">
-        <Icon
-          weight="fill"
-          className="h-5 w-5 text-white group-hover:text-gray600"
-        />
+        <Icon className="h-5 w-5 text-white group-hover:text-gray600" />
       </div>
       <span className="font-medium text-white group-hover:text-gray600">
         {title}

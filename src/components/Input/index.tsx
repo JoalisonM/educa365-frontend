@@ -1,28 +1,28 @@
 import { ComponentProps } from 'react'
 
-type InputPrefixProps = ComponentProps<'div'>
+type PrefixProps = ComponentProps<'div'>
 
-export const InputPrefix = (props: InputPrefixProps) => {
+export const Prefix = (props: PrefixProps) => {
   return <div {...props} />
 }
 
-type InputControlProps = ComponentProps<'input'>
+type ControlProps = ComponentProps<'input'>
 
-export const InputControl = (props: InputControlProps) => {
+export const Control = (props: ControlProps) => {
   return (
     <input
-      className="flex-1 border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600"
+      className="flex-1 border-0 bg-transparent outline-none p-0 text-zinc-900 placeholder-zinc-500"
       {...props}
     />
   )
 }
 
-type InputRootProps = ComponentProps<'div'>
+type RootProps = ComponentProps<'div'>
 
-export const InputRoot = (props: InputRootProps) => {
+export const Root = (props: RootProps) => {
   return (
     <div
-      className="mx-1 flex w-full items-center gap-2 rounded-lg border border-gray-400 px-3 py-2 shadow-sm"
+      className="flex w-full items-center gap-2 rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus-within:border-blueLagoon focus-within:ring-4 focus-within:ring-emerald-100"
       {...props}
     />
   )
