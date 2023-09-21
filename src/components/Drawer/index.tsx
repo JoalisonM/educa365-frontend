@@ -13,7 +13,7 @@ export const Drawer = (props: DrawerProps) => {
 
   return (
     <Dialog.Portal>
-      <Dialog.Overlay className="fixed bg-slate-800 bg-opacity-50 inset-0" />
+      <Dialog.Overlay className="fixed bg-black bg-opacity-60 inset-0" />
       <Dialog.Content className="fixed top-0 right-0 h-screen min-w-[40vw] max-w-3xl overflow-y-auto bg-white p-6 data-[state=open]:animate-slideRightIn data-[state=closed]:animate-slideRightOut focus:outline-none">
         <Dialog.Title className="font-bold text-2xl pb-4 border-b border-gray-200">
           {title}

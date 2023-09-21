@@ -1,6 +1,6 @@
 import * as z from 'zod'
 import { format } from 'date-fns'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import * as Dialog from '@radix-ui/react-dialog'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -10,10 +10,14 @@ import { useEmployee } from '../../hooks/useEmployee'
 import { SelectItem } from '../../components/Select/SelectItem'
 import { genders, occupations } from '../../configs/contant/employee'
 import { useEffect } from 'react'
+import { Button } from '../../components/Button'
 
 const newEmployeeFormSchema = z.object({
   nome: z
     .string()
+    .regex(/^[A-Za-zÀ-ÖØ-öø-ÿ\s']+$/, {
+      message: 'O nome não pode conter números nem caracteres especiais',
+    })
     .nonempty('O nome é obrigatório')
     .trim()
     .min(1, { message: 'Deve ter mais de 1 caractere' }),
@@ -22,28 +26,31 @@ const newEmployeeFormSchema = z.object({
     .nonempty('O e-mail é obrigatório')
     .email('Formato de e-mail inválido')
     .toLowerCase(),
-  nascimento: z.date().max(new Date('2003-01-01'), {
-    message: 'Novo demais para fazer faculdade',
+  nascimento: z.date().max(new Date('2005-01-01'), {
+    message: 'Novo demais para trabalhar',
   }),
   rg: z
     .string()
-    .nonempty('O RG é obrigatório')
-    .trim()
-    .min(11, { message: 'Deve ter 7 caracteres' }),
+    .regex(/^\d{1}\.\d{3}\.\d{3}$/, { message: 'RG inválido' })
+    .nonempty('O rg é obrigatório'),
   cpf: z
     .string()
-    .nonempty('O CPF  é obrigatório')
-    .trim()
-    .min(11, { message: 'Deve ter 11 caracteres' }),
+    .regex(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/, { message: 'CPF inválido' })
+    .nonempty('O cpf é obrigatório'),
   cargo: z
     .string()
     .nonempty('O cargo é obrigatório')
     .trim()
     .min(1, { message: 'Deve ter mais de 1 caractere' }),
-  sexo: z.boolean(),
+  sexo: z
+    .string()
+    .nonempty('O sexo é obrigatório')
+    .trim()
+    .min(1, { message: 'Deve ter mais de 1 caractere' }),
   endereco: z.object({
     cep: z
       .string()
+      .regex(/^\d{5}-\d{3}$/, { message: 'CEP inválido' })
       .nonempty('O UF é obrigatório')
       .trim()
       .min(1, { message: 'Deve ter mais de 1 caractere' }),
@@ -51,7 +58,8 @@ const newEmployeeFormSchema = z.object({
       .string()
       .nonempty('O cep é obrigatório')
       .trim()
-      .min(1, { message: 'Deve ter mais de 1 caractere' }),
+      .min(1, { message: 'Deve ter mais de 1 caractere' })
+      .max(2, { message: 'Deve ter apenas 2 caracteres' }),
     cidade: z
       .string()
       .nonempty('A cidade é obrigatória')
@@ -68,8 +76,10 @@ const newEmployeeFormSchema = z.object({
       .trim()
       .min(1, { message: 'Deve ter mais de 1 caractere' }),
     numero: z
-      .number()
-      .nonnegative('Número tem que ser maior que 0')
+      .string()
+      .regex(/^\d+$/, { message: 'Número inválido' })
+      .nonempty('O número é obrigatória')
+      .trim()
       .min(1, { message: 'Deve ter mais de 1 caractere' }),
     referencia: z
       .string()
@@ -78,9 +88,10 @@ const newEmployeeFormSchema = z.object({
       .min(1, { message: 'Deve ter mais de 1 caractere' }),
     telefone: z
       .string()
+      .regex(/^\d{11}$/, { message: 'Número de telefone inválido' })
       .nonempty('O telefone é obrigatório')
       .trim()
-      .min(1, { message: 'Deve ter mais de 1 caractere' }),
+      .min(11, { message: 'Deve ter mais de 1 caractere' }),
   }),
 })
 
@@ -89,6 +100,7 @@ type NewEmployeeFormInputs = z.infer<typeof newEmployeeFormSchema>
 export const NewEmployeeForm = () => {
   const {
     reset,
+    control,
     register,
     setValue,
     handleSubmit,
@@ -104,26 +116,30 @@ export const NewEmployeeForm = () => {
       setValue('email', employee.email)
       setValue('rg', employee.rg)
       setValue('cpf', employee.cpf)
-      setValue('sexo', employee.sexo)
-      setValue('cargo', employee.cargo)
       setValue('endereco', employee.endereco)
+      setValue('sexo', String(employee.sexo))
+      setValue('cargo', employee.cargo)
     }
-  }, [employee])
+  }, [employee, setValue])
 
-  const handleCreateNewPessoa = async (data: NewEmployeeFormInputs) => {
-    const { nome, email, nascimento, cargo, rg, cpf, sexo, endereco } = data
-    const formattedDateString = format(nascimento, 'yyyy/MM/dd')
+  const handleCreateNewEmployee = async (data: NewEmployeeFormInputs) => {
+    console.log('data: ', data)
+    const { nome, email, nascimento, rg, cpf, cargo, sexo, endereco } = data
+    const formattedDateString = format(nascimento, 'yyyy-MM-dd')
+    console.log('formattedDateString: ', formattedDateString)
+    const gender = sexo !== 'False'
 
     if (!employee.id) {
       createEmployee({
         nome,
         email,
-        nascimento: formattedDateString,
+        dataNascimento: formattedDateString,
         rg,
         cpf,
         cargo,
-        sexo,
+        sexo: gender,
         endereco,
+        senha: '12345',
       })
 
       reset()
@@ -132,19 +148,20 @@ export const NewEmployeeForm = () => {
         id: employee.id,
         nome,
         email,
-        nascimento: formattedDateString,
+        dataNascimento: formattedDateString,
         rg,
         cpf,
         sexo,
         cargo,
         endereco,
+        senha: '12345',
       })
     }
   }
 
   return (
     <form
-      onSubmit={handleSubmit(handleCreateNewPessoa)}
+      onSubmit={handleSubmit(handleCreateNewEmployee)}
       className="flex flex-col w-full gap-6 pt-8"
     >
       <section className="flex flex-col w-full gap-6 border-b border-gray-200 pb-5">
@@ -154,12 +171,24 @@ export const NewEmployeeForm = () => {
               Nome
             </label>
             <Input.Root>
-              <Input.Control
-                id="name"
-                placeholder="Digite o nome"
-                {...register('nome')}
+              <Controller
+                name="nome"
+                control={control}
+                render={({ field }) => (
+                  <Input.Control
+                    id="name"
+                    type="text"
+                    placeholder="Digite o nome"
+                    {...field}
+                  />
+                )}
               />
             </Input.Root>
+            {errors.nome && (
+              <span className="text-sm text-error-500 mt-2">
+                {errors.nome.message}
+              </span>
+            )}
           </fieldset>
           <fieldset className="space-y-1">
             <label
@@ -169,13 +198,24 @@ export const NewEmployeeForm = () => {
               E-mail
             </label>
             <Input.Root>
-              <Input.Control
-                id="email"
-                type="email"
-                placeholder="Digite o e-mail"
-                {...register('email')}
+              <Controller
+                name="email"
+                control={control}
+                render={({ field }) => (
+                  <Input.Control
+                    id="email"
+                    type="email"
+                    placeholder="Digite o e-mail"
+                    {...field}
+                  />
+                )}
               />
             </Input.Root>
+            {errors.email && (
+              <span className="font-sm text-error-500 mt-2">
+                {errors.email.message}
+              </span>
+            )}
           </fieldset>
         </div>
         <div className="grid grid-cols-2 gap-8">
@@ -184,16 +224,48 @@ export const NewEmployeeForm = () => {
               RG
             </label>
             <Input.Root>
-              <Input.Control id="rg" placeholder="Digite o RG" />
+              <Controller
+                name="rg"
+                control={control}
+                render={({ field }) => (
+                  <Input.Control
+                    id="rg"
+                    type="text"
+                    placeholder="Digite o rg"
+                    {...field}
+                  />
+                )}
+              />
             </Input.Root>
+            {errors.rg && (
+              <span className="font-sm text-error-500 mt-2">
+                {errors.rg.message}
+              </span>
+            )}
           </fieldset>
           <fieldset className="space-y-1">
             <label htmlFor="cpf" className="text-sm font-medium text-zinc-900">
               CPF
             </label>
             <Input.Root>
-              <Input.Control id="cpf" placeholder="Digite o CPF" />
+              <Controller
+                name="cpf"
+                control={control}
+                render={({ field }) => (
+                  <Input.Control
+                    id="cpf"
+                    type="text"
+                    placeholder="Digite o cpf"
+                    {...field}
+                  />
+                )}
+              />
             </Input.Root>
+            {errors.cpf && (
+              <span className="font-sm text-error-500 mt-2">
+                {errors.cpf.message}
+              </span>
+            )}
           </fieldset>
         </div>
         <div className="grid grid-cols-3 gap-8">
@@ -205,12 +277,39 @@ export const NewEmployeeForm = () => {
               Data de nascimento
             </label>
             <Input.Root>
-              <Input.Control
-                id="birthday"
-                type="date"
-                {...register('nascimento')}
+              <Controller
+                name="nascimento"
+                control={control}
+                render={({ field }) => (
+                  <Input.Control
+                    id="nascimento"
+                    type="date"
+                    placeholder="Digite o nascimento"
+                    onChange={(e) => {
+                      const selectedDate = new Date(
+                        // eslint-disable-next-line prettier/prettier
+                        e.target.value + 'T00:00:00'
+                      )
+                      field.onChange(selectedDate)
+                    }}
+                    value={
+                      field.value
+                        ? field.value.toISOString().split('T')[0]
+                        : employee.dataNascimento
+                        ? new Date(employee.dataNascimento)
+                            .toISOString()
+                            .split('T')[0]
+                        : ''
+                    }
+                  />
+                )}
               />
             </Input.Root>
+            {errors.nascimento && (
+              <span className="font-sm text-error-500 mt-2">
+                {errors.nascimento.message}
+              </span>
+            )}
           </fieldset>
           <fieldset className="space-y-1">
             <label
@@ -219,16 +318,26 @@ export const NewEmployeeForm = () => {
             >
               Sexo
             </label>
-            <Select placeholder="Selecionar o sexo">
-              {Object.entries(genders).map(([key, gender]) => (
-                <SelectItem
-                  key={key}
-                  text={gender.title}
-                  value={String(gender.value)}
-                  {...register('sexo')}
-                />
-              ))}
-            </Select>
+            <Controller
+              name="sexo"
+              control={control}
+              render={({ field }) => (
+                <Select placeholder="Selecione o sexo" {...field}>
+                  {Object.entries(genders).map(([key, gender]) => (
+                    <SelectItem
+                      key={key}
+                      text={gender.title}
+                      value={gender.value}
+                    />
+                  ))}
+                </Select>
+              )}
+            />
+            {errors.sexo && (
+              <span className="font-sm text-error-500 mt-2">
+                {errors.sexo.message}
+              </span>
+            )}
           </fieldset>
           <fieldset className="space-y-1">
             <label
@@ -237,16 +346,27 @@ export const NewEmployeeForm = () => {
             >
               Cargo
             </label>
-            <Select placeholder="Selecionar a ocupação">
-              {Object.entries(occupations).map(([key, occupation]) => (
-                <SelectItem
-                  key={key}
-                  text={occupation.title}
-                  value={occupation.value}
-                  {...register('cargo')}
-                />
-              ))}
-            </Select>
+            <Controller
+              name="cargo"
+              control={control}
+              render={({ field }) => (
+                <Select placeholder="Selecione a ocupação" {...field}>
+                  {Object.entries(occupations).map(([key, occupation]) => (
+                    <SelectItem
+                      key={key}
+                      text={occupation.title}
+                      value={occupation.value}
+                      {...register('cargo')}
+                    />
+                  ))}
+                </Select>
+              )}
+            />
+            {errors.cargo && (
+              <span className="font-sm text-error-500 mt-2">
+                {errors.cargo.message}
+              </span>
+            )}
           </fieldset>
         </div>
       </section>
@@ -259,12 +379,24 @@ export const NewEmployeeForm = () => {
               Rua
             </label>
             <Input.Root>
-              <Input.Control
-                id="street"
-                placeholder="Digite a rua"
-                {...register('endereco.rua')}
+              <Controller
+                name="endereco.rua"
+                control={control}
+                render={({ field }) => (
+                  <Input.Control
+                    id="street"
+                    type="text"
+                    placeholder="Digite a rua"
+                    {...field}
+                  />
+                )}
               />
             </Input.Root>
+            {errors.endereco?.rua && (
+              <span className="font-sm text-error-500 mt-2">
+                {errors.endereco?.rua.message}
+              </span>
+            )}
           </fieldset>
           <fieldset className="space-y-1">
             <label
@@ -274,12 +406,24 @@ export const NewEmployeeForm = () => {
               Bairro
             </label>
             <Input.Root>
-              <Input.Control
-                id="neighborhoods"
-                placeholder="Digite a rua"
-                {...register('endereco.bairro')}
+              <Controller
+                name="endereco.bairro"
+                control={control}
+                render={({ field }) => (
+                  <Input.Control
+                    id="neighborhoods"
+                    type="text"
+                    placeholder="Digite o bairro"
+                    {...field}
+                  />
+                )}
               />
             </Input.Root>
+            {errors.endereco?.bairro && (
+              <span className="font-sm text-error-500 mt-2">
+                {errors.endereco?.bairro.message}
+              </span>
+            )}
           </fieldset>
         </div>
         <div className="grid grid-cols-3 gap-8">
@@ -288,36 +432,72 @@ export const NewEmployeeForm = () => {
               Número
             </label>
             <Input.Root>
-              <Input.Control
-                id="number"
-                placeholder="Digite o número"
-                {...register('endereco.numero')}
+              <Controller
+                name="endereco.numero"
+                control={control}
+                render={({ field }) => (
+                  <Input.Control
+                    id="number"
+                    type="text"
+                    placeholder="Digite o número"
+                    {...field}
+                  />
+                )}
               />
             </Input.Root>
+            {errors.endereco?.numero && (
+              <span className="font-sm text-error-500 mt-2">
+                {errors.endereco?.numero.message}
+              </span>
+            )}
           </fieldset>
           <fieldset className="space-y-1">
             <label htmlFor="cep" className="text-sm font-medium text-zinc-900">
               CEP
             </label>
             <Input.Root>
-              <Input.Control
-                id="cep"
-                placeholder="Digite o CEP"
-                {...register('endereco.cep')}
+              <Controller
+                name="endereco.cep"
+                control={control}
+                render={({ field }) => (
+                  <Input.Control
+                    id="cep"
+                    type="text"
+                    placeholder="Digite o cep"
+                    {...field}
+                  />
+                )}
               />
             </Input.Root>
+            {errors.endereco?.cep && (
+              <span className="font-sm text-error-500 mt-2">
+                {errors.endereco?.cep.message}
+              </span>
+            )}
           </fieldset>
           <fieldset className="space-y-1">
             <label htmlFor="uf" className="text-sm font-medium text-zinc-900">
               UF
             </label>
             <Input.Root>
-              <Input.Control
-                id="uf"
-                placeholder="Digite a UF"
-                {...register('endereco.uf')}
+              <Controller
+                name="endereco.uf"
+                control={control}
+                render={({ field }) => (
+                  <Input.Control
+                    id="uf"
+                    type="text"
+                    placeholder="Digite o uf"
+                    {...field}
+                  />
+                )}
               />
             </Input.Root>
+            {errors.endereco?.uf && (
+              <span className="font-sm text-error-500 mt-2">
+                {errors.endereco?.uf.message}
+              </span>
+            )}
           </fieldset>
         </div>
         <div className="grid grid-cols-2 gap-8">
@@ -326,12 +506,24 @@ export const NewEmployeeForm = () => {
               Cidade
             </label>
             <Input.Root>
-              <Input.Control
-                id="city"
-                placeholder="Digite a cidade"
-                {...register('endereco.cidade')}
+              <Controller
+                name="endereco.cidade"
+                control={control}
+                render={({ field }) => (
+                  <Input.Control
+                    id="city"
+                    type="text"
+                    placeholder="Digite a cidade"
+                    {...field}
+                  />
+                )}
               />
             </Input.Root>
+            {errors.endereco?.cidade && (
+              <span className="font-sm text-error-500 mt-2">
+                {errors.endereco?.cidade.message}
+              </span>
+            )}
           </fieldset>
           <fieldset className="space-y-1">
             <label
@@ -341,12 +533,24 @@ export const NewEmployeeForm = () => {
               Telefone
             </label>
             <Input.Root>
-              <Input.Control
-                id="telephone"
-                placeholder="Digite o telefone"
-                {...register('endereco.telefone')}
+              <Controller
+                name="endereco.telefone"
+                control={control}
+                render={({ field }) => (
+                  <Input.Control
+                    id="telephone"
+                    type="text"
+                    placeholder="Digite o telefone"
+                    {...field}
+                  />
+                )}
               />
             </Input.Root>
+            {errors.endereco?.telefone && (
+              <span className="font-sm text-error-500 mt-2">
+                {errors.endereco?.telefone.message}
+              </span>
+            )}
           </fieldset>
         </div>
         <div className="grid grid-cols-1 gap-8">
@@ -358,31 +562,35 @@ export const NewEmployeeForm = () => {
               Referência
             </label>
             <Input.Root>
-              <Input.Control
-                id="reference"
-                placeholder="Digite a referência"
-                {...register('endereco.referencia')}
+              <Controller
+                name="endereco.referencia"
+                control={control}
+                render={({ field }) => (
+                  <Input.Control
+                    id="reference"
+                    type="text"
+                    placeholder="Digite a referência"
+                    {...field}
+                  />
+                )}
               />
             </Input.Root>
+            {errors.endereco?.referencia && (
+              <span className="font-sm text-error-500 mt-2">
+                {errors.endereco?.referencia.message}
+              </span>
+            )}
           </fieldset>
         </div>
       </section>
 
       <div className="flex items-center justify-end gap-4 pt-5">
         <Dialog.Close asChild>
-          <button
-            type="button"
-            className="rounded-lg px-6 py-2 font-bold border border-zinc-500 text-zinc-500"
-          >
+          <Button type="button" variant="outline">
             Cancelar
-          </button>
+          </Button>
         </Dialog.Close>
-        <button
-          type="submit"
-          className="rounded-lg px-6 py-2 font-bold text-white bg-blueLagoon"
-        >
-          Finalizar
-        </button>
+        <Button type="submit">Finalizar</Button>
       </div>
     </form>
   )

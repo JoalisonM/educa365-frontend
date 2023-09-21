@@ -1,11 +1,13 @@
 import { useEffect } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
-import { MagnifyingGlass, Trash } from '@phosphor-icons/react'
+import { MagnifyingGlass, PencilSimpleLine, Trash } from '@phosphor-icons/react'
 
+import { EmployeeProps } from '../../dtos'
 import * as Input from '../../components/Input'
 import { Drawer } from '../../components/Drawer'
 import { NewEmployeeForm } from './NewEmployeeForm'
 import { useEmployee } from '../../hooks/useEmployee'
+import { Button } from '../../components/Button'
 
 export const Employee = () => {
   const {
@@ -16,9 +18,21 @@ export const Employee = () => {
     deleteEmployee,
   } = useEmployee()
 
-  // useEffect(() => {
-  //   fetchEmployees()
-  // }, [fetchEmployees])
+  useEffect(() => {
+    fetchEmployees()
+  }, [fetchEmployees])
+
+  const handleShowEmployee = (id?: string) => {
+    if (id) {
+      getEmployee(id)
+    } else {
+      setEmployee({} as EmployeeProps)
+    }
+  }
+
+  const handleDelete = (id: string) => {
+    deleteEmployee(id)
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -27,12 +41,13 @@ export const Employee = () => {
 
         <Dialog.Root>
           <Dialog.Trigger asChild>
-            <button
+            <Button
               type="button"
-              className="rounded-lg px-6 py-2 font-bold text-white bg-blueLagoon"
+              variant="primary"
+              onClick={() => handleShowEmployee()}
             >
               Adicionar
-            </button>
+            </Button>
           </Dialog.Trigger>
 
           <Drawer title="Registro de funcionário">
@@ -53,33 +68,49 @@ export const Employee = () => {
           <tr className="text-left text-grayTableTitle">
             <th className="py-4 px-8">Nome</th>
             <th className="py-4 px-8">E-mail</th>
-            <th className="py-4 px-8">Idade</th>
+            <th className="py-4 px-8">Cargo</th>
             <th className="py-4 px-8">Nascimento</th>
           </tr>
         </thead>
         <tbody>
-          <tr className="bg-zinc-100 text-zinc-700 text-left">
-            <td className="py-5 px-8 rounded-tl-full rounded-bl-md">
-              Joalison Matheus
-            </td>
-            <td className="py-5 px-8">joalisonmatheus0@gmail.com</td>
-            <td className="py-5 px-8">21 anos</td>
-            <td className="py-5 px-8">10/03/2002</td>
-            <td className="py-5 px-8">
-              <Trash className="h-5 w-5 text-zinc-500 hover:text-red-500 transition duration-300" />
-            </td>
-          </tr>
-          <tr className="bg-zinc-100 text-zinc-700 text-left">
-            <td className="py-5 px-8 rounded-tl-full rounded-bl-md">
-              Joalison Matheus
-            </td>
-            <td className="py-5 px-8">joalisonmatheus0@gmail.com</td>
-            <td className="py-5 px-8">21 anos</td>
-            <td className="py-5 px-8">10/03/2002</td>
-            <td className="py-5 px-8">
-              <Trash className="h-5 w-5 text-zinc-500 hover:text-red-500 transition duration-300" />
-            </td>
-          </tr>
+          {employees &&
+            employees.map((employee) => (
+              <tr
+                key={employee.id}
+                className="bg-zinc-100 text-zinc-700 text-left"
+              >
+                <td className="py-5 px-8 rounded-tl-full rounded-bl-md">
+                  {employee.nome}
+                </td>
+                <td className="py-5 px-8">{employee.email}</td>
+                <td className="py-5 px-8">{employee.cargo}</td>
+                <td className="py-5 px-8">{employee.dataNascimento}</td>
+                <td className="py-5 px-8 text-right space-x-4">
+                  <Dialog.Root>
+                    <Dialog.Trigger asChild>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        onClick={() => handleShowEmployee(employee.id)}
+                      >
+                        <PencilSimpleLine className="h-5 w-5" />
+                      </Button>
+                    </Dialog.Trigger>
+
+                    <Drawer title="Registro de funcionário">
+                      <NewEmployeeForm />
+                    </Drawer>
+                  </Dialog.Root>
+                  <Button
+                    type="button"
+                    variant="danger"
+                    onClick={() => handleDelete(employee.id)}
+                  >
+                    <Trash className="h-5 w-5" />
+                  </Button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>

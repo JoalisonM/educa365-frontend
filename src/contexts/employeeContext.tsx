@@ -12,9 +12,9 @@ interface EmployeeContextType {
   employee: EmployeeProps
   employees: EmployeeProps[]
   fetchEmployees: () => Promise<void>
-  deleteEmployee: (id: number) => void
+  deleteEmployee: (id: string) => void
   setEmployee: (value: EmployeeProps) => void
-  getEmployee: (id: number) => Promise<void>
+  getEmployee: (id: string) => Promise<void>
   createEmployee: (data: CreateEmployeeInput) => Promise<void>
   updateEmployee: (data: UpdateEmployeeInput) => Promise<void>
 }
@@ -37,7 +37,7 @@ export const EmployeeContextProvider = ({
     setEmployees(response.data)
   }, [])
 
-  const getEmployee = useCallback(async (id: number) => {
+  const getEmployee = useCallback(async (id: string) => {
     const response = await Employee.get(id)
 
     if (response) {
@@ -61,7 +61,7 @@ export const EmployeeContextProvider = ({
     )
   }, [])
 
-  const deleteEmployee = async (id: number) => {
+  const deleteEmployee = async (id: string) => {
     Employee.delete(id)
 
     setEmployees((state) => state.filter((employee) => employee.id !== id))

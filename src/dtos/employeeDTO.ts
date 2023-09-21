@@ -1,40 +1,39 @@
-import {
-  AddressProps,
-  CreateAddressInput,
-  UpdateAddressInput,
-} from './addressDTO'
+import { AddressProps, CreateAddressInput } from './addressDTO'
 
 export interface EmployeeProps {
-  id: number
+  id: string
   nome: string
   email: string
-  nascimento: string
+  dataNascimento: string
   sexo: boolean
   rg: string
   cpf: string
   cargo: string
+  senha?: string
   endereco: AddressProps
 }
 
 export interface CreateEmployeeInput {
   nome: string
   email: string
-  nascimento: string
+  dataNascimento: string
   sexo: boolean
   rg: string
   cpf: string
   cargo: string
+  senha?: string
   endereco: CreateAddressInput
 }
 
 export interface UpdateEmployeeInput {
-  id: number
+  id: string
   nome: string
   email: string
-  nascimento: string
+  dataNascimento: string
   sexo: boolean
   rg: string
   cpf: string
   cargo: string
+  senha?: string
   endereco: CreateAddressInput
 }

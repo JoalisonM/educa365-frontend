@@ -1,7 +1,7 @@
 export interface AddressProps {
-  id: number
+  id: string
   cep: string
-  numero: number
+  numero: string
   rua: string
   uf: string
   bairro: string
@@ -12,7 +12,7 @@ export interface AddressProps {
 
 export interface CreateAddressInput {
   cep: string
-  numero: number
+  numero: string
   rua: string
   uf: string
   bairro: string
@@ -22,9 +22,9 @@ export interface CreateAddressInput {
 }
 
 export interface UpdateAddressInput {
-  id: number
+  id: string
   cep: string
-  numero: number
+  numero: string
   rua: string
   uf: string
   bairro: string

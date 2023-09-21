@@ -4,7 +4,7 @@ import { CreateEmployeeInput, UpdateEmployeeInput } from '../dtos'
 const uriEmployee = 'funcionarios'
 
 export const Employee = {
-  get(id: number) {
+  get(id: string) {
     return api.get(`${uriEmployee}/${id}`)
   },
 
@@ -22,7 +22,7 @@ export const Employee = {
     return api.put(`${uriEmployee}/${id}`, newEmployee)
   },
 
-  delete(id: number) {
+  delete(id: string) {
     return api.delete(`${uriEmployee}/${id}`)
   },
 }
