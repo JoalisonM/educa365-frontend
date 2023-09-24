@@ -1,51 +1,51 @@
-import { tv, VariantProps } from 'tailwind-variants'
-import { CheckCircle, CloudArrowUp, Trash } from '@phosphor-icons/react'
+import { tv, VariantProps } from "tailwind-variants";
+import { CheckCircle, CloudArrowUp, Trash } from "@phosphor-icons/react";
 
-import { Button } from '../Button'
-import { formatBytes } from '../../utils/format-bytes'
+import { Button } from "../Button";
+import { formatBytes } from "@utils/format-bytes";
 
 const fileItem = tv({
   slots: {
     container:
-      'group flex items-start gap-4 rounded-lg border border-zinc-200 p-4',
-    icon: 'rounded-full border-4 border-emerald-100 bg-emerald-200 p-2 text-blueLagoon',
-    deleteButton: '',
+      "group flex items-start gap-4 rounded-lg border border-zinc-200 p-4",
+    icon: "rounded-full border-4 border-emerald-100 bg-emerald-200 p-2 text-blueLagoon",
+    deleteButton: "",
   },
 
   variants: {
     state: {
       progress: {
-        container: '',
+        container: "",
       },
       complete: {
-        container: 'border-blueLagoon',
+        container: "border-blueLagoon",
       },
       error: {
-        container: 'bg-error-25 border-error-300',
-        icon: 'border-error-50 bg-error-100 text-error-600',
-        deleteButton: 'text-error-700 hover:text-error-900',
+        container: "bg-error-25 border-error-300",
+        icon: "border-error-50 bg-error-100 text-error-600",
+        deleteButton: "text-error-700 hover:text-error-900",
       },
     },
   },
 
   defaultVariants: {
-    state: 'progress',
+    state: "progress",
   },
-})
+});
 
 interface FileItemProps extends VariantProps<typeof fileItem> {
-  name: string
-  size: number
+  name: string;
+  size: number;
 }
 
 export const FileItem = ({ name, size, state }: FileItemProps) => {
-  const { container, icon, deleteButton } = fileItem({ state })
+  const { container, icon, deleteButton } = fileItem({ state });
   return (
     <div className={container()}>
       <div className={icon()}>
         <CloudArrowUp h-4 w-4 />
       </div>
-      {state === 'error' ? (
+      {state === "error" ? (
         <div className="flex flex-1 flex-col items-start gap-1">
           <div className="flex flex-col">
             <span className="text-sm font-medium text-error-700">
@@ -72,17 +72,17 @@ export const FileItem = ({ name, size, state }: FileItemProps) => {
             <div className="h-2 flex-1 rounde-full bg-zinc-100">
               <div
                 className="h-2 rounded-full bg-blueLagoon"
-                style={{ width: state === 'complete' ? '100%' : '80%' }}
+                style={{ width: state === "complete" ? "100%" : "80%" }}
               />
             </div>
             <span className="text-sm font-medium text-zinc-700">
-              {state === 'complete' ? '100%' : '80%'}
+              {state === "complete" ? "100%" : "80%"}
             </span>
           </div>
         </div>
       )}
 
-      {state === 'complete' ? (
+      {state === "complete" ? (
         <CheckCircle className="h-5 w-5 fill-blueLagoon text-white" />
       ) : (
         <Button type="button" variant="ghost" className={deleteButton()}>
@@ -90,5 +90,5 @@ export const FileItem = ({ name, size, state }: FileItemProps) => {
         </Button>
       )}
     </div>
-  )
-}
+  );
+};

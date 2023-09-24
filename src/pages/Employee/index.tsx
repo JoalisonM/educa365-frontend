@@ -1,13 +1,18 @@
-import { useEffect } from 'react'
-import * as Dialog from '@radix-ui/react-dialog'
-import { MagnifyingGlass, PencilSimpleLine, Trash } from '@phosphor-icons/react'
+import { useEffect } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
+import {
+  MagnifyingGlass,
+  PencilSimpleLine,
+  Trash,
+} from "@phosphor-icons/react";
 
-import { EmployeeProps } from '../../dtos'
-import * as Input from '../../components/Input'
-import { Drawer } from '../../components/Drawer'
-import { NewEmployeeForm } from './NewEmployeeForm'
-import { useEmployee } from '../../hooks/useEmployee'
-import { Button } from '../../components/Button'
+import { EmployeeProps } from "@dtos/index";
+import { EmployeeForm } from "./EmployeeForm";
+import * as Input from "@components/Input";
+import { Drawer } from "@components/Drawer";
+import { Button } from "@components/Button";
+import { AlertDialog } from "@components/Alert";
+import { useEmployee } from "@hooks/useEmployee";
 
 export const Employee = () => {
   const {
@@ -16,23 +21,23 @@ export const Employee = () => {
     setEmployee,
     fetchEmployees,
     deleteEmployee,
-  } = useEmployee()
+  } = useEmployee();
 
   useEffect(() => {
-    fetchEmployees()
-  }, [fetchEmployees])
+    fetchEmployees();
+  }, [fetchEmployees]);
 
   const handleShowEmployee = (id?: string) => {
     if (id) {
-      getEmployee(id)
+      getEmployee(id);
     } else {
-      setEmployee({} as EmployeeProps)
+      setEmployee({} as EmployeeProps);
     }
-  }
+  };
 
   const handleDelete = (id: string) => {
-    deleteEmployee(id)
-  }
+    deleteEmployee(id);
+  };
 
   return (
     <div className="flex flex-col gap-6">
@@ -51,7 +56,7 @@ export const Employee = () => {
           </Dialog.Trigger>
 
           <Drawer title="Registro de funcionário">
-            <NewEmployeeForm />
+            <EmployeeForm />
           </Drawer>
         </Dialog.Root>
       </div>
@@ -79,13 +84,13 @@ export const Employee = () => {
                 key={employee.id}
                 className="bg-zinc-100 text-zinc-700 text-left"
               >
-                <td className="py-5 px-8 rounded-tl-full rounded-bl-md">
+                <td className="rounded-tl-md rounded-bl-md py-5 px-8">
                   {employee.nome}
                 </td>
                 <td className="py-5 px-8">{employee.email}</td>
                 <td className="py-5 px-8">{employee.cargo}</td>
                 <td className="py-5 px-8">{employee.dataNascimento}</td>
-                <td className="py-5 px-8 text-right space-x-4">
+                <td className=" rounded-tr-md rounded-br-md py-5 px-8 text-right space-x-4">
                   <Dialog.Root>
                     <Dialog.Trigger asChild>
                       <Button
@@ -98,21 +103,24 @@ export const Employee = () => {
                     </Dialog.Trigger>
 
                     <Drawer title="Registro de funcionário">
-                      <NewEmployeeForm />
+                      <EmployeeForm />
                     </Drawer>
                   </Dialog.Root>
-                  <Button
-                    type="button"
-                    variant="danger"
-                    onClick={() => handleDelete(employee.id)}
+                  <AlertDialog
+                    id={employee.id}
+                    title="Você tem certeza absoluta?"
+                    description="Essa ação não pode ser desfeita. Isso excluirá permanentemente o funcionário."
+                    onDelete={handleDelete}
                   >
-                    <Trash className="h-5 w-5" />
-                  </Button>
+                    <Button type="button" variant="danger">
+                      <Trash className="h-5 w-5" />
+                    </Button>
+                  </AlertDialog>
                 </td>
               </tr>
             ))}
         </tbody>
       </table>
     </div>
-  )
-}
+  );
+};

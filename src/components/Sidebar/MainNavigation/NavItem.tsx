@@ -1,25 +1,35 @@
-import { ElementType } from 'react'
-import { Link } from 'react-router-dom'
+import { ElementType } from "react";
+import { NavLink } from "react-router-dom";
+import { tv } from "tailwind-variants";
+
+const item = tv({
+  slots: {
+    base: "group flex items-center gap-2 rounded-lg px-3 py-2 text-white hover:bg-yellow-50 hover:text-gray600",
+    active:
+      "group flex items-center gap-2 rounded-lg px-3 py-2 text-white hover:bg-yellow-50 hover:text-gray600",
+  },
+});
+
+const { base, active } = item();
 
 interface NavItemProps {
-  to: string
-  title: string
-  icon: ElementType
+  to: string;
+  title: string;
+  icon: ElementType;
 }
 
-export const NavItem = (props: NavItemProps) => {
-  const { to, icon: Icon, title } = props
+export const NavItem = ({ to, icon: Icon, title }: NavItemProps) => {
   return (
-    <Link
+    <NavLink
       to={to}
-      className="group flex items-center gap-2 rounded-lg px-3 py-2 hover:bg-yellow-50"
+      className={({ isActive }) => (!isActive ? base() : active())}
     >
-      <div className="bg-gray600 p-2 rounded-md group-hover:bg-selectiveYellow">
-        <Icon className="h-5 w-5 text-white group-hover:text-gray600" />
+      <div className="bg-gray600 p-2 rounded-md group-hover:text-white group-aria-[current=page]:bg-selectiveYellow">
+        <Icon className="h-5 w-5 group-aria-[current=page]:text-gray600" />
       </div>
-      <span className="font-medium text-white group-hover:text-gray600">
+      <span className="font-normal group-aria-[current=page]:font-medium">
         {title}
       </span>
-    </Link>
-  )
-}
+    </NavLink>
+  );
+};

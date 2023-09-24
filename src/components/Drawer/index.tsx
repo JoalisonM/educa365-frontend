@@ -1,15 +1,14 @@
-import { ReactNode } from 'react'
-import { X } from '@phosphor-icons/react'
-import * as Dialog from '@radix-ui/react-dialog'
-import { motion, useAnimation } from 'framer-motion'
+import { ReactNode } from "react";
+import { X } from "@phosphor-icons/react";
+import * as Dialog from "@radix-ui/react-dialog";
 
 interface DrawerProps {
-  title: string
-  children: ReactNode
+  title: string;
+  children: ReactNode;
 }
 
 export const Drawer = (props: DrawerProps) => {
-  const { title, children } = props
+  const { title, children } = props;
 
   return (
     <Dialog.Portal>
@@ -31,5 +30,5 @@ export const Drawer = (props: DrawerProps) => {
         </Dialog.Close>
       </Dialog.Content>
     </Dialog.Portal>
-  )
-}
+  );
+};

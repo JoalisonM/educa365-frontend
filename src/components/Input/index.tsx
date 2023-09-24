@@ -1,23 +1,23 @@
-import { ComponentProps } from 'react'
+import { ComponentProps } from "react";
 
-type PrefixProps = ComponentProps<'div'>
+type PrefixProps = ComponentProps<"div">;
 
 export const Prefix = (props: PrefixProps) => {
-  return <div {...props} />
-}
+  return <div {...props} />;
+};
 
-type ControlProps = ComponentProps<'input'>
+type ControlProps = ComponentProps<"input">;
 
 export const Control = (props: ControlProps) => {
   return (
     <input
-      className="flex-1 border-0 bg-transparent outline-none p-0 text-zinc-900 placeholder-zinc-500"
+      className="flex-1 border-0 bg-transparent outline-none p-0 text-zinc-900 placeholder-zinc-500 placeholder:text-sm"
       {...props}
     />
-  )
-}
+  );
+};
 
-type RootProps = ComponentProps<'div'>
+type RootProps = ComponentProps<"div">;
 
 export const Root = (props: RootProps) => {
   return (
@@ -25,5 +25,5 @@ export const Root = (props: RootProps) => {
       className="flex w-full items-center gap-2 rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus-within:border-blueLagoon focus-within:ring-4 focus-within:ring-emerald-100"
       {...props}
     />
-  )
-}
+  );
+};

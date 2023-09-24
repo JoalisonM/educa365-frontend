@@ -1,9 +1,9 @@
-import { CloudArrowUp } from '@phosphor-icons/react'
+import { CloudArrowUp } from "@phosphor-icons/react";
 
-import { useUpload } from './Root'
+import { useUpload } from "./Root";
 
 export const Trigger = () => {
-  const { id } = useUpload()
+  const { id } = useUpload();
 
   return (
     <label
@@ -18,11 +18,11 @@ export const Trigger = () => {
         <span className="text-sm">
           <span className="font-bold text-blueLagoon">
             Clique para o upload
-          </span>{' '}
+          </span>{" "}
           ou arraste e solte
         </span>
         <span className="text-sm">SVG, PNG, JPG ou GIF (max. 800x400px)</span>
       </div>
     </label>
-  )
-}
+  );
+};

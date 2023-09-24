@@ -1,0 +1,6 @@
+*.css
+*.svg
+coverage
+dist
+node_modules
+src/assets

@@ -1,28 +1,28 @@
-import { api } from '../lib/axios'
-import { CreateEmployeeInput, UpdateEmployeeInput } from '../dtos'
+import { api } from "../lib/axios"
+import { CreateEmployeeInput, UpdateEmployeeInput } from "../dtos"
 
-const uriEmployee = 'funcionarios'
+const uriEmployee = "funcionarios"
 
 export const Employee = {
   get(id: string) {
-    return api.get(`${uriEmployee}/${id}`)
+    return api.get(`${uriEmployee}/${id}`);
   },
 
   getAll() {
-    return api.get(uriEmployee)
+    return api.get(uriEmployee);
   },
 
   create(employee: CreateEmployeeInput) {
-    return api.post(uriEmployee, employee)
+    return api.post(uriEmployee, employee);
   },
 
   update(employee: UpdateEmployeeInput) {
-    const { id, ...newEmployee } = employee
+    const { id, ...newEmployee } = employee;
 
-    return api.put(`${uriEmployee}/${id}`, newEmployee)
+    return api.put(`${uriEmployee}/${id}`, newEmployee);
   },
 
   delete(id: string) {
-    return api.delete(`${uriEmployee}/${id}`)
+    return api.delete(`${uriEmployee}/${id}`);
   },
 }

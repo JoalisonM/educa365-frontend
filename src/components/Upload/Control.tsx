@@ -1,21 +1,21 @@
-import { ChangeEvent, ComponentProps } from 'react'
+import { ChangeEvent, ComponentProps } from "react";
 
-import { useUpload } from './Root'
+import { useUpload } from "./Root";
 
-type ControlProps = ComponentProps<'input'>
+type ControlProps = ComponentProps<"input">;
 
 export const Control = ({ multiple = false, ...props }: ControlProps) => {
-  const { id, onFilesSelected } = useUpload()
+  const { id, onFilesSelected } = useUpload();
 
   const handleFilesSelected = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files?.length) {
-      return
+      return;
     }
 
-    const files = Array.from(event.target.files)
+    const files = Array.from(event.target.files);
 
-    onFilesSelected(files, multiple)
-  }
+    onFilesSelected(files, multiple);
+  };
 
   return (
     <input
@@ -26,5 +26,5 @@ export const Control = ({ multiple = false, ...props }: ControlProps) => {
       multiple={multiple}
       onChange={handleFilesSelected}
     />
-  )
-}
+  );
+};

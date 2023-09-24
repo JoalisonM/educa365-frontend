@@ -1,8 +1,8 @@
-import { Gear } from '@phosphor-icons/react'
+import { Gear } from "@phosphor-icons/react";
 
-import { Profile } from './Profile'
-import { MainNavigation } from './MainNavigation'
-import { NavItem } from './MainNavigation/NavItem'
+import { Profile } from "./Profile";
+import { MainNavigation } from "./MainNavigation";
+import { NavItem } from "./MainNavigation/NavItem";
 
 export const Sidebar = () => {
   return (
@@ -16,7 +16,7 @@ export const Sidebar = () => {
 
       <div className="mt-auto flex flex-col gap-4">
         <nav className="space-y-0.5">
-          <NavItem to="/" icon={Gear} title="Configurações" />
+          <NavItem to="/settings" icon={Gear} title="Configurações" />
         </nav>
 
         <div className="mt-auto px-3 space-y-6">
@@ -25,5 +25,5 @@ export const Sidebar = () => {
         </div>
       </div>
     </aside>
-  )
-}
+  );
+};
