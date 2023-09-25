@@ -181,7 +181,7 @@ export const EmployeeForm = () => {
         className="flex flex-col w-full gap-6 pt-8"
       >
         <section className="flex flex-col w-full gap-4 border-b border-gray-200 pb-6">
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8">
             <FormField
               control={form.control}
               name="nome"
@@ -227,7 +227,7 @@ export const EmployeeForm = () => {
               )}
             />
           </div>
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8">
             <FormField
               control={form.control}
               name="rg"
@@ -273,7 +273,7 @@ export const EmployeeForm = () => {
               )}
             />
           </div>
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
             <FormField
               control={form.control}
               name="nascimento"
@@ -371,7 +371,7 @@ export const EmployeeForm = () => {
           <AddressFieldsForm form={form} errors={errors} />
         </section>
 
-        <div className="flex items-center justify-end gap-4 pt-5">
+        <div className="mt-auto flex items-center justify-end gap-4 pt-5">
           <Dialog.Close asChild>
             <Button type="button" variant="outline">
               Cancelar
