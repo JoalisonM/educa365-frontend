@@ -66,7 +66,7 @@ export const AddressFieldsForm = ({ form, errors }: AddressFieldsFormProps) => {
           )}
         />
       </div>
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-8">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
         <FormField
           control={form.control}
           name="endereco.numero"
