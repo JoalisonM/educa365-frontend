@@ -113,7 +113,7 @@ export const EmployeeForm = () => {
   const {
     reset,
     setValue,
-    formState: { errors, isDirty, isValid, isSubmitted },
+    formState: { errors, isDirty, isValid },
   } = form;
   const { toast } = useToast();
   const { employee, createEmployee, updateEmployee } = useEmployee();

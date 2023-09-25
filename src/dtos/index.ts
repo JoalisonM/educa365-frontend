@@ -2,12 +2,13 @@ import {
   EmployeeProps,
   CreateEmployeeInput,
   UpdateEmployeeInput,
-} from "./employeeDTO"
+} from "./employeeDTO";
+
 import {
   AddressProps,
   CreateAddressInput,
   UpdateAddressInput,
-} from "./addressDTO"
+} from "./addressDTO";
 
 export type {
   EmployeeProps,
@@ -16,4 +17,4 @@ export type {
   AddressProps,
   CreateAddressInput,
   UpdateAddressInput,
-}
+};

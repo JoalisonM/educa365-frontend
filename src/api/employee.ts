@@ -1,7 +1,7 @@
-import { api } from "../lib/axios"
-import { CreateEmployeeInput, UpdateEmployeeInput } from "../dtos"
+import { api } from "../lib/axios";
+import { CreateEmployeeInput, UpdateEmployeeInput } from "../dtos";
 
-const uriEmployee = "funcionarios"
+const uriEmployee = "funcionarios";
 
 export const Employee = {
   get(id: string) {
@@ -25,4 +25,4 @@ export const Employee = {
   delete(id: string) {
     return api.delete(`${uriEmployee}/${id}`);
   },
-}
+};

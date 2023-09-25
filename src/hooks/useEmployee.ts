@@ -1,6 +1,6 @@
-import { useContextSelector } from "use-context-selector"
+import { useContextSelector } from "use-context-selector";
 
-import { EmployeeContext } from "../contexts/employeeContext"
+import { EmployeeContext } from "../contexts/employeeContext";
 
 export const useEmployee = () => {
   const employee = useContextSelector(
@@ -45,5 +45,5 @@ export const useEmployee = () => {
     createEmployee,
     updateEmployee,
     deleteEmployee,
-  }
-}
+  };
+};

@@ -7,13 +7,14 @@
     },
     "extends": [
         "xo",
-        "plugin:react/recommended",
         "eslint:recommended",
-        "@typescript-eslint/recommended",
+        "plugin:react/recommended",
         "plugin:@typescript-eslint/eslint-recommended",
+        "@typescript-eslint/recommended",
         "plugin:import/errors",
         "plugin:import/warnings",
-        "plugin:import/typescript"
+        "plugin:import/typescript",
+        "prettier"
     ],
     "ignorePatterns": ["*.js"],
     "overrides": [
@@ -28,13 +29,19 @@
         }
     ],
     "parserOptions": {
-        "project": "./tsconfig.json"
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest",
+        "sourceType": "module"
     },
     "plugins": [
         "react",
         "import",
         "@typescript-eslint",
-        "no-only-tests"
+        "no-only-tests",
+        "prettier",
+        "react-hooks"
     ],
     "rules": {
         "no-use-before-define": "off",
@@ -48,7 +55,7 @@
         "import/no-unresolved": "off",
         "@typescript-eslint/no-shadow": ["error"],
         "no-multiple-empty-lines": ["error", {"max": 1}],
-        "max-len": ["error", { "code": 120, "ignoreStrings": true, "ignoreTemplateLiterals": true }],
+        "max-len": ["error", { "code": 100, "ignoreStrings": true, "ignoreTemplateLiterals": true }],
         "max-statements-per-line": "error",
         "quotes": ["error", "double"],
         "no-void": "error",
@@ -98,10 +105,7 @@
     },
     "settings": {
         "import/resolver": {
-        "node": {
-            "paths": ["src"],
-            "extensions": [".js", ".jsx", ".ts", ".tsx"]
+            "typescript": {}
         }
-      }
     }
 }

@@ -1,5 +1,5 @@
-import { SignOut } from '@phosphor-icons/react'
-import { Button } from '../../Button'
+import { SignOut } from "@phosphor-icons/react";
+import { Button } from "../Button";
 
 export const Profile = () => {
   return (
@@ -19,5 +19,5 @@ export const Profile = () => {
         <SignOut className="h-5 w-5 text-gray-400" />
       </Button>
     </div>
-  )
-}
+  );
+};

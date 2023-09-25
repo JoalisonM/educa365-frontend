@@ -7,7 +7,7 @@ export const genders = {
     value: "True",
     title: "Feminino",
   },
-}
+};
 
 export const occupations = {
   TEACHER: {
@@ -22,4 +22,4 @@ export const occupations = {
     value: "ASSISTENTE_SOCIAL",
     title: "Assistente social",
   },
-}
+};

@@ -1,4 +1,4 @@
-import { AddressProps, CreateAddressInput } from './addressDTO'
+import { AddressProps, CreateAddressInput } from "./addressDTO";
 
 export interface EmployeeProps {
   id: string;
@@ -10,7 +10,7 @@ export interface EmployeeProps {
   cpf: string;
   cargo: string;
   senha?: string;
-  endereco: AddressProps
+  endereco: AddressProps;
 }
 
 export interface CreateEmployeeInput {

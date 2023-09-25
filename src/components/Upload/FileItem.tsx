@@ -40,6 +40,7 @@ interface FileItemProps extends VariantProps<typeof fileItem> {
 
 export const FileItem = ({ name, size, state }: FileItemProps) => {
   const { container, icon, deleteButton } = fileItem({ state });
+
   return (
     <div className={container()}>
       <div className={icon()}>
@@ -72,7 +73,9 @@ export const FileItem = ({ name, size, state }: FileItemProps) => {
             <div className="h-2 flex-1 rounde-full bg-zinc-100">
               <div
                 className="h-2 rounded-full bg-blueLagoon"
-                style={{ width: state === "complete" ? "100%" : "80%" }}
+                style={{
+                  width: state === "complete" ? "100%" : "80%",
+                }}
               />
             </div>
             <span className="text-sm font-medium text-zinc-700">
