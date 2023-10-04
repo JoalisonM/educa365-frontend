@@ -29,7 +29,7 @@ module.exports = {
     'no-useless-escape': 'off',
     'import/no-unresolved': 'off',
     'no-multiple-empty-lines': ['error', { 'max': 1 }],
-    'max-len': ['error', { 'code': 100, 'ignoreStrings': true, 'ignoreTemplateLiterals': true }],
+    'max-len': ['error', { 'code': 120, 'ignoreStrings': true, 'ignoreTemplateLiterals': true }],
     'max-statements-per-line': 'error',
     'quotes': ['error', 'double'],
     'no-void': 'error',
@@ -56,7 +56,6 @@ module.exports = {
       }
     }],
 
-    // Typescript-ESLint Rules
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/ban-tslint-comment': 'error',
@@ -71,7 +70,7 @@ module.exports = {
         },
         'extendDefaults': true
       }
-    ]
-    // 'newlines-between': 'always'
+    ],
+    "@typescript-eslint/no-explicit-any": "warn"
   },
 }

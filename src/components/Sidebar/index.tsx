@@ -20,7 +20,6 @@ export const Sidebar = () => {
             </Button>
           </Collapsible.Trigger>
         </div>
-        {/* <div className="h-px bg-gray-600" /> */}
       </div>
 
       <Collapsible.Content

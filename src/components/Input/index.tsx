@@ -11,7 +11,7 @@ type ControlProps = ComponentProps<"input">;
 export const Control = (props: ControlProps) => {
   return (
     <input
-      className="flex-1 border-0 bg-transparent outline-none p-0 text-zinc-900 placeholder-zinc-500 placeholder:text-sm"
+      className="flex-1 border-0 bg-transparent outline-none p-0 text-zinc-900 placeholder-zinc-500 placeholder:text-sm disabled:cursor-not-allowed"
       {...props}
     />
   );

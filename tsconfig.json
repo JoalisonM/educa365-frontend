@@ -26,6 +26,10 @@
       "@utils/*": ["./src/utils/*"],
       "@dtos/*": ["./src/dtos/*"],
       "@configs/*": ["./src/configs/*"],
+      "@schemas/*": ["./src/schemas/*"],
+      "@reducers/*": ["./src/reducers/*"],
+      "@contexts/*": ["./src/contexts/*"],
+      "@layouts/*": ["./src/layouts/*"],
     }
   },
   "include": ["src"],

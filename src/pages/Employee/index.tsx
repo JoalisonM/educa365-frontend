@@ -6,6 +6,7 @@ import {
   PencilSimpleLine,
   Trash,
 } from "@phosphor-icons/react";
+import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 
 import { EmployeeProps } from "@dtos/index";
 import { EmployeeForm } from "./EmployeeForm";
@@ -45,8 +46,8 @@ export const Employee = () => {
       <div className="flex flex-col gap-4 pb-5 border-b border-gray-200 md:flex-row md:items-center md:justify-between">
         <h1 className="text-3xl font-bold text-zinc-800">Funcionários</h1>
 
-        <Dialog.Root>
-          <Dialog.Trigger asChild>
+        <Sheet>
+          <SheetTrigger asChild>
             <Button
               type="button"
               variant="primary"
@@ -54,12 +55,12 @@ export const Employee = () => {
             >
               Adicionar
             </Button>
-          </Dialog.Trigger>
+          </SheetTrigger>
 
           <Drawer title="Registro de funcionário">
             <EmployeeForm />
           </Drawer>
-        </Dialog.Root>
+        </Sheet>
       </div>
 
       <Input.Root className="mx-1 flex items-center gap-2 rounded-full bg-gray-50 border border-gray-300 px-3 py-2 shadow-sm md:w-96">
@@ -94,8 +95,8 @@ export const Employee = () => {
                     <td className="py-5 px-8">{employee.cargo}</td>
                     <td className="py-5 px-8">{employee.dataNascimento}</td>
                     <td className=" rounded-tr-md rounded-br-md py-5 px-8 text-right space-x-4">
-                      <Dialog.Root>
-                        <Dialog.Trigger asChild>
+                      <Sheet>
+                        <SheetTrigger asChild>
                           <Button
                             type="button"
                             variant="ghost"
@@ -103,12 +104,12 @@ export const Employee = () => {
                           >
                             <PencilSimpleLine className="h-5 w-5" />
                           </Button>
-                        </Dialog.Trigger>
+                        </SheetTrigger>
 
-                        <Drawer title="Registro de funcionário">
+                        <Drawer title="Atualizar funcionário">
                           <EmployeeForm />
                         </Drawer>
-                      </Dialog.Root>
+                      </Sheet>
                       <AlertDialog
                         id={employee.id}
                         title="Você tem certeza absoluta?"

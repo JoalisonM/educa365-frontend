@@ -20,89 +20,8 @@ import * as Select from "@components/Select";
 import { useEmployee } from "@hooks/useEmployee";
 import { AddressFieldsForm } from "./AddressFieldsForm";
 import { genders, occupations } from "@configs/constant/employee";
-
-const employeeFormSchema = z.object({
-  nome: z
-    .string()
-    .regex(/^[A-Za-zÀ-ÖØ-öø-ÿ\s']+$/, {
-      message: "O nome não pode conter números nem caracteres especiais",
-    })
-    .nonempty("O nome é obrigatório")
-    .trim()
-    .min(1, { message: "Deve ter mais de 1 caractere" }),
-  email: z
-    .string()
-    .nonempty("O e-mail é obrigatório")
-    .email("Formato de e-mail inválido")
-    .toLowerCase(),
-  nascimento: z.date().max(new Date("2005-01-01"), {
-    message: "Novo demais para trabalhar",
-  }),
-  rg: z
-    .string()
-    .regex(/^\d{1}\.\d{3}\.\d{3}$/, { message: "RG inválido" })
-    .nonempty("O rg é obrigatório"),
-  cpf: z
-    .string()
-    .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, { message: "CPF inválido" })
-    .nonempty("O cpf é obrigatório"),
-  cargo: z
-    .string()
-    .nonempty("O cargo é obrigatório")
-    .trim()
-    .min(1, { message: "Deve ter mais de 1 caractere" }),
-  sexo: z
-    .string()
-    .nonempty("O sexo é obrigatório")
-    .trim()
-    .min(1, { message: "Deve ter mais de 1 caractere" }),
-  endereco: z.object({
-    cep: z
-      .string()
-      .regex(/^\d{5}-\d{3}$/, { message: "CEP inválido" })
-      .nonempty("O UF é obrigatório")
-      .trim()
-      .min(1, { message: "Deve ter mais de 1 caractere" }),
-    uf: z
-      .string()
-      .nonempty("A uf é obrigatória")
-      .trim()
-      .min(2, { message: "Deve ter 2 caracteres" })
-      .max(2, { message: "Deve ter apenas 2 caracteres" }),
-    cidade: z
-      .string()
-      .nonempty("A cidade é obrigatória")
-      .trim()
-      .min(1, { message: "Deve ter mais de 1 caractere" }),
-    rua: z
-      .string()
-      .nonempty("A rua é obrigatória")
-      .trim()
-      .min(1, { message: "Deve ter mais de 1 caractere" }),
-    bairro: z
-      .string()
-      .nonempty("O bairro é obrigatório")
-      .trim()
-      .min(1, { message: "Deve ter mais de 1 caractere" }),
-    numero: z
-      .string()
-      .regex(/^\d+$/, { message: "Número inválido" })
-      .nonempty("O número é obrigatória")
-      .trim()
-      .min(1, { message: "Deve ter mais de 1 caractere" }),
-    referencia: z
-      .string()
-      .nonempty("O referência é obrigatória")
-      .trim()
-      .min(1, { message: "Deve ter mais de 1 caractere" }),
-    telefone: z
-      .string()
-      .regex(/^\d{11}$/, { message: "Número de telefone inválido" })
-      .nonempty("O telefone é obrigatório")
-      .trim()
-      .min(11, { message: "Deve ter mais de 1 caractere" }),
-  }),
-});
+import { SheetClose } from "@ui/components/ui/sheet";
+import { employeeFormSchema } from "@schemas/employeeFormSchema";
 
 export type EmployeeFormInputs = z.infer<typeof employeeFormSchema>;
 
@@ -178,10 +97,10 @@ export const EmployeeForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSaveEmployee)}
-        className="flex flex-col w-full gap-6 pt-8"
+        className="flex flex-1 flex-col w-full gap-6 pt-8"
       >
         <section className="flex flex-col w-full gap-4 border-b border-gray-200 pb-6">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">
             <FormField
               control={form.control}
               name="nome"
@@ -227,7 +146,7 @@ export const EmployeeForm = () => {
               )}
             />
           </div>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">
             <FormField
               control={form.control}
               name="rg"
@@ -273,7 +192,7 @@ export const EmployeeForm = () => {
               )}
             />
           </div>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
             <FormField
               control={form.control}
               name="nascimento"
@@ -372,16 +291,16 @@ export const EmployeeForm = () => {
         </section>
 
         <div className="mt-auto flex items-center justify-end gap-4 pt-5">
-          <Dialog.Close asChild>
+          <SheetClose asChild>
             <Button type="button" variant="outline">
               Cancelar
             </Button>
-          </Dialog.Close>
-          <Dialog.Close asChild>
+          </SheetClose>
+          <SheetClose asChild>
             <Button type="submit" disabled={!isDirty || !isValid}>
               Finalizar
             </Button>
-          </Dialog.Close>
+          </SheetClose>
         </div>
       </form>
     </Form>

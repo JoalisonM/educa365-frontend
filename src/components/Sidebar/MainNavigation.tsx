@@ -1,4 +1,4 @@
-import { House, Users } from "@phosphor-icons/react";
+import { House, Student, Users } from "@phosphor-icons/react";
 
 import { NavItem } from "./NavItem";
 
@@ -7,6 +7,11 @@ const MenuItems = {
     to: "/",
     title: "Home",
     icon: House,
+  },
+  STUDENTS: {
+    to: "/students",
+    title: "Educandos",
+    icon: Student,
   },
   EMPLOYEES: {
     to: "/employees",
