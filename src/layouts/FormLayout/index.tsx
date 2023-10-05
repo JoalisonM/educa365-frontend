@@ -38,7 +38,12 @@ const formSteps = {
   CONDITIONS: {
     value: 5,
     title: "Condições de moradia e de vida",
-    to: "/students/new-student/housing",
+    to: "/students/new-student/conditions",
+  },
+  FINISH: {
+    value: 6,
+    title: "Finalizar",
+    to: "/students/new-student/finish",
   },
 };
 
@@ -57,7 +62,7 @@ export const FormLayout = ({ children }: FormLayoutProps) => {
             <span className={currentStep === step.value ? active() : base()}>
               {currentStep > step.value && <Check weight="bold" className="h-4 w-4 text-zinc-400" />}
             </span>
-            <NavLink to={step.to}>{step.title}</NavLink>
+            <NavLink end to={step.to}>{step.title}</NavLink>
           </div>
         ))}
       </aside>

@@ -1,14 +1,15 @@
-import {
-  EmployeeProps,
-  CreateEmployeeInput,
-  UpdateEmployeeInput,
-} from "./employeeDTO";
+import { EmployeeProps, CreateEmployeeInput, UpdateEmployeeInput } from "./employeeDTO";
+
+import { AddressProps, CreateAddressInput, UpdateAddressInput } from "./addressDTO";
 
 import {
-  AddressProps,
-  CreateAddressInput,
-  UpdateAddressInput,
-} from "./addressDTO";
+  Student,
+  StudentProps,
+  CreateStudentInput,
+  UpdateStudentInput,
+  CommentsProps,
+  DeficienciaProps,
+} from "./studentDTO";
 
 export type {
   EmployeeProps,
@@ -17,4 +18,10 @@ export type {
   AddressProps,
   CreateAddressInput,
   UpdateAddressInput,
+  Student,
+  StudentProps,
+  CreateStudentInput,
+  UpdateStudentInput,
+  CommentsProps,
+  DeficienciaProps,
 };

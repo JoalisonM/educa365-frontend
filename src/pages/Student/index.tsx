@@ -7,14 +7,48 @@ import * as ScrollArea from "@radix-ui/react-scroll-area";
 
 import { Button } from "@components/Button";
 import * as Input from "@components/Input";
-import { AlertDialog } from "@components/Alert";
 import { useNavigate } from "react-router-dom";
+import { useStudent } from "@hooks/useStudent";
+import { AlertDialog } from "@components/Alert";
+import { useEffect } from "react";
+import { useFormContext } from "@hooks/useForm";
+import { useToast } from "@ui/components/ui/use-toast";
 
 export const Student = () => {
+  const { toast } = useToast();
   const navigate = useNavigate();
+  // const { student } = useFormContext();
+  const { students, getStudent, fetchStudents, deleteStudent } = useStudent();
 
-  const handleNavigate = () => {
-    navigate("new-student");
+  useEffect(() => {
+    fetchStudents();
+  }, [fetchStudents]);
+
+  const handleNavigate = (id?: string) => {
+    if (id) {
+      navigate(`new-student/${id}`);
+    } else {
+      localStorage.setItem("@educa365:form-state-1.0.0", JSON.stringify({}));
+      navigate("new-student");
+    }
+  };
+
+  const handleEdit = async (id: string) => {
+    const response = await getStudent(id);
+
+    const studentJSON = JSON.stringify({ student: response });
+
+    localStorage.setItem("@educa365:form-state-1.0.0", studentJSON);
+
+    handleNavigate(id);
+  };
+
+  const handleDelete = (id: string | number) => {
+    deleteStudent(String(id));
+
+    toast({
+      title: "Estudante deletado com sucesso",
+    });
   };
 
   return (
@@ -44,28 +78,27 @@ export const Student = () => {
             <thead>
               <tr className="text-left text-grayTableTitle">
                 <th className="py-4 px-8 whitespace-nowrap">Nome</th>
-                <th className="py-4 px-8 whitespace-nowrap">Idade</th>
-                <th className="py-4 px-8 whitespace-nowrap">Deficiência</th>
+                <th className="py-4 px-8 whitespace-nowrap">Nome da mãe</th>
                 <th className="py-4 px-8 whitespace-nowrap">Nascimento</th>
               </tr>
             </thead>
             <tbody>
-              <tr className="bg-zinc-100 text-zinc-700 text-left">
+              {students && students.map((student) => (
+                <tr key={student.id} className="bg-zinc-100 text-zinc-700 text-left">
                 <td className="rounded-tl-md rounded-bl-md py-5 px-8">
-                  Joalison Matheus
+                  {student.nome}
                 </td>
-                <td className="py-5 px-8">joalison@gmail.com</td>
-                <td className="py-5 px-8">abacate</td>
-                <td className="py-5 px-8">2002-10-03</td>
+                <td className="py-5 px-8">{student.nomeMae}</td>
+                <td className="py-5 px-8">{student.dataNascimento}</td>
                 <td className=" rounded-tr-md rounded-br-md py-5 px-8 text-right space-x-4">
-                  <Button type="button" variant="ghost" onClick={() => {}}>
+                  <Button type="button" variant="ghost" onClick={() => handleEdit(student.id)}>
                     <PencilSimpleLine className="h-5 w-5" />
                   </Button>
                   <AlertDialog
-                    id={""}
+                    id={student.id}
                     title="Você tem certeza absoluta?"
                     description="Essa ação não pode ser desfeita. Isso excluirá permanentemente o educando."
-                    onDelete={() => {}}
+                    onDelete={handleDelete}
                   >
                     <Button type="button" variant="danger">
                       <Trash className="h-5 w-5" />
@@ -73,6 +106,7 @@ export const Student = () => {
                   </AlertDialog>
                 </td>
               </tr>
+              ))}
             </tbody>
           </table>
         </ScrollArea.Viewport>

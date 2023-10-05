@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import * as Input from "@components/Input";
 import { Button } from "@components/Button";
@@ -16,6 +16,7 @@ export type CommentsFormInputs = z.infer<typeof commentsFormSchema>;
 
 export const CommentsStep = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { student, addStudentComments, setCurrentStep } = useFormContext();
 
   const form = useForm<CommentsFormInputs>({
@@ -24,7 +25,7 @@ export const CommentsStep = () => {
   const {
     setValue,
     handleSubmit,
-    formState: { errors, isDirty, isValid },
+    formState: { errors },
   } = form;
 
   useEffect(() => {
@@ -32,28 +33,34 @@ export const CommentsStep = () => {
   }, []);
 
   useEffect(() => {
-    if (student && student.observacao) {
-      setValue("alergia", student.observacao.alergia);
-      setValue("alimentacao", student.observacao.alimentacao);
-      setValue("laudo_medico", student.observacao.laudo_medico);
-      setValue("medicacao", student.observacao.medicacao);
-      setValue("deficiencia", student.observacao.deficiencia);
-      setValue("medicacao_deficiencia", student.observacao.medicacao_deficiencia);
-      setValue("produto_higiene_corporal", student.observacao.produto_higiene_corporal);
-      setValue("tipo_sangue", student.observacao.tipo_sangue);
+    if (student && student.observacoesEducando) {
+      setValue("alergia", student.observacoesEducando.alergia);
+      setValue("alimentacao", student.observacoesEducando.alimentacao);
+      setValue("laudoMedico", student.observacoesEducando.laudoMedico ? "1" : "0");
+      setValue("medicacao", student.observacoesEducando.medicacao);
+      setValue("deficiencia", student.observacoesEducando.deficiencia);
+      setValue("medicacaoDeficiencia", student.observacoesEducando.medicacaoDeficiencia);
+      setValue("produtoHigienePessoal", student.observacoesEducando.produtoHigienePessoal);
+      setValue("tipoSangue", student.observacoesEducando.tipoSangue);
     }
   }, [student, setValue]);
 
   const handleBackStep = () => {
-    navigate("/students/new-student/address");
+    navigate(`${location.pathname.replace("comments", "address")}`);
   };
 
   const handleNextStep = () => {
-    navigate("/students/new-student/parents");
+    navigate(`${location.pathname.replace("comments", "parents")}`);
   };
 
   const handleSubmitAddress = (data: CommentsFormInputs) => {
-    addStudentComments(data);
+    const { laudoMedico ,...newData } = data;
+    const laudo = laudoMedico === "1" ? true : false;
+
+    addStudentComments({
+      ...newData,
+      laudoMedico: laudo,
+    });
 
     handleNextStep();
   };
@@ -121,24 +128,24 @@ export const CommentsStep = () => {
               />
               <FormField
                 control={form.control}
-                name="produto_higiene_corporal"
+                name="produtoHigienePessoal"
                 render={({ field }) => (
                   <FormItem className="space-y-1">
-                    <FormLabel htmlFor="hygiene">Produto higiene corporal</FormLabel>
+                    <FormLabel htmlFor="hygiene">Produto higiene pessoal</FormLabel>
                     <FormControl>
                       <Input.Root>
                         <Input.Control id="hygiene" type="text" placeholder="Digite o produto" {...field} />
                       </Input.Root>
                     </FormControl>
                     <FormMessage className="text-sm font-normal text-error-500">
-                      {errors.produto_higiene_corporal && errors.produto_higiene_corporal.message}
+                      {errors.produtoHigienePessoal && errors.produtoHigienePessoal.message}
                     </FormMessage>
                   </FormItem>
                 )}
               />
               <FormField
                 control={form.control}
-                name="tipo_sangue"
+                name="tipoSangue"
                 render={({ field }) => (
                   <FormItem className="space-y-1">
                     <FormLabel htmlFor="blood">Tipo do sangue</FormLabel>
@@ -148,7 +155,7 @@ export const CommentsStep = () => {
                       </Input.Root>
                     </FormControl>
                     <FormMessage className="text-sm font-normal text-error-500">
-                      {errors.tipo_sangue && errors.tipo_sangue.message}
+                      {errors.tipoSangue && errors.tipoSangue.message}
                     </FormMessage>
                   </FormItem>
                 )}
@@ -157,7 +164,7 @@ export const CommentsStep = () => {
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">
               <FormField
                 control={form.control}
-                name="medicacao_deficiencia"
+                name="medicacaoDeficiencia"
                 render={({ field }) => (
                   <FormItem className="space-y-1">
                     <FormLabel htmlFor="disability_medication">Medicação da deficiência</FormLabel>
@@ -172,14 +179,14 @@ export const CommentsStep = () => {
                       </Input.Root>
                     </FormControl>
                     <FormMessage className="text-sm font-normal text-error-500">
-                      {errors.medicacao_deficiencia && errors.medicacao_deficiencia.message}
+                      {errors.medicacaoDeficiencia && errors.medicacaoDeficiencia.message}
                     </FormMessage>
                   </FormItem>
                 )}
               />
               <FormField
                 control={form.control}
-                name="laudo_medico"
+                name="laudoMedico"
                 render={({ field }) => (
                   <FormItem className="space-y-1">
                     <FormLabel htmlFor="report">Laudo médico</FormLabel>
@@ -189,7 +196,7 @@ export const CommentsStep = () => {
                       </Input.Root>
                     </FormControl>
                     <FormMessage className="text-sm font-normal text-error-500">
-                      {errors.laudo_medico && errors.laudo_medico.message}
+                      {errors.laudoMedico && errors.laudoMedico.message}
                     </FormMessage>
                   </FormItem>
                 )}

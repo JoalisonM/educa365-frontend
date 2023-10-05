@@ -2,29 +2,18 @@ import { ReactNode, useEffect, useReducer } from "react";
 import { createContext } from "use-context-selector";
 
 import {
-  ActionTypes,
   addStudentAction,
   addNewStudentAction,
+  setCurrentStepAction,
   addStudentAddressAction,
   addStudentParentsAction,
   addStudentCommentsAction,
-  addParentsLivingConditionsAction,
-  addParentsHousingConditionsAction,
-  setCurrentStepAction,
+  addParentsConditionsAction,
 } from "src/reducers/form/actions";
-import {
-  CreateParentsInput,
-  HousingConditionsProps,
-  LivingConditionsProps,
-} from "@dtos/parentsDTO";
 import { CreateAddressInput } from "@dtos/addressDTO";
 import { formReducer } from "../reducers/form/reducer";
-import { Student, CommentsProps, CreateStudentInput } from "@dtos/studentDTO";
-
-interface Action {
-  type: ActionTypes;
-  payload: any;
-}
+import { CreateParentsInput, CreateConditionsInput } from "@dtos/parentsDTO";
+import { Student, CreateCommentsProps, CreateStudentInput } from "@dtos/studentDTO";
 
 interface FormContextType {
   currentStep: number;
@@ -32,11 +21,10 @@ interface FormContextType {
   addStudent: (data: Student) => void;
   setCurrentStep: (currentStep: number) => void;
   addNewStudent: (data: CreateStudentInput) => void;
-  addStudentComments: (data: CommentsProps) => void;
+  addStudentComments: (data: CreateCommentsProps) => void;
   addStudentAddress: (data: CreateAddressInput) => void;
-  addStudentParents: (data: CreateParentsInput) => void;
-  addStudentParentsLivingConditions: (data: LivingConditionsProps) => void;
-  addStudentParentsHousingConditions: (data: HousingConditionsProps) => void;
+  addStudentParents: (data: CreateParentsInput[]) => void;
+  addStudentParentsConditions: (data: CreateConditionsInput[]) => void;
 }
 
 export const FormContext = createContext<FormContextType>(
@@ -82,20 +70,16 @@ export const FormContextProvider = ({ children }: FormContextProviderProps) => {
     dispatch(addStudentAddressAction(data));
   };
 
-  const addStudentComments = (data: CommentsProps) => {
+  const addStudentComments = (data: CreateCommentsProps) => {
     dispatch(addStudentCommentsAction(data));
   };
 
-  const addStudentParents = (data: CreateParentsInput) => {
+  const addStudentParents = (data: CreateParentsInput[]) => {
     dispatch(addStudentParentsAction(data));
   };
 
-  const addStudentParentsHousingConditions = (data: HousingConditionsProps) => {
-    dispatch(addParentsHousingConditionsAction(data));
-  };
-
-  const addStudentParentsLivingConditions = (data: LivingConditionsProps) => {
-    dispatch(addParentsLivingConditionsAction(data));
+  const addStudentParentsConditions = (data: CreateConditionsInput[]) => {
+    dispatch(addParentsConditionsAction(data));
   };
 
   const addNewStudent = (data: CreateStudentInput) => {
@@ -113,8 +97,7 @@ export const FormContextProvider = ({ children }: FormContextProviderProps) => {
         addStudentAddress,
         addStudentParents,
         addStudentComments,
-        addStudentParentsLivingConditions,
-        addStudentParentsHousingConditions,
+        addStudentParentsConditions,
       }}
     >
       {children}

@@ -1,85 +1,106 @@
 import { AddressProps, CreateAddressInput } from "./addressDTO";
-import { CreateParentsInputProps } from "./parentsDTO";
+import { CreateParentsInputProps, ParentsProps } from "./parentsDTO";
 
 export interface StudentProps {
   id: string;
   nome: string;
-  data_nascimento: string;
   sexo: boolean;
+  dataNascimento: string;
   rg: string;
   cpf: string;
-  endereco: AddressProps;
-  id_turma: string;
-  id_instituicao_ensino: string;
   nis: string;
   sus: string;
-  cidade_nascenca: string;
-  cidade_cartorio: string;
-  numero_registro_nascimento: string;
-  data_emissao_certidao: string;
-  uf_cartorio: string;
+  nomeCartorio: string;
+  cidadeCartorio: string;
+  numeroRegistroNascimento: string;
+  dataEmissaoCertidao: string;
+  ufCartorio: string;
   etnia: string;
-  nome_mae: string;
-  nome_pai: string;
-  observacao: CommentsProps;
+  nomeMae: string;
+  nomePai: string;
+  ano: number;
+  endereco: AddressProps;
+  turma: {
+    id: string;
+    nome: string;
+  };
+  instituicao: {
+    id: string;
+    nome: string;
+    cnpj: string;
+  };
+  observacoesEducando: CommentsProps;
+  responsaveis: Array<ParentsProps>;
 }
 
 export interface CreateStudentInput {
   nome: string;
-  data_nascimento: string;
   sexo: boolean;
+  dataNascimento: string;
   rg: string;
   cpf: string;
-  id_turma: string;
-  id_instituicao_ensino: string;
   nis: string;
   sus: string;
-  cidade_nascenca: string;
-  cidade_cartorio: string;
-  numero_registro_nascimento: string;
-  data_emissao_certidao: string;
-  uf_cartorio: string;
+  nomeCartorio: string;
+  cidadeCartorio: string;
+  numeroRegistroNascimento: string;
+  dataEmissaoCertidao: string;
+  ufCartorio: string;
   etnia: string;
-  nome_mae: string;
-  nome_pai: string;
-  nome_cartorio: string;
+  nomeMae: string;
+  nomePai: string;
+  ano: number;
   endereco: CreateAddressInput;
-  observacao: CommentsProps;
+  turma_id: string;
+  instituicao_id: string;
+  observacoesEducando: CreateCommentsProps;
   responsaveis: CreateParentsInputProps[];
 }
 
 export interface UpdateStudentInput {
   id: string;
   nome: string;
-  nome_cartorio: string;
-  data_nascimento: string;
   sexo: boolean;
+  dataNascimento: string;
   rg: string;
   cpf: string;
-  endereco: AddressProps;
-  id_turma: string;
-  id_instituicao_ensino: string;
   nis: string;
   sus: string;
-  cidade_nascenca: string;
-  cidade_cartorio: string;
-  numero_registro_nascimento: string;
-  data_emissao_certidao: string;
-  uf_cartorio: string;
+  nomeCartorio: string;
+  cidadeCartorio: string;
+  numeroRegistroNascimento: string;
+  dataEmissaoCertidao: string;
+  ufCartorio: string;
   etnia: string;
-  nome_mae: string;
-  nome_pai: string;
-  observacao: CommentsProps;
+  nomeMae: string;
+  nomePai: string;
+  ano: number;
+  endereco: CreateAddressInput;
+  turma_id: string;
+  instituicao_id: string;
+  observacoesEducando: CommentsProps;
+  responsaveis: CreateParentsInputProps[];
 }
 
-export interface CommentsProps {
+export interface CreateCommentsProps {
   alimentacao: string;
   alergia: string;
   medicacao: string;
-  produto_higiene_corporal: string;
-  tipo_sangue: string;
-  medicacao_deficiencia: string;
-  laudo_medico: string;
+  produtoHigienePessoal: string;
+  tipoSangue: string;
+  medicacaoDeficiencia: string;
+  laudoMedico: boolean;
+  deficiencia: DeficienciaProps;
+}
+export interface CommentsProps {
+  id: string;
+  alimentacao: string;
+  alergia: string;
+  medicacao: string;
+  produtoHigienePessoal: string;
+  tipoSangue: string;
+  medicacaoDeficiencia: string;
+  laudoMedico: boolean;
   deficiencia: DeficienciaProps;
 }
 
@@ -93,20 +114,19 @@ export interface DeficienciaProps {
 
 export interface Student {
   nome: string;
-  data_nascimento: string;
+  dataNascimento: string;
   sexo: boolean;
   rg: string;
   cpf: string;
-  id_turma: string;
-  id_instituicao_ensino: string;
+  turma_id: string;
+  instituicao_id: string;
   nis: string;
   sus: string;
-  cidade_nascenca: string;
-  cidade_cartorio: string;
-  numero_registro_nascimento: string;
-  data_emissao_certidao: string;
-  uf_cartorio: string;
+  cidadeCartorio: string;
+  numeroRegistroNascimento: string;
+  dataEmissaoCertidao: string;
+  ufCartorio: string;
   etnia: string;
-  nome_mae: string;
-  nome_pai: string;
+  nomeMae: string;
+  nomePai: string;
 }

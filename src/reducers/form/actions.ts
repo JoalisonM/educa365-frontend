@@ -1,6 +1,6 @@
 import { CreateAddressInput } from "@dtos/addressDTO";
-import { Student, CommentsProps, CreateStudentInput } from "@dtos/studentDTO";
-import { CreateParentsInput, CreateHousingConditionsInput, CreateLivingConditionsInput } from "@dtos/parentsDTO";
+import { CreateParentsInput, CreateConditionsInput } from "@dtos/parentsDTO";
+import { Student, CreateCommentsProps, CreateStudentInput } from "@dtos/studentDTO";
 
 export enum ActionTypes {
   SET_CURRENT_STEP = "SET_CURRENT_STEP",
@@ -9,9 +9,8 @@ export enum ActionTypes {
   ADD_STUDENT_ADDRESS = "ADD_STUDENT_ADDRESS",
   ADD_STUDENT_COMMENTS = "ADD_STUDENT_COMMENTS",
   ADD_STUDENT_PARENTS = "ADD_STUDENT_PARENTS",
-  ADD_PARENTS_HOUSING_CONDITIONS = "ADD_PARENTS_HOUSING_CONDITIONS",
-  ADD_PARENTS_LIFE_CONDITIONS = "ADD_PARENTS_LIFE_CONDITIONS",
-};
+  ADD_PARENTS_CONDITIONS = "ADD_PARENTS_CONDITIONS",
+}
 
 export function setCurrentStepAction(currentStep: number) {
   return {
@@ -29,7 +28,7 @@ export function addNewStudentAction(newStudent: CreateStudentInput) {
       newStudent,
     },
   };
-};
+}
 
 export function addStudentAction(student: Student) {
   return {
@@ -38,7 +37,7 @@ export function addStudentAction(student: Student) {
       student,
     },
   };
-};
+}
 
 export function addStudentAddressAction(address: CreateAddressInput) {
   return {
@@ -47,16 +46,16 @@ export function addStudentAddressAction(address: CreateAddressInput) {
       address,
     },
   };
-};
+}
 
-export function addStudentCommentsAction(comments: CommentsProps) {
+export function addStudentCommentsAction(comments: CreateCommentsProps) {
   return {
     type: ActionTypes.ADD_STUDENT_COMMENTS,
     payload: {
       comments,
     },
   };
-};
+}
 
 export function addStudentParentsAction(parents: CreateParentsInput[]) {
   return {
@@ -65,22 +64,13 @@ export function addStudentParentsAction(parents: CreateParentsInput[]) {
       parents,
     },
   };
-};
+}
 
-export function addParentsHousingConditionsAction(housingConditions: CreateHousingConditionsInput) {
+export function addParentsConditionsAction(conditions: CreateConditionsInput[]) {
   return {
-    type: ActionTypes.ADD_PARENTS_HOUSING_CONDITIONS,
+    type: ActionTypes.ADD_PARENTS_CONDITIONS,
     payload: {
-      housingConditions,
+      conditions,
     },
   };
-};
-
-export function addParentsLivingConditionsAction(livingConditions: CreateLivingConditionsInput) {
-  return {
-    type: ActionTypes.ADD_PARENTS_LIFE_CONDITIONS,
-    payload: {
-      livingConditions,
-    },
-  };
-};
+}

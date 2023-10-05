@@ -17,6 +17,12 @@ const button = tv({
       icon: "flex items-center gap-1 bg-blueLagoon text-white hover:opacity-90 disabled:hover:opacity-100",
       danger:
         "rounded-full border-4 border-transparent p-1 text-zinc-500 hover:border-error-100 hover:bg-error-200 hover:text-error-600 shadow-none",
+      iconDanger:
+      [
+        "flex items-center gap-1 border-4 border-transparent p-1 text-zinc-500 shadow-none",
+        "hover:border-error-100 hover:bg-error-200 hover:text-error-600",
+        "disabled:bg-transparent disabled:border-none disabled:text-zinc-500",
+      ],
     },
   },
 

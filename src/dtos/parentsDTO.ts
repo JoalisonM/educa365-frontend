@@ -2,7 +2,7 @@ export interface ParentsProps {
   id: string;
   id_educando: string;
   nome: string;
-  data_nascimento: string;
+  dataNascimento: string;
   sexo: boolean;
   rg: string;
   cpf: string;
@@ -10,81 +10,115 @@ export interface ParentsProps {
   escolaridade: string;
   apelido: string;
   ssp: string;
-  data_expedicao_rg: string;
-  emissor_rg: string;
+  dataExpedicaoRg: string;
+  emissorRg: string;
   uf_rg: string;
-  data_expedicao_cpf: string;
+  dataExpedicaoCpf: string;
   profissao: string;
   nome_mae: string;
   bolsaFamilia?: {
-    nis: string;
+    nis: string | undefined;
   };
-  condicoes_vida: string;
-  condicoes_moradia: string;
+  condicoesVida: LivingConditionsProps;
+  condicoesMoradia: HousingConditionsProps;
 }
 
 export interface CreateParentsInput {
   nome: string;
-  data_nascimento: string;
+  dataNascimento: string;
   sexo: boolean;
   rg: string;
   cpf: string;
   parentesco: string;
   escolaridade: string;
   apelido: string;
-  data_expedicao_rg: string;
-  emissor_rg: string;
-  uf_rg: string;
-  data_expedicao_cpf: string;
+  dataExpedicaoRg: string;
+  emissorRg: string;
+  ufRg: string;
+  dataExpedicaoCpf: string;
   profissao: string;
-  nome_mae: string;
-  bolsa_familia?: {
-    nis: string;
+  nomeMae: string;
+  bolsaFamilia?: {
+    nis: string | undefined;
   };
-  familiares_casa: number;
+  familiaresCasa: number;
 }
 
 export interface CreateParentsInputProps {
   nome: string;
-  data_nascimento: string;
   sexo: boolean;
+  dataNascimento: string;
   rg: string;
   cpf: string;
   parentesco: string;
   escolaridade: string;
   apelido: string;
-  data_expedicao_rg: string;
-  emissor_rg: string;
-  uf_rg: string;
-  data_expedicao_cpf: string;
+  dataExpedicaoRg: string;
+  emissorRg: string;
+  ufRg: string;
+  dataExpedicaoCpf: string;
   profissao: string;
-  nome_mae: string;
-  bolsa_familia?: {
-    nis: string;
+  nomeMae: string;
+  bolsaFamilia?: {
+    nis: string | undefined;
   };
-  condicoes_vida: CreateLivingConditionsInput;
-  condicoes_moradia: CreateHousingConditionsInput;
-  familiares_casa: number;
+  condicaoVida: CreateLivingConditionsInput;
+  condicaoMoradia: CreateHousingConditionsInput;
+  familiaresCasa: number;
 }
 
+export interface LivingConditionsProps {
+  id: string;
+  trabalhoDaFamilia: string;
+  rendaMensalFamilia: number;
+  quantasPessoasTrabalhamNaCasa: number;
+  programaGoverno: string;
+  problemaEnfrentado: ProblemFacedProps;
+}
+
+export interface HousingConditionsProps {
+  id: string;
+  tipoCasa: string;
+  posseCasa: string;
+  banheiroComFossa: boolean;
+  aguaCagepa: boolean;
+  poco: boolean;
+  energia: boolean;
+}
 export interface CreateHousingConditionsInput {
-  tipo_casa: string;
-  posse_casa: string;
-  banheiro_com_fossa: boolean;
-  agua_cagepa: boolean;
+  tipoCasa: string;
+  posseCasa: string;
+  banheiroComFossa: boolean;
+  aguaCagepa: boolean;
   poco: boolean;
   energia: boolean;
 }
 
 export interface CreateLivingConditionsInput {
-  trabalho_familia: string;
-  renda_mensal_familia: string;
-  quantas_pessoas_trabalham_casa: number;
-  programa_governo: string;
-  problema_enfrentado: ProblemFacedProps;
+  trabalhoDaFamilia: string;
+  rendaMensalFamilia: number;
+  quantasPessoasTrabalhamNaCasa: number;
+  programaGoverno: string;
+  problemaEnfrentado: CreateProblemFacedProps;
+}
+
+export interface CreateConditionsInput {
+  condicaoMoradia: CreateHousingConditionsInput;
+  condicaoVida: CreateLivingConditionsInput;
 }
 
 export interface ProblemFacedProps {
+  id: string;
+  alcool: boolean;
+  lazer: boolean;
+  saude: boolean;
+  fome: boolean;
+  drogas: boolean;
+  violencia: boolean;
+  desemprego: boolean;
+}
+
+export interface CreateProblemFacedProps {
   alcool: boolean;
   lazer: boolean;
   saude: boolean;

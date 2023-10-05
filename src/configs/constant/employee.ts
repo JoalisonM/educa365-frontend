@@ -1,10 +1,10 @@
 export const genders = {
   MALE: {
-    value: "False",
+    value: false,
     title: "Masculino",
   },
   FEMALE: {
-    value: "True",
+    value: true,
     title: "Feminino",
   },
 };

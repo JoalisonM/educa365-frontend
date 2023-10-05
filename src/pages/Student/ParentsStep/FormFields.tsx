@@ -1,11 +1,17 @@
+import { useEffect } from "react";
+import { Trash } from "@phosphor-icons/react";
+import { CheckedState } from "@radix-ui/react-checkbox";
+import { FieldErrors, UseFormReturn, UseFormSetValue } from "react-hook-form";
+
+import { ParentFormInputs } from ".";
 import * as Input from "@components/Input";
+import { Button } from "@components/Button";
 import * as Select from "@components/Select";
+import { useFormContext } from "@hooks/useForm";
+import { AlertDialog } from "@components/Alert";
 import { Checkbox } from "@/components/ui/checkbox";
 import { genders } from "@configs/constant/employee";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@ui/components/ui/form";
-import { FieldErrors, UseFormReturn } from "react-hook-form";
-import { ParentFormInputs } from ".";
-import { CheckedState } from "@radix-ui/react-checkbox";
 
 interface bolsaFamiliaProps {
   parent1: CheckedState;
@@ -14,14 +20,58 @@ interface bolsaFamiliaProps {
 
 interface FormFieldsProps {
   index: number;
+  disableRemoveButton: boolean;
   bolsaFamilia: bolsaFamiliaProps;
   form: UseFormReturn<ParentFormInputs>;
   errors: FieldErrors<ParentFormInputs>;
-  handleCheckBolsaFamilia: (index: number, value: CheckedState) => void;
+  setValue: UseFormSetValue<ParentFormInputs>;
+  onRemoveParent: (index: number | string) => void;
+  onCheckBolsaFamilia: (index: number, value: CheckedState) => void;
 }
 
 export const FormFields = (props: FormFieldsProps) => {
-  const { form, index, errors, bolsaFamilia, handleCheckBolsaFamilia } = props;
+  const {
+    form,
+    index,
+    errors,
+    setValue,
+    bolsaFamilia,
+    onRemoveParent,
+    disableRemoveButton,
+    onCheckBolsaFamilia,
+  } = props;
+  const { student } = useFormContext();
+
+  useEffect(() => {
+    if (student && student.responsaveis) {
+      setValue(`responsaveis.${index}.nome`, student.responsaveis?.[index].nome);
+      setValue(`responsaveis.${index}.apelido`, student.responsaveis?.[index].apelido);
+      setValue(`responsaveis.${index}.bolsaFamilia.nis`, student?.responsaveis?.[index]?.bolsaFamilia?.nis);
+      setValue(`responsaveis.${index}.cpf`, student.responsaveis?.[index].cpf);
+      setValue(`responsaveis.${index}.dataExpedicaoCpf`, new Date(
+        student.responsaveis?.[index].dataExpedicaoCpf,
+      ));
+      setValue(`responsaveis.${index}.dataExpedicaoRg`, new Date(
+        student.responsaveis?.[index].dataExpedicaoRg,
+      ));
+      setValue(`responsaveis.${index}.dataNascimento`, new Date(
+        student.responsaveis?.[index].dataNascimento,
+      ));
+      setValue(`responsaveis.${index}.emissorRg`, student.responsaveis?.[index].emissorRg);
+      setValue(`responsaveis.${index}.escolaridade`, student.responsaveis?.[index].escolaridade);
+      setValue(`responsaveis.${index}.familiaresCasa`, student.responsaveis?.[index].familiaresCasa);
+      setValue(`responsaveis.${index}.nomeMae`, student.responsaveis?.[index].nomeMae);
+      setValue(`responsaveis.${index}.parentesco`, student.responsaveis?.[index].parentesco);
+      setValue(`responsaveis.${index}.profissao`, student.responsaveis?.[index].profissao);
+      setValue(`responsaveis.${index}.rg`, student.responsaveis?.[index].rg);
+      setValue(`responsaveis.${index}.sexo`, student.responsaveis?.[index].sexo);
+      setValue(`responsaveis.${index}.ufRg`, student.responsaveis?.[index].ufRg);
+
+      if (student?.responsaveis?.[index]?.bolsaFamilia?.nis) {
+        onCheckBolsaFamilia(index, true);
+      }
+    }
+  }, [student, setValue, index, onCheckBolsaFamilia]);
 
   const disableNis = () => {
     if (index === 0) {
@@ -145,7 +195,7 @@ export const FormFields = (props: FormFieldsProps) => {
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
         <FormField
           control={form.control}
-          name={`responsaveis.${index}.data_nascimento`}
+          name={`responsaveis.${index}.dataNascimento`}
           render={({ field }) => (
             <FormItem className="space-y-1">
               <FormLabel htmlFor="birthday">Data de nascimento</FormLabel>
@@ -164,8 +214,8 @@ export const FormFields = (props: FormFieldsProps) => {
                 </Input.Root>
               </FormControl>
               <FormMessage className="text-sm font-normal text-error-500">
-                {errors?.responsaveis?.[index]?.data_nascimento
-                && errors?.responsaveis?.[index]?.data_nascimento?.message}
+                {errors?.responsaveis?.[index]?.dataNascimento
+                && errors?.responsaveis?.[index]?.dataNascimento?.message}
               </FormMessage>
             </FormItem>
           )}
@@ -178,12 +228,12 @@ export const FormFields = (props: FormFieldsProps) => {
               <FormLabel>Sexo</FormLabel>
               <FormControl>
                 <Select.Root
-                  value={field.value}
                   onChange={field.onChange}
+                  value={String(field.value)}
                   placeholder="Selecione o sexo"
                 >
                   {Object.entries(genders).map(([key, gender]) => (
-                    <Select.Item key={key} value={gender.value} text={gender.title} />
+                    <Select.Item key={key} value={String(gender.value)} text={gender.title} />
                   ))}
                 </Select.Root>
               </FormControl>
@@ -214,7 +264,7 @@ export const FormFields = (props: FormFieldsProps) => {
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
         <FormField
           control={form.control}
-          name={`responsaveis.${index}.data_expedicao_rg`}
+          name={`responsaveis.${index}.dataExpedicaoRg`}
           render={({ field }) => (
             <FormItem className="space-y-1">
               <FormLabel htmlFor="shipping_date_rg">Data de expedição RG</FormLabel>
@@ -233,15 +283,15 @@ export const FormFields = (props: FormFieldsProps) => {
                 </Input.Root>
               </FormControl>
               <FormMessage className="text-sm font-normal text-error-500">
-                {errors?.responsaveis?.[index]?.data_expedicao_rg
-                && errors?.responsaveis?.[index]?.data_expedicao_rg?.message}
+                {errors?.responsaveis?.[index]?.dataExpedicaoRg
+                && errors?.responsaveis?.[index]?.dataExpedicaoRg?.message}
               </FormMessage>
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
-          name={`responsaveis.${index}.emissor_rg`}
+          name={`responsaveis.${index}.emissorRg`}
           render={({ field }) => (
             <FormItem className="space-y-1">
               <FormLabel htmlFor="issue_rg">Emissor do RG</FormLabel>
@@ -256,14 +306,14 @@ export const FormFields = (props: FormFieldsProps) => {
                 </Input.Root>
               </FormControl>
               <FormMessage className="text-sm font-normal text-error-500">
-                {errors?.responsaveis?.[index]?.emissor_rg && errors?.responsaveis?.[index]?.emissor_rg?.message}
+                {errors?.responsaveis?.[index]?.emissorRg && errors?.responsaveis?.[index]?.emissorRg?.message}
               </FormMessage>
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
-          name={`responsaveis.${index}.uf_rg`}
+          name={`responsaveis.${index}.ufRg`}
           render={({ field }) => (
             <FormItem className="space-y-1">
               <FormLabel htmlFor="uf_rg">UF do RG</FormLabel>
@@ -273,7 +323,7 @@ export const FormFields = (props: FormFieldsProps) => {
                 </Input.Root>
               </FormControl>
               <FormMessage className="text-sm font-normal text-error-500">
-                {errors?.responsaveis?.[index]?.uf_rg && errors?.responsaveis?.[index]?.uf_rg?.message}
+                {errors?.responsaveis?.[index]?.ufRg && errors?.responsaveis?.[index]?.ufRg?.message}
               </FormMessage>
             </FormItem>
           )}
@@ -299,7 +349,7 @@ export const FormFields = (props: FormFieldsProps) => {
         />
         <FormField
           control={form.control}
-          name={`responsaveis.${index}.data_expedicao_cpf`}
+          name={`responsaveis.${index}.dataExpedicaoCpf`}
           render={({ field }) => (
             <FormItem className="space-y-1">
               <FormLabel htmlFor="shipping_date_cpf">Data de expedição CPF</FormLabel>
@@ -318,15 +368,15 @@ export const FormFields = (props: FormFieldsProps) => {
                 </Input.Root>
               </FormControl>
               <FormMessage className="text-sm font-normal text-error-500">
-                {errors?.responsaveis?.[index]?.data_expedicao_cpf
-                && errors?.responsaveis?.[index]?.data_expedicao_cpf?.message}
+                {errors?.responsaveis?.[index]?.dataExpedicaoCpf
+                && errors?.responsaveis?.[index]?.dataExpedicaoCpf?.message}
               </FormMessage>
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
-          name={`responsaveis.${index}.familiares_casa`}
+          name={`responsaveis.${index}.familiaresCasa`}
           render={({ field: { value, onChange, ...field } }) => (
             <FormItem className="space-y-1">
               <FormLabel htmlFor="relatives">Familiares da casa</FormLabel>
@@ -343,8 +393,8 @@ export const FormFields = (props: FormFieldsProps) => {
                 </Input.Root>
               </FormControl>
               <FormMessage className="text-sm font-normal text-error-500">
-                {errors?.responsaveis?.[index]?.familiares_casa
-                && errors?.responsaveis?.[index]?.familiares_casa?.message}
+                {errors?.responsaveis?.[index]?.familiaresCasa
+                && errors?.responsaveis?.[index]?.familiaresCasa?.message}
               </FormMessage>
             </FormItem>
           )}
@@ -353,7 +403,7 @@ export const FormFields = (props: FormFieldsProps) => {
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
         <FormField
           control={form.control}
-          name={`responsaveis.${index}.nome_mae`}
+          name={`responsaveis.${index}.nomeMae`}
           render={({ field }) => (
             <FormItem className="space-y-1">
               <FormLabel htmlFor="mother_name">Nome da mãe</FormLabel>
@@ -368,20 +418,20 @@ export const FormFields = (props: FormFieldsProps) => {
                 </Input.Root>
               </FormControl>
               <FormMessage className="text-sm font-normal text-error-500">
-                {errors?.responsaveis?.[index]?.nome_mae && errors?.responsaveis?.[index]?.nome_mae?.message}
+                {errors?.responsaveis?.[index]?.nomeMae && errors?.responsaveis?.[index]?.nomeMae?.message}
               </FormMessage>
             </FormItem>
           )}
         />
         <FormItem className="flex flex-row items-center space-x-2 space-y-0">
           <FormControl>
-            <Checkbox onCheckedChange={(checked) => handleCheckBolsaFamilia(index, checked)} />
+            <Checkbox onCheckedChange={(checked) => onCheckBolsaFamilia(index, checked)} />
           </FormControl>
           <FormLabel>Recebe o bolsa família?</FormLabel>
         </FormItem>
         <FormField
           control={form.control}
-          name={`responsaveis.${index}.bolsa_familia.nis`}
+          name={`responsaveis.${index}.bolsaFamilia.nis`}
           render={({ field }) => (
             <FormItem className="space-y-1">
               <FormLabel htmlFor="nis">NIS</FormLabel>
@@ -397,12 +447,26 @@ export const FormFields = (props: FormFieldsProps) => {
                 </Input.Root>
               </FormControl>
               <FormMessage className="text-sm font-normal text-error-500">
-                {errors?.responsaveis?.[index]?.bolsa_familia?.nis
-                && errors?.responsaveis?.[index]?.bolsa_familia?.nis?.message}
+                {errors?.responsaveis?.[index]?.bolsaFamilia?.nis
+                && errors?.responsaveis?.[index]?.bolsaFamilia?.nis?.message}
               </FormMessage>
             </FormItem>
           )}
         />
+      </div>
+
+      <div className="flex items-center justify-end pt-6">
+        <AlertDialog
+          id={index}
+          title="Você tem certeza absoluta?"
+          description="Essa ação não pode ser desfeita. Isso excluirá permanentemente o responsável."
+          onDelete={onRemoveParent}
+        >
+          <Button type="button" variant="iconDanger" disabled={disableRemoveButton}>
+            <Trash className="h-5 w-5" />
+            Remover responsável
+          </Button>
+        </AlertDialog>
       </div>
     </section>
   );

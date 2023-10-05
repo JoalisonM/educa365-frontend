@@ -37,8 +37,8 @@ export const Employee = () => {
     }
   };
 
-  const handleDelete = (id: string) => {
-    deleteEmployee(id);
+  const handleDelete = (id: string | number) => {
+    deleteEmployee(String(id));
   };
 
   return (

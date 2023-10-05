@@ -10,11 +10,8 @@ export const useFormContext = () => {
   const addStudentAddress = useContextSelector(FormContext, (form) => form.addStudentAddress);
   const addStudentParents = useContextSelector(FormContext, (form) => form.addStudentParents);
   const addStudentComments = useContextSelector(FormContext, (form) => form.addStudentComments);
-  const addStudentParentsLivingConditions = useContextSelector(
-    FormContext, (form) => form.addStudentParentsLivingConditions,
-  );
-  const addStudentParentsHousingConditions = useContextSelector(
-    FormContext, (form) => form.addStudentParentsHousingConditions,
+  const addStudentParentsConditions = useContextSelector(
+    FormContext, (form) => form.addStudentParentsConditions,
   );
 
   return {
@@ -26,7 +23,6 @@ export const useFormContext = () => {
     addStudentAddress,
     addStudentParents,
     addStudentComments,
-    addStudentParentsLivingConditions,
-    addStudentParentsHousingConditions,
+    addStudentParentsConditions,
   };
 };

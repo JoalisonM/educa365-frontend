@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import * as z from "zod";
-import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFieldArray } from "react-hook-form";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import {
   Accordion,
@@ -17,6 +17,7 @@ import { parentFormSchema } from "@schemas/parentsFormSchema";
 import { Form } from "@ui/components/ui/form";
 import { FormFields } from "./FormFields";
 import { CheckedState } from "@radix-ui/react-checkbox";
+import { format } from "date-fns";
 
 interface bolsaFamiliaProps {
   parent1: CheckedState;
@@ -27,7 +28,8 @@ export type ParentFormInputs = z.infer<typeof parentFormSchema>;
 
 export const ParentsStep = () => {
   const navigate = useNavigate();
-  const { student, addStudentParents, setCurrentStep } = useFormContext();
+  const location = useLocation();
+  const { addStudentParents, setCurrentStep } = useFormContext();
   const [bolsaFamilia, setBolsaFamilia] = useState<bolsaFamiliaProps>({} as bolsaFamiliaProps);
 
   const form = useForm<ParentFormInputs>({
@@ -36,65 +38,43 @@ export const ParentsStep = () => {
       responsaveis: [
         {
           nome: "",
-          data_nascimento: new Date(),
-          sexo: "TRUE",
+          dataNascimento: new Date(),
+          sexo: false,
           rg: "",
           cpf: "",
           parentesco: "",
           escolaridade: "",
           apelido: "",
-          data_expedicao_rg: new Date(),
-          emissor_rg: "",
-          uf_rg: "",
-          data_expedicao_cpf: new Date(),
+          dataExpedicaoRg: new Date(),
+          emissorRg: "",
+          ufRg: "",
+          dataExpedicaoCpf: new Date(),
           profissao: "",
-          nome_mae: "",
-          bolsa_familia: {
+          nomeMae: "",
+          bolsaFamilia: {
             nis: "",
           },
-          familiares_casa: 0,
+          familiaresCasa: 0,
         },
       ],
     },
   });
   const { control, setValue, handleSubmit, formState: { errors } } = form;
-  const { fields, append } = useFieldArray({ control, name: "responsaveis" });
+  const { fields, append, remove } = useFieldArray({ control, name: "responsaveis" });
 
-  // useEffect(() => {
-  //   if (student && student.responsaveis) {
-  //     setValue("apelido", student.responsaveis.apelido);
-  //     setValue("bolsa_familia.nis", student.responsaveis.bolsa_familia?.nis);
-  //     setValue("cpf", student.responsaveis.cpf);
-  //     setValue("data_expedicao_cpf", new Date(student.responsaveis.data_expedicao_cpf));
-  //     setValue("data_expedicao_rg", new Date(student.responsaveis.data_expedicao_rg));
-  //     setValue("data_nascimento", new Date(student.responsaveis.data_nascimento));
-  //     setValue("emissor_rg", student.responsaveis.emissor_rg);
-  //     setValue("escolaridade", student.responsaveis.escolaridade);
-  //     setValue("familiares_casa", student.responsaveis.familiares_casa);
-  //     setValue("nome", student.responsaveis.nome);
-  //     setValue("nome_mae", student.responsaveis.nome_mae);
-  //     setValue("parentesco", student.responsaveis.parentesco);
-  //     setValue("profissao", student.responsaveis.profissao);
-  //     setValue("rg", student.responsaveis.rg);
-  //     setValue("sexo", student.responsaveis.sexo ? "True" : "False");
-  //     setValue("uf_rg", student.responsaveis.uf_rg);
-
-  //     if (student.responsaveis.bolsa_familia?.nis) {
-  //       setBolsaFamilia(true);
-  //     }
-  //   }
-  // }, [student, setValue]);
+  const disableNewParent = fields.length === 2;
+  const disableRemoveButton = fields.length < 2;
 
   useEffect(() => {
     setCurrentStep(4);
   }, []);
 
   const handleBackStep = () => {
-    navigate("/students/new-student/comments");
+    navigate(`${location.pathname.replace("parents", "comments")}`);
   };
 
   const handleNextStep = () => {
-    navigate("/students/new-student/housing");
+    navigate(`${location.pathname.replace("parents", "conditions")}`);
   };
 
   const handleCheckBolsaFamilia = (index: number, value: CheckedState) => {
@@ -108,44 +88,42 @@ export const ParentsStep = () => {
   const handleAddNewParent = () => {
     append({
       nome: "",
-      data_nascimento: new Date(),
-      sexo: "TRUE",
+      dataNascimento: new Date(),
+      sexo: false,
       rg: "",
       cpf: "",
       parentesco: "",
       escolaridade: "",
       apelido: "",
-      data_expedicao_rg: new Date(),
-      emissor_rg: "",
-      uf_rg: "",
-      data_expedicao_cpf: new Date(),
+      dataExpedicaoRg: new Date(),
+      emissorRg: "",
+      ufRg: "",
+      dataExpedicaoCpf: new Date(),
       profissao: "",
-      nome_mae: "",
-      bolsa_familia: {
+      nomeMae: "",
+      bolsaFamilia: {
         nis: "",
       },
-      familiares_casa: 0,
+      familiaresCasa: 0,
     });
   };
 
-  const handleSubmitParent = (data: any) => {
-    console.log("data: ", data);
+  const handleRemoveParent = (index: number | string) => {
+    remove(Number(index));
+  };
 
-    // const { data_nascimento, data_expedicao_rg, data_expedicao_cpf, sexo, ...newData } = data;
-    // const gender = sexo !== "False";
-    // const data_nascimento_string = format(data_nascimento, "yyyy-MM-dd");
-    // const data_expedicao_rg_string = format(data_expedicao_rg, "yyyy-MM-dd");
-    // const data_expedicao_cpf_string = format(data_expedicao_cpf, "yyyy-MM-dd");
+  const handleSubmitParent = (data: ParentFormInputs) => {
+    const responsaveis = data.responsaveis.map((responsavel) => {
+      return {
+        ...responsavel,
+        dataNascimento: format(responsavel.dataNascimento, "yyyy-MM-dd"),
+        dataExpedicaoRg: format(responsavel.dataExpedicaoRg, "yyyy-MM-dd"),
+        dataExpedicaoCpf: format(responsavel.dataExpedicaoCpf, "yyyy-MM-dd"),
+      };
+    });
+    addStudentParents(responsaveis);
 
-    // addStudentParents({
-    //   ...newData,
-    //   sexo: gender,
-    //   data_nascimento: data_nascimento_string,
-    //   data_expedicao_rg: data_expedicao_rg_string,
-    //   data_expedicao_cpf: data_expedicao_cpf_string,
-    // });
-
-    // handleNextStep();
+    handleNextStep();
   };
 
   return (
@@ -161,8 +139,11 @@ export const ParentsStep = () => {
                     form={form}
                     index={index}
                     errors={errors}
+                    setValue={setValue}
                     bolsaFamilia={bolsaFamilia}
-                    handleCheckBolsaFamilia={handleCheckBolsaFamilia}
+                    onRemoveParent={handleRemoveParent}
+                    disableRemoveButton={disableRemoveButton}
+                    onCheckBolsaFamilia={handleCheckBolsaFamilia}
                   />
                 </AccordionContent>
               </AccordionItem>
@@ -173,7 +154,12 @@ export const ParentsStep = () => {
             <Button type="button" variant="outline" onClick={() => handleBackStep()}>
               Voltar
             </Button>
-            <Button type="button" onClick={() => handleAddNewParent()}>Novo parente</Button>
+            <Button
+              type="button"
+              disabled={disableNewParent}
+              onClick={() => handleAddNewParent()}>
+                Novo parente
+              </Button>
             <Button type="submit">Próximo</Button>
           </div>
         </form>

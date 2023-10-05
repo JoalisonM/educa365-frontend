@@ -12,11 +12,11 @@ import {
 } from "@/components/ui/alert-dialog";
 
 interface RootProps {
-  id: string;
   title: string;
+  id: string | number;
   children: ReactNode;
   description?: string;
-  onDelete: (id: string) => void;
+  onDelete: (id: string | number) => void;
 }
 
 export const AlertDialog = ({

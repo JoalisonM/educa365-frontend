@@ -8,9 +8,10 @@ import { DefaultLayout } from "./layouts/DefaultLayout";
 import { Student } from "./pages/Student";
 import { AddressStep } from "@pages/Student/AddressStep";
 import { ParentsStep } from "@pages/Student/ParentsStep";
-import { ParentsConditionsStep } from "@pages/Student/ConditionsStep";
 import { StudentStep } from "@pages/Student/StudentStep";
 import { CommentsStep } from "@pages/Student/CommentsStep";
+import { ParentsConditionsStep } from "@pages/Student/ConditionsStep";
+import { FinishStep } from "@pages/Student/FinishStep";
 
 export const Router = () => {
   return (
@@ -21,11 +22,19 @@ export const Router = () => {
         <Route path="/settings" element={<Settings />} />
 
         <Route path="/students" element={<Student />} />
-        <Route path="/students/new-student" element={<StudentStep />} />
+        <Route  path="/students/new-student" element={<StudentStep />} />
         <Route path="/students/new-student/address" element={<AddressStep />} />
         <Route path="/students/new-student/comments" element={<CommentsStep />} />
         <Route path="/students/new-student/parents" element={<ParentsStep />} />
-        <Route path="/students/new-student/housing" element={<ParentsConditionsStep />} />
+        <Route path="/students/new-student/conditions" element={<ParentsConditionsStep />} />
+        <Route path="/students/new-student/finish" element={<FinishStep />} />
+
+        <Route path="/students/new-student/:id" element={<StudentStep />} />
+        <Route path="/students/new-student/:id/address" element={<AddressStep />} />
+        <Route path="/students/new-student/:id/comments" element={<CommentsStep />} />
+        <Route path="/students/new-student/:id/parents" element={<ParentsStep />} />
+        <Route path="/students/new-student/:id/conditions" element={<ParentsConditionsStep />} />
+        <Route path="/students/new-student/:id/finish" element={<FinishStep />} />
       </Route>
     </Routes>
   );

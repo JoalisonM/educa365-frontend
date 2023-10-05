@@ -34,42 +34,81 @@ export function formReducer(state: Form, action: Action) {
       return produce(state, (draft) => {
         draft.student = {
           ...draft.student,
-          observacao: action.payload.comments,
+          observacoesEducando: action.payload.comments,
         };
       });
     case ActionTypes.ADD_STUDENT_PARENTS:
       return produce(state, (draft) => {
-        draft.student.responsaveis = action.payload.parents;
+        draft.student = {
+          ...draft.student,
+          responsaveis: action.payload.parents,
+        };
       });
-    case ActionTypes.ADD_PARENTS_HOUSING_CONDITIONS:
-      return {
-        ...state,
-        student: {
-          ...state.student,
-          responsaveis: {
-            ...state.student.responsaveis,
-            condicoes_moradia: action.payload.housingConditions,
-          },
-        },
-      };
-      // return produce(state, (draft) => {
-      //   draft.student = {
-      //     ...state.student,
-      //     responsaveis:
-      //   };
-      // });
-    case ActionTypes.ADD_PARENTS_LIFE_CONDITIONS:
-      return {
-        ...state,
-        student: {
-          ...state.student,
-          responsaveis: {
-            ...state.student.responsaveis,
-            condicoes_vida: action.payload.livingConditions,
-          },
-        },
-      };
+    case ActionTypes.ADD_PARENTS_CONDITIONS:
+      if (state.student.responsaveis.length === 1 && action.payload.conditions.length === 1) {
+        const indexResponsavel1 = 0;
+
+        return produce(state, (draft) => {
+          draft.student = {
+            ...draft.student,
+            responsaveis: [
+              {
+                ...draft.student.responsaveis[indexResponsavel1],
+                condicaoMoradia: action.payload.conditions[indexResponsavel1].condicaoMoradia,
+                condicaoVida: action.payload.conditions[indexResponsavel1].condicaoVida,
+              },
+            ],
+          };
+        });
+      }
+
+      if (state.student.responsaveis.length === 2 && action.payload.conditions.length === 1) {
+        const indexResponsavel1 = 0;
+
+        return produce(state, (draft) => {
+          draft.student = {
+            ...draft.student,
+            responsaveis: [
+              {
+                ...draft.student.responsaveis[indexResponsavel1],
+                condicaoVida: action.payload.conditions[indexResponsavel1].condicaoVida,
+                condicaoMoradia: action.payload.conditions[indexResponsavel1].condicaoMoradia,
+              },
+              {
+                ...draft.student.responsaveis[1],
+                condicaoVida: action.payload.conditions[indexResponsavel1].condicaoVida,
+                condicaoMoradia: action.payload.conditions[indexResponsavel1].condicaoMoradia,
+              },
+            ],
+          };
+        });
+      }
+
+      if (state.student.responsaveis.length === 2 && action.payload.conditions.length === 2) {
+        const indexResponsavel1 = 0;
+        const indexResponsavel2 = 1;
+
+        return produce(state, (draft) => {
+          draft.student = {
+            ...draft.student,
+            responsaveis: [
+              {
+                ...draft.student.responsaveis[indexResponsavel1],
+                condicaoVida: action.payload.conditions[indexResponsavel1].condicaoVida,
+                condicaoMoradia: action.payload.conditions[indexResponsavel1].condicaoMoradia,
+              },
+              {
+                ...draft.student.responsaveis[indexResponsavel2],
+                condicaoVida: action.payload.conditions[indexResponsavel2].condicaoVida,
+                condicaoMoradia: action.payload.conditions[indexResponsavel2].condicaoMoradia,
+              },
+            ],
+          };
+        });
+      }
+
+      return state;
     default:
       return state;
   }
-};
+}

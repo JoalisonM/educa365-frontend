@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import * as z from "zod";
 import { format } from "date-fns";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -25,6 +25,7 @@ export type StudentFormInputs = z.infer<typeof studentFormSchema>;
 
 export const StudentStep = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { student, addStudent, setCurrentStep } = useFormContext();
 
   const form = useForm<StudentFormInputs>({
@@ -33,7 +34,7 @@ export const StudentStep = () => {
   const {
     setValue,
     handleSubmit,
-    formState: { errors, isDirty, isValid },
+    formState: { errors },
   } = form;
 
   useEffect(() => {
@@ -43,51 +44,47 @@ export const StudentStep = () => {
   useEffect(() => {
     if (student && student.nome && student.nome.length > 0) {
       setValue("nome", student.nome);
-      setValue("cidade_cartorio", student.cidade_cartorio);
-      setValue("cidade_nascenca", student.cidade_nascenca);
+      setValue("cidadeCartorio", student.cidadeCartorio);
       setValue("cpf", student.cpf);
       setValue(
-        "data_emissao_certidao",
-        new Date(student.data_emissao_certidao),
+        "dataEmissaoCertidao",
+        new Date(student.dataEmissaoCertidao),
       );
-      setValue("data_nascimento", new Date(student.data_nascimento));
+      setValue("dataNascimento", new Date(student.dataNascimento));
       setValue("etnia", student.etnia);
       setValue("nis", student.nis);
-      setValue("nome_cartorio", student.nome_cartorio);
-      setValue("nome_mae", student.nome_mae);
-      setValue("nome_pai", student.nome_pai);
+      setValue("nomeCartorio", student.nomeCartorio);
+      setValue("nomeMae", student.nomeMae);
+      setValue("nomePai", student.nomePai);
       setValue(
-        "numero_registro_nascimento",
-        student.numero_registro_nascimento,
+        "numeroRegistroNascimento",
+        student.numeroRegistroNascimento,
       );
       setValue("rg", student.rg);
-      setValue("sexo", student.sexo ? "True" : "False");
+      setValue("sexo", student.sexo);
       setValue("sus", student.sus);
-      setValue("uf_cartorio", student.uf_cartorio);
+      setValue("ufCartorio", student.ufCartorio);
     }
   }, [student, setValue]);
 
   const handleNextStep = () => {
-    navigate("address");
+    navigate(`${location.pathname}/address`);
   };
 
   const handleSubmitStudent = (data: StudentFormInputs) => {
-    console.log("data: ", data);
-    const { data_emissao_certidao, data_nascimento, sexo, ...newData } = data;
-    const gender = sexo !== "False";
-    const data_nascimento_string = format(data_nascimento, "yyyy-MM-dd");
+    const { dataEmissaoCertidao, dataNascimento, ...newData } = data;
+    const data_nascimento_string = format(dataNascimento, "yyyy-MM-dd");
     const data_emissao_certidao_string = format(
-      data_emissao_certidao,
+      dataEmissaoCertidao,
       "yyyy-MM-dd",
     );
 
     addStudent({
       ...newData,
-      sexo: gender,
-      id_turma: "1fb802b9-7128-4922-b32d-f51418972908",
-      id_instituicao_ensino: "e1093718-a1b4-4eed-a8d0-7d18a2ce0b31",
-      data_nascimento: data_nascimento_string,
-      data_emissao_certidao: data_emissao_certidao_string,
+      turma_id: "9f4f6328-afe8-478d-8984-ac55867e42a9",
+      instituicao_id: "76dc54c7-46c4-4c0e-9e5f-5a8702fdb1b7",
+      dataNascimento: data_nascimento_string,
+      dataEmissaoCertidao: data_emissao_certidao_string,
     });
 
     handleNextStep();
@@ -143,56 +140,6 @@ export const StudentStep = () => {
                     </FormControl>
                     <FormMessage className="text-sm font-normal text-error-500">
                       {errors.nis && errors.nis.message}
-                    </FormMessage>
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">
-              <FormField
-                control={form.control}
-                name="cidade_nascenca"
-                render={({ field }) => (
-                  <FormItem className="space-y-1">
-                    <FormLabel htmlFor="city_origin">
-                      Cidade em que nasceu
-                    </FormLabel>
-                    <FormControl>
-                      <Input.Root>
-                        <Input.Control
-                          id="city_origin"
-                          type="text"
-                          placeholder="Digite a cidade"
-                          {...field}
-                        />
-                      </Input.Root>
-                    </FormControl>
-                    <FormMessage className="text-sm font-normal text-error-500">
-                      {errors.cidade_nascenca && errors.cidade_nascenca.message}
-                    </FormMessage>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="cidade_cartorio"
-                render={({ field }) => (
-                  <FormItem className="space-y-1">
-                    <FormLabel htmlFor="city_registry">
-                      Cidade do cartório
-                    </FormLabel>
-                    <FormControl>
-                      <Input.Root>
-                        <Input.Control
-                          id="city_registry"
-                          type="text"
-                          placeholder="Digite a cidade"
-                          {...field}
-                        />
-                      </Input.Root>
-                    </FormControl>
-                    <FormMessage className="text-sm font-normal text-error-500">
-                      {errors.cidade_cartorio && errors.cidade_cartorio.message}
                     </FormMessage>
                   </FormItem>
                 )}
@@ -269,7 +216,7 @@ export const StudentStep = () => {
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
               <FormField
                 control={form.control}
-                name="data_nascimento"
+                name="dataNascimento"
                 render={({ field }) => (
                   <FormItem className="space-y-1">
                     <FormLabel htmlFor="birthday">Data de nascimento</FormLabel>
@@ -293,7 +240,7 @@ export const StudentStep = () => {
                       </Input.Root>
                     </FormControl>
                     <FormMessage className="text-sm font-normal text-error-500">
-                      {errors.data_nascimento && errors.data_nascimento.message}
+                      {errors.dataNascimento && errors.dataNascimento.message}
                     </FormMessage>
                   </FormItem>
                 )}
@@ -306,15 +253,15 @@ export const StudentStep = () => {
                     <FormLabel>Sexo</FormLabel>
                     <FormControl>
                       <Select.Root
-                        value={field.value}
+                        value={String(field.value)}
                         onChange={field.onChange}
                         placeholder="Selecione o sexo"
                       >
                         {Object.entries(genders).map(([key, gender]) => (
                           <Select.Item
                             key={key}
-                            value={gender.value}
                             text={gender.title}
+                            value={String(gender.value)}
                           />
                         ))}
                       </Select.Root>
@@ -356,7 +303,7 @@ export const StudentStep = () => {
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">
               <FormField
                 control={form.control}
-                name="nome_cartorio"
+                name="nomeCartorio"
                 render={({ field }) => (
                   <FormItem className="space-y-1">
                     <FormLabel htmlFor="name_registry">
@@ -373,14 +320,14 @@ export const StudentStep = () => {
                       </Input.Root>
                     </FormControl>
                     <FormMessage className="text-sm font-normal text-error-500">
-                      {errors.nome_cartorio && errors.nome_cartorio.message}
+                      {errors.nomeCartorio && errors.nomeCartorio.message}
                     </FormMessage>
                   </FormItem>
                 )}
               />
               <FormField
                 control={form.control}
-                name="numero_registro_nascimento"
+                name="numeroRegistroNascimento"
                 render={({ field }) => (
                   <FormItem className="space-y-1">
                     <FormLabel htmlFor="number_registry">
@@ -397,17 +344,41 @@ export const StudentStep = () => {
                       </Input.Root>
                     </FormControl>
                     <FormMessage className="text-sm font-normal text-error-500">
-                      {errors.numero_registro_nascimento &&
-                        errors.numero_registro_nascimento.message}
+                      {errors.numeroRegistroNascimento &&
+                        errors.numeroRegistroNascimento.message}
                     </FormMessage>
                   </FormItem>
                 )}
               />
             </div>
-            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+            <FormField
+                control={form.control}
+                name="cidadeCartorio"
+                render={({ field }) => (
+                  <FormItem className="space-y-1">
+                    <FormLabel htmlFor="city_registry">
+                      Cidade do cartório
+                    </FormLabel>
+                    <FormControl>
+                      <Input.Root>
+                        <Input.Control
+                          id="city_registry"
+                          type="text"
+                          placeholder="Digite a cidade"
+                          {...field}
+                        />
+                      </Input.Root>
+                    </FormControl>
+                    <FormMessage className="text-sm font-normal text-error-500">
+                      {errors.cidadeCartorio && errors.cidadeCartorio.message}
+                    </FormMessage>
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
-                name="data_emissao_certidao"
+                name="dataEmissaoCertidao"
                 render={({ field }) => (
                   <FormItem className="space-y-1">
                     <FormLabel htmlFor="date_registry">
@@ -433,15 +404,15 @@ export const StudentStep = () => {
                       </Input.Root>
                     </FormControl>
                     <FormMessage className="text-sm font-normal text-error-500">
-                      {errors.data_emissao_certidao &&
-                        errors.data_emissao_certidao.message}
+                      {errors.dataEmissaoCertidao &&
+                        errors.dataEmissaoCertidao.message}
                     </FormMessage>
                   </FormItem>
                 )}
               />
               <FormField
                 control={form.control}
-                name="uf_cartorio"
+                name="ufCartorio"
                 render={({ field }) => (
                   <FormItem className="space-y-1">
                     <FormLabel htmlFor="uf_registry">Uf do cartório</FormLabel>
@@ -456,7 +427,7 @@ export const StudentStep = () => {
                       </Input.Root>
                     </FormControl>
                     <FormMessage className="text-sm font-normal text-error-500">
-                      {errors.uf_cartorio && errors.uf_cartorio.message}
+                      {errors.ufCartorio && errors.ufCartorio.message}
                     </FormMessage>
                   </FormItem>
                 )}
@@ -465,7 +436,7 @@ export const StudentStep = () => {
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">
               <FormField
                 control={form.control}
-                name="nome_mae"
+                name="nomeMae"
                 render={({ field }) => (
                   <FormItem className="space-y-1">
                     <FormLabel htmlFor="mother_name">Nome da mãe</FormLabel>
@@ -480,14 +451,14 @@ export const StudentStep = () => {
                       </Input.Root>
                     </FormControl>
                     <FormMessage className="text-sm font-normal text-error-500">
-                      {errors.nome_mae && errors.nome_mae.message}
+                      {errors.nomeMae && errors.nomeMae.message}
                     </FormMessage>
                   </FormItem>
                 )}
               />
               <FormField
                 control={form.control}
-                name="nome_pai"
+                name="nomePai"
                 render={({ field }) => (
                   <FormItem className="space-y-1">
                     <FormLabel htmlFor="father_name">Nome do pai</FormLabel>
@@ -502,7 +473,7 @@ export const StudentStep = () => {
                       </Input.Root>
                     </FormControl>
                     <FormMessage className="text-sm font-normal text-error-500">
-                      {errors.nome_pai && errors.nome_pai.message}
+                      {errors.nomePai && errors.nomePai.message}
                     </FormMessage>
                   </FormItem>
                 )}

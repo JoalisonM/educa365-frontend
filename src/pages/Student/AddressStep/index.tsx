@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
@@ -23,6 +23,7 @@ export type AddressFormInputs = z.infer<typeof addressFormSchema>;
 
 export const AddressStep = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { student, addStudentAddress, setCurrentStep } = useFormContext();
 
   const form = useForm<AddressFormInputs>({
@@ -31,7 +32,7 @@ export const AddressStep = () => {
   const {
     setValue,
     handleSubmit,
-    formState: { errors, isDirty, isValid },
+    formState: { errors },
   } = form;
 
   useEffect(() => {
@@ -51,12 +52,15 @@ export const AddressStep = () => {
     }
   }, [student, setValue]);
 
+  const handleBackStep = () => {
+    navigate(`${location.pathname.replace("/address", "")}`);
+  };
+
   const handleNextStep = () => {
-    navigate("/students/new-student/comments");
+    navigate(`${location.pathname.replace("address", "comments")}`);
   };
 
   const handleSubmitAddress = (data: AddressFormInputs) => {
-    console.log("endereço: ", data);
     addStudentAddress(data);
 
     handleNextStep();
@@ -259,9 +263,9 @@ export const AddressStep = () => {
           </section>
 
           <div className="flex items-center justify-end gap-4 pt-5">
-            <ButtonLink to=".." relative="path" variant="outline">
+            <Button variant="outline" onClick={() => handleBackStep()}>
               Voltar
-            </ButtonLink>
+            </Button>
             <Button type="submit">Próximo</Button>
           </div>
         </form>
