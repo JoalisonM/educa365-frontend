@@ -81,7 +81,7 @@ export const FormFields = (props: FormFieldsProps) => {
       <div className="flex w-full flex-col gap-5 divide-y divide-zinc-100">
         <h3 className="text-base font-medium text-zinc-900">Condições de moradia</h3>
 
-        <div className="grid grid-cols-form gap-3 pt-5">
+        <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
           <FormLabel className="text-sm font-medium text-zinc-700">Tipo de casa</FormLabel>
           <div>
             <FormField
@@ -110,7 +110,7 @@ export const FormFields = (props: FormFieldsProps) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-form gap-3 pt-5">
+        <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
           <FormLabel htmlFor="education" className="text-sm font-medium text-zinc-700">Posse da casa</FormLabel>
           <div>
             <FormField
@@ -139,9 +139,9 @@ export const FormFields = (props: FormFieldsProps) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-form gap-3 pt-5">
+        <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
           <FormLabel htmlFor="education" className="text-sm font-medium text-zinc-700">A casa possui</FormLabel>
-          <div className="flex gap-8">
+          <div className="flex flex-wrap gap-8">
             <FormField
               control={form.control}
               name={`condicoes.${index}.condicaoMoradia.aguaCagepa`}
@@ -197,7 +197,7 @@ export const FormFields = (props: FormFieldsProps) => {
       <div className="flex w-full flex-col gap-5 divide-y divide-zinc-100 mt-6">
         <h3 className="text-base font-medium text-zinc-900">Condições de vida</h3>
 
-        <div className="grid grid-cols-form gap-3 pt-5">
+        <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
           <FormLabel htmlFor="work" className="text-sm font-medium text-zinc-700">Trabalho da família</FormLabel>
           <div>
             <FormField
@@ -220,7 +220,7 @@ export const FormFields = (props: FormFieldsProps) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-form gap-3 pt-5">
+        <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
           <FormLabel htmlFor="government" className="text-sm font-medium text-zinc-700">Está em algum programa do governo?</FormLabel>
           <div>
             <FormField
@@ -228,7 +228,6 @@ export const FormFields = (props: FormFieldsProps) => {
               name={`condicoes.${index}.condicaoVida.programaGoverno`}
               render={({ field }) => (
                 <FormItem className="space-y-1">
-                  <FormLabel htmlFor="government">Está em algum programa do governo?</FormLabel>
                   <FormControl>
                     <Input.Root>
                       <Input.Control
@@ -249,7 +248,7 @@ export const FormFields = (props: FormFieldsProps) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-form gap-3 pt-5">
+        <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
           <FormLabel htmlFor="income" className="text-sm font-medium text-zinc-700">Renda mensal da família</FormLabel>
           <div>
             <FormField
@@ -279,7 +278,7 @@ export const FormFields = (props: FormFieldsProps) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-form gap-3 pt-5">
+        <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
           <FormLabel htmlFor="how_many" className="text-sm font-medium text-zinc-700">Quantas pessoas trabalham em casa?</FormLabel>
           <div>
             <FormField
@@ -309,10 +308,10 @@ export const FormFields = (props: FormFieldsProps) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-form gap-3 pt-5">
+        <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
           <FormLabel htmlFor="how_many" className="text-sm font-medium text-zinc-700">Problemas enfrentados pela família</FormLabel>
           <div className="grid grid-cols-1 gap-3">
-            <div className="flex gap-8">
+            <div className="flex flex-wrap gap-8">
               <FormField
                 control={form.control}
                 name={`condicoes.${index}.condicaoVida.problemaEnfrentado.alcool`}

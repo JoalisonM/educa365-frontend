@@ -59,7 +59,7 @@ export const Comments = ({ student }: CommentsProps) => {
 
   return (
     <div className="mt-6 flex flex-col">
-      <div className="flex items-center justify-between pb-5 border-b border-zinc-100">
+      <div className="flex flex-col gap-4 justify-between pb-5 border-b border-zinc-100 lg:items-center lg:flex-row">
         <div className="space-y-1">
           <h2 className="text-lg font-medium text-zinc-900">Observações específicas</h2>
           <span className="text-sm text-zinc-500">Atualize as informações das observações específicas aqui.</span>
@@ -76,7 +76,7 @@ export const Comments = ({ student }: CommentsProps) => {
           onSubmit={handleSubmit(handleSubmitComments)}
           className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-100"
         >
-          <div className="grid grid-cols-form gap-3">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form">
             <FormLabel htmlFor="food" className="text-sm font-medium text-zinc-700">Alimentação</FormLabel>
             <div>
               <FormField
@@ -103,7 +103,7 @@ export const Comments = ({ student }: CommentsProps) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-form gap-3 pt-5">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
             <FormLabel htmlFor="medication" className="text-sm font-medium text-zinc-700">Medicação</FormLabel>
             <div>
               <FormField
@@ -130,7 +130,7 @@ export const Comments = ({ student }: CommentsProps) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-form gap-3 pt-5">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
             <FormLabel htmlFor="hygiene" className="text-sm font-medium text-zinc-700">Produto higiene pessoal</FormLabel>
             <div>
               <FormField
@@ -157,7 +157,7 @@ export const Comments = ({ student }: CommentsProps) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-form gap-3 pt-5">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
             <FormLabel htmlFor="blood" className="text-sm font-medium text-zinc-700">Tipo do sangue</FormLabel>
             <div>
               <FormField
@@ -184,7 +184,7 @@ export const Comments = ({ student }: CommentsProps) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-form gap-3 pt-5">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
             <FormLabel htmlFor="disability_medication" className="text-sm font-medium text-zinc-700">Medicação da deficiência</FormLabel>
             <div>
               <FormField
@@ -211,7 +211,7 @@ export const Comments = ({ student }: CommentsProps) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-form gap-3 pt-5">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
             <FormLabel htmlFor="report" className="text-sm font-medium text-zinc-700">Laudo médico</FormLabel>
             <div>
               <FormField
@@ -238,9 +238,9 @@ export const Comments = ({ student }: CommentsProps) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-form gap-3 pt-5">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
             <FormLabel className="text-sm font-medium text-zinc-700">Deficiência</FormLabel>
-            <div className="flex gap-8">
+            <div className="flex gap-8 flex-wrap">
               <FormField
                 control={form.control}
                 name="deficiencia.auditiva"

@@ -106,7 +106,7 @@ export const Parents = ({ student }: ParentsProps) => {
 
   return (
     <div className="mt-6 flex flex-col">
-      <div className="flex items-center justify-between pb-5 border-b border-zinc-100">
+      <div className="flex flex-col gap-4 justify-between pb-5 border-b border-zinc-100 lg:items-center lg:flex-row">
         <div className="space-y-1">
           <h2 className="text-lg font-medium text-zinc-900">Dados dos responsáveis</h2>
           <span className="text-sm text-zinc-500">Atualize as informações do responsáveis aqui.</span>

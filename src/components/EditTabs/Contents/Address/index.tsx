@@ -57,7 +57,7 @@ export const Address = ({ student }: AddressContentProps ) => {
 
   return (
     <div className="mt-6 flex flex-col">
-      <div className="flex items-center justify-between pb-5 border-b border-zinc-100">
+      <div className="flex flex-col gap-4 justify-between pb-5 border-b border-zinc-100 lg:items-center lg:flex-row">
         <div className="space-y-1">
           <h2 className="text-lg font-medium text-zinc-900">Endereço</h2>
           <span className="text-sm text-zinc-500">Atualize as informações do endereço aqui.</span>
@@ -74,7 +74,7 @@ export const Address = ({ student }: AddressContentProps ) => {
           onSubmit={handleSubmit(handleSubmitAddress)}
           className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-100"
         >
-          <div className="grid grid-cols-form gap-3">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form">
             <FormLabel htmlFor="street" className="text-sm font-medium text-zinc-700">Rua</FormLabel>
             <div>
               <FormField
@@ -101,7 +101,7 @@ export const Address = ({ student }: AddressContentProps ) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-form gap-3 pt-5">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
             <FormLabel htmlFor="neighborhood" className="text-sm font-medium text-zinc-700">Bairro</FormLabel>
             <div>
               <FormField
@@ -128,7 +128,7 @@ export const Address = ({ student }: AddressContentProps ) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-form gap-3 pt-5">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
             <FormLabel htmlFor="number" className="text-sm font-medium text-zinc-700">Número</FormLabel>
             <div>
               <FormField
@@ -155,7 +155,7 @@ export const Address = ({ student }: AddressContentProps ) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-form gap-3 pt-5">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
             <FormLabel htmlFor="cep" className="text-sm font-medium text-zinc-700">CEP</FormLabel>
             <div>
               <FormField
@@ -182,7 +182,7 @@ export const Address = ({ student }: AddressContentProps ) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-form gap-3 pt-5">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
             <FormLabel htmlFor="uf" className="text-sm font-medium text-zinc-700">UF</FormLabel>
             <div>
               <FormField
@@ -209,7 +209,7 @@ export const Address = ({ student }: AddressContentProps ) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-form gap-3 pt-5">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
             <FormLabel htmlFor="city" className="text-sm font-medium text-zinc-700">Cidade</FormLabel>
             <div>
               <FormField
@@ -236,7 +236,7 @@ export const Address = ({ student }: AddressContentProps ) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-form gap-3 pt-5">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
             <FormLabel htmlFor="telephone" className="text-sm font-medium text-zinc-700">Telefone</FormLabel>
             <div>
               <FormField
@@ -263,7 +263,7 @@ export const Address = ({ student }: AddressContentProps ) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-form gap-3 pt-5">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
             <FormLabel htmlFor="reference" className="text-sm font-medium text-zinc-700">Referência</FormLabel>
             <div>
               <FormField

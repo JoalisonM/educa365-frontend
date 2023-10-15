@@ -90,7 +90,7 @@ export const FormFields = (props: FormFieldsProps) => {
 
   return (
     <div className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-100">
-      <div className="grid grid-cols-form gap-3">
+      <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form">
         <FormLabel htmlFor="name" className="text-sm font-medium text-zinc-700">Nome</FormLabel>
         <div>
           <FormField
@@ -117,7 +117,7 @@ export const FormFields = (props: FormFieldsProps) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-form gap-3 pt-5">
+      <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
         <FormLabel htmlFor="education" className="text-sm font-medium text-zinc-700">Escolaridade</FormLabel>
         <div>
           <FormField
@@ -144,7 +144,7 @@ export const FormFields = (props: FormFieldsProps) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-form gap-3 pt-5">
+      <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
         <FormLabel htmlFor="kinship" className="text-sm font-medium text-zinc-700">Profissão</FormLabel>
         <div>
           <FormField
@@ -171,7 +171,7 @@ export const FormFields = (props: FormFieldsProps) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-form gap-3 pt-5">
+      <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
         <FormLabel htmlFor="surname" className="text-sm font-medium text-zinc-700">Apelido</FormLabel>
         <div>
           <FormField
@@ -198,7 +198,7 @@ export const FormFields = (props: FormFieldsProps) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-form gap-3 pt-5">
+      <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
         <FormLabel htmlFor="rg" className="text-sm font-medium text-zinc-700">RG</FormLabel>
         <div>
           <FormField
@@ -225,7 +225,7 @@ export const FormFields = (props: FormFieldsProps) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-form gap-3 pt-5">
+      <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
         <FormLabel htmlFor="cpf" className="text-sm font-medium text-zinc-700">CPF</FormLabel>
         <div>
           <FormField
@@ -252,9 +252,9 @@ export const FormFields = (props: FormFieldsProps) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-form gap-3 pt-5">
+      <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
         <FormLabel htmlFor="nis" className="text-sm font-medium text-zinc-700">NIS</FormLabel>
-        <div className="grid grid-cols-2">
+        <div className="flex flex-col gap-4 lg:grid lg:grid-cols-2">
           <FormItem className="flex flex-row items-center space-x-2 space-y-0">
             <FormControl>
               <Checkbox checked={nisChecked()} onCheckedChange={(checked) => onCheckBolsaFamilia(index, checked)} />
@@ -289,7 +289,7 @@ export const FormFields = (props: FormFieldsProps) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-form gap-3 pt-5">
+      <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
         <FormLabel htmlFor="birthday" className="text-sm font-medium text-zinc-700">Data de nascimento</FormLabel>
         <div>
           <FormField

@@ -84,7 +84,7 @@ export const StudentDetails = ({ student }: StudentDetailsProps) => {
 
   return (
     <div className="mt-6 flex flex-col">
-      <div className="flex items-center justify-between pb-5 border-b border-zinc-100">
+      <div className="flex flex-col gap-4 justify-between pb-5 border-b border-zinc-100 lg:items-center lg:flex-row">
         <div className="space-y-1">
           <h2 className="text-lg font-medium text-zinc-900">Dados do educando</h2>
           <span className="text-sm text-zinc-500">Atualize as informações do educando aqui.</span>
@@ -101,7 +101,7 @@ export const StudentDetails = ({ student }: StudentDetailsProps) => {
           onSubmit={handleSubmit(handleSubmitStudent)}
           className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-100"
         >
-          <div className="grid grid-cols-form gap-3">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form">
             <FormLabel htmlFor="name" className="text-sm font-medium text-zinc-700">Nome </FormLabel>
             <div>
             <FormField
@@ -128,7 +128,7 @@ export const StudentDetails = ({ student }: StudentDetailsProps) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-form gap-3 pt-5">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
             <FormLabel htmlFor="rg" className="text-sm font-medium text-zinc-700">RG </FormLabel>
             <div>
             <FormField
@@ -155,7 +155,7 @@ export const StudentDetails = ({ student }: StudentDetailsProps) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-form gap-3 pt-5">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
             <FormLabel htmlFor="cpf" className="text-sm font-medium text-zinc-700">CPF </FormLabel>
             <div>
             <FormField
@@ -182,7 +182,7 @@ export const StudentDetails = ({ student }: StudentDetailsProps) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-form gap-3 pt-5">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
             <FormLabel htmlFor="sus" className="text-sm font-medium text-zinc-700">SUS </FormLabel>
             <div>
             <FormField
@@ -209,7 +209,7 @@ export const StudentDetails = ({ student }: StudentDetailsProps) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-form gap-3 pt-5">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
             <FormLabel htmlFor="nis" className="text-sm font-medium text-zinc-700">NIS </FormLabel>
             <div>
             <FormField
@@ -236,7 +236,7 @@ export const StudentDetails = ({ student }: StudentDetailsProps) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-form gap-3 pt-5">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
             <FormLabel htmlFor="number_registry" className="text-sm font-medium text-zinc-700">N° do registro de nascimento</FormLabel>
             <div>
             <FormField
@@ -263,7 +263,7 @@ export const StudentDetails = ({ student }: StudentDetailsProps) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-form gap-3 pt-5">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
             <FormLabel htmlFor="birthday" className="text-sm font-medium text-zinc-700">Data de nascimento </FormLabel>
             <div>
             <FormField
@@ -299,7 +299,7 @@ export const StudentDetails = ({ student }: StudentDetailsProps) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-form gap-3 pt-5">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
             <FormLabel htmlFor="motherName" className="text-sm font-medium text-zinc-700">Nome da mãe </FormLabel>
             <div>
             <FormField
@@ -326,7 +326,7 @@ export const StudentDetails = ({ student }: StudentDetailsProps) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-form gap-3 pt-5">
+          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-form pt-5">
             <FormLabel htmlFor="fatherName" className="text-sm font-medium text-zinc-700">Nome do pai </FormLabel>
             <div>
             <FormField
