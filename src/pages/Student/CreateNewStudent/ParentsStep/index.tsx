@@ -159,7 +159,7 @@ export const ParentsStep = () => {
               disabled={disableNewParent}
               onClick={() => handleAddNewParent()}>
                 Novo parente
-              </Button>
+            </Button>
             <Button type="submit">Próximo</Button>
           </div>
         </form>

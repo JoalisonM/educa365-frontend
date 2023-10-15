@@ -40,15 +40,7 @@ export const FormContextProvider = ({ children }: FormContextProviderProps) => {
     currentStep: 1,
     student: {} as CreateStudentInput,
   };
-  const [formState, dispatch] = useReducer(formReducer, initialData, () => {
-    const storedStateAsJSON = localStorage.getItem(
-      "@educa365:form-state-1.0.0",
-    );
-
-    if (storedStateAsJSON) {
-      return JSON.parse(storedStateAsJSON);
-    }
-  });
+  const [formState, dispatch] = useReducer(formReducer, initialData);
 
   const { student, currentStep } = formState;
 

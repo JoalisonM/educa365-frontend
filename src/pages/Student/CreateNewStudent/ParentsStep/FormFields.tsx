@@ -71,13 +71,21 @@ export const FormFields = (props: FormFieldsProps) => {
         onCheckBolsaFamilia(index, true);
       }
     }
-  }, [student, setValue, index, onCheckBolsaFamilia]);
+  }, [student, setValue, index]);
 
   const disableNis = () => {
     if (index === 0) {
       return !bolsaFamilia.parent1;
     } else {
       return !bolsaFamilia.parent2;
+    }
+  };
+
+  const nisChecked = () => {
+    if (index === 0) {
+      return bolsaFamilia.parent1;
+    } else {
+      return bolsaFamilia.parent2;
     }
   };
 
@@ -425,7 +433,7 @@ export const FormFields = (props: FormFieldsProps) => {
         />
         <FormItem className="flex flex-row items-center space-x-2 space-y-0">
           <FormControl>
-            <Checkbox onCheckedChange={(checked) => onCheckBolsaFamilia(index, checked)} />
+            <Checkbox checked={nisChecked()} onCheckedChange={(checked) => onCheckBolsaFamilia(index, checked)} />
           </FormControl>
           <FormLabel>Recebe o bolsa família?</FormLabel>
         </FormItem>

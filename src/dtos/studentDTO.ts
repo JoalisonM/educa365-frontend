@@ -78,8 +78,7 @@ export interface UpdateStudentInput {
   endereco: CreateAddressInput;
   turma_id: string;
   instituicao_id: string;
-  observacoesEducando: CommentsProps;
-  responsaveis: CreateParentsInputProps[];
+  observacoesEducando: UpdateCommentsInput;
 }
 
 export interface CreateCommentsProps {
@@ -92,6 +91,18 @@ export interface CreateCommentsProps {
   laudoMedico: boolean;
   deficiencia: DeficienciaProps;
 }
+
+export interface UpdateCommentsInput {
+  alimentacao: string;
+  alergia: string;
+  medicacao: string;
+  produtoHigienePessoal: string;
+  tipoSangue: string;
+  medicacaoDeficiencia: string;
+  laudoMedico: boolean;
+  deficiencia: UpdateDeficienciaInput;
+}
+
 export interface CommentsProps {
   id: string;
   alimentacao: string;
@@ -105,6 +116,14 @@ export interface CommentsProps {
 }
 
 export interface DeficienciaProps {
+  intelectual: boolean;
+  visual: boolean;
+  auditiva: boolean;
+  fisica: boolean;
+  multipla: boolean;
+}
+
+export interface UpdateDeficienciaInput {
   intelectual: boolean;
   visual: boolean;
   auditiva: boolean;

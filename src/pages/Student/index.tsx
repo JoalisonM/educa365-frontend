@@ -24,23 +24,18 @@ export const Student = () => {
     fetchStudents();
   }, [fetchStudents]);
 
-  const handleNavigate = (id?: string) => {
-    if (id) {
-      navigate(`new-student/${id}`);
-    } else {
-      localStorage.setItem("@educa365:form-state-1.0.0", JSON.stringify({}));
-      navigate("new-student");
-    }
+  const handleNavigate = (to?: string, id?: string) => {
+    navigate(`${to}`, { state: { id: id } });
   };
 
   const handleEdit = async (id: string) => {
-    const response = await getStudent(id);
+    await getStudent(id);
 
-    const studentJSON = JSON.stringify({ student: response });
+    // const studentJSON = JSON.stringify({ student: response });
 
-    localStorage.setItem("@educa365:form-state-1.0.0", studentJSON);
+    // localStorage.setItem("@educa365:form-state-1.0.0", studentJSON);
 
-    handleNavigate(id);
+    handleNavigate(id, id);
   };
 
   const handleDelete = (id: string | number) => {
@@ -59,7 +54,7 @@ export const Student = () => {
         <Button
           type="button"
           variant="primary"
-          onClick={() => handleNavigate()}
+          onClick={() => handleNavigate("new-student")}
         >
           Adicionar
         </Button>

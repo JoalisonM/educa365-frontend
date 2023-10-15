@@ -1,6 +1,5 @@
 export interface ParentsProps {
   id: string;
-  id_educando: string;
   nome: string;
   dataNascimento: string;
   sexo: boolean;
@@ -12,15 +11,16 @@ export interface ParentsProps {
   ssp: string;
   dataExpedicaoRg: string;
   emissorRg: string;
-  uf_rg: string;
+  ufRg: string;
   dataExpedicaoCpf: string;
   profissao: string;
-  nome_mae: string;
+  nomeMae: string;
   bolsaFamilia?: {
     nis: string | undefined;
   };
-  condicoesVida: LivingConditionsProps;
-  condicoesMoradia: HousingConditionsProps;
+  condicaoVida: LivingConditionsProps;
+  condicaoMoradia: HousingConditionsProps;
+  familiaresCasa: number;
 }
 
 export interface CreateParentsInput {
