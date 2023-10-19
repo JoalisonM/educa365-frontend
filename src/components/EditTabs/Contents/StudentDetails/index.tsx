@@ -78,7 +78,7 @@ export const StudentDetails = ({ student }: StudentDetailsProps) => {
     });
 
     toast({
-      title: "Estudante atualizado com sucesso",
+      title: "Estudante atualizado com sucesso.",
     });
   };
 

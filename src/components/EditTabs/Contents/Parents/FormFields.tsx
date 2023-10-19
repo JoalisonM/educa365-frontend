@@ -42,7 +42,8 @@ export const FormFields = (props: FormFieldsProps) => {
   } = props;
 
   useEffect(() => {
-    if (student && student.responsaveis) {
+    if (student && student.responsaveis && student.responsaveis[index]) {
+      setValue(`responsaveis.${index}.id`, student.responsaveis?.[index].id);
       setValue(`responsaveis.${index}.nome`, student.responsaveis?.[index].nome);
       setValue(`responsaveis.${index}.apelido`, student.responsaveis?.[index].apelido);
       setValue(`responsaveis.${index}.cpf`, student.responsaveis?.[index].cpf);
@@ -70,7 +71,7 @@ export const FormFields = (props: FormFieldsProps) => {
         onCheckBolsaFamilia(index, true);
       }
     }
-  }, [student, setValue]);
+  }, [student, setValue, index]);
 
   const disableNis = () => {
     if (index === 0) {

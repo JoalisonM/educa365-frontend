@@ -13,14 +13,16 @@ import {
 } from "@ui/components/ui/accordion";
 import { FormFields } from "./FormFields";
 import { Button } from "@components/Button";
+import { useParent } from "@hooks/useParent";
 import { StudentProps } from "@dtos/studentDTO";
-import { parentFormSchema } from "@schemas/parentsFormSchema";
+import { parentFormSchema } from "@schemas/updateParentsFormSchema";
+import { format } from "date-fns";
 
 export type ParentFormInputs = z.infer<typeof parentFormSchema>;
 
-interface bolsaFamiliaProps {
+interface BolsaFamiliaProps {
   parent1: CheckedState;
-  parent2: CheckedState;
+  parent2: CheckedState;    // res
 }
 
 interface ParentsProps {
@@ -28,8 +30,10 @@ interface ParentsProps {
 }
 
 export const Parents = ({ student }: ParentsProps) => {
-  const [bolsaFamilia, setBolsaFamilia] = useState<bolsaFamiliaProps>({} as bolsaFamiliaProps);
+  const { updateParent } = useParent();
+  const [bolsaFamilia, setBolsaFamilia] = useState<BolsaFamiliaProps>({} as BolsaFamiliaProps);
   const responsaveis = student.responsaveis.map((responsavel) => ({
+      id: responsavel.id,
       nome: responsavel.nome,
       dataNascimento: new Date(responsavel.dataNascimento),
       sexo: false,
@@ -62,7 +66,7 @@ export const Parents = ({ student }: ParentsProps) => {
     handleSubmit,
     formState: { errors },
   } = form;
-  const { fields, append, remove } = useFieldArray({ control, name: "responsaveis" });
+  const { fields, append, remove } = useFieldArray({ control, name: "responsaveis", keyName: "key" });
 
   const disableNewParent = fields.length === 2;
   const disableRemoveButton = fields.length < 2;
@@ -77,6 +81,7 @@ export const Parents = ({ student }: ParentsProps) => {
 
   const handleAddNewParent = () => {
     append({
+      id: "",
       nome: "",
       dataNascimento: new Date(),
       sexo: false,
@@ -102,7 +107,24 @@ export const Parents = ({ student }: ParentsProps) => {
     remove(Number(index));
   };
 
-  const handleSubmitParents = (data: ParentFormInputs) => {};
+  const handleSubmitParents = (data: ParentFormInputs) => {
+    const { responsaveis } = data;
+
+    responsaveis.map((responsavel) => {
+      const { dataNascimento, dataExpedicaoRg, dataExpedicaoCpf, ...updatedData } = responsavel;
+      const dataNascimentoString = format(dataNascimento, "yyyy-MM-dd");
+      const dataExpedicaoRgString = format(dataExpedicaoRg, "yyyy-MM-dd");
+      const dataExpedicaoCpfString = format(dataExpedicaoCpf, "yyyy-MM-dd");
+      if (updatedData.id.length > 0) {
+        updateParent({
+          ...updatedData,
+          dataNascimento: dataNascimentoString,
+          dataExpedicaoRg: dataExpedicaoRgString,
+          dataExpedicaoCpf: dataExpedicaoCpfString,
+        });
+      }
+    });
+  };
 
   return (
     <div className="mt-6 flex flex-col">
@@ -123,7 +145,7 @@ export const Parents = ({ student }: ParentsProps) => {
           onSubmit={handleSubmit(handleSubmitParents)}
         >
           {fields.map(( item, index ) => (
-            <Accordion key={item.id} type="single" defaultValue={`item-${index}`} collapsible className="mt-5 mb-6">
+            <Accordion key={item.key} type="single" defaultValue={`item-${index}`} collapsible className="mt-5 mb-6">
               <AccordionItem value={`item-${index}`}>
                 <AccordionTrigger className="text-lg font-medium text-zinc-900 px-0">Dados do responsável {index+1}</AccordionTrigger>
                 <AccordionContent className="px-0">

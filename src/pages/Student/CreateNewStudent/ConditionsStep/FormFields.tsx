@@ -26,7 +26,7 @@ export const FormFields = (props: FormFieldsProps) => {
   const { student } = useFormContext();
 
   useEffect(() => {
-    if (student && student.responsaveis) {
+    if (student && student.responsaveis && student.responsaveis[index]) {
       setValue(
         `condicoes.${index}.condicaoVida.problemaEnfrentado`,
         student.responsaveis?.[index]?.condicaoVida?.problemaEnfrentado,

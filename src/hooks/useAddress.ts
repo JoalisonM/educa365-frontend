@@ -1,6 +1,7 @@
+import { useCallback } from "react";
+
 import { Address } from "@api/address";
 import { UpdateAddressInput } from "@dtos/addressDTO";
-import { useCallback } from "react";
 
 export const useAddress = () => {
   const updateAddress = useCallback((data: UpdateAddressInput) => {

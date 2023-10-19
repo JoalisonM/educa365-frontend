@@ -67,6 +67,28 @@ export interface CreateParentsInputProps {
   familiaresCasa: number;
 }
 
+export interface UpdateParentsInput {
+  id: string;
+  nome: string;
+  sexo: boolean;
+  rg: string;
+  cpf: string;
+  dataNascimento: string;
+  parentesco: string;
+  escolaridade: string;
+  apelido: string;
+  dataExpedicaoRg: string;
+  dataExpedicaoCpf: string;
+  profissao: string;
+  nomeMae: string;
+  ufRg: string;
+  emissorRg: string;
+  familiaresCasa: number;
+  bolsaFamilia?: {
+    nis?: string | null;
+  };
+}
+
 export interface LivingConditionsProps {
   id: string;
   trabalhoDaFamilia: string;
@@ -85,6 +107,7 @@ export interface HousingConditionsProps {
   poco: boolean;
   energia: boolean;
 }
+
 export interface CreateHousingConditionsInput {
   tipoCasa: string;
   posseCasa: string;
@@ -102,9 +125,33 @@ export interface CreateLivingConditionsInput {
   problemaEnfrentado: CreateProblemFacedProps;
 }
 
+export interface UpdateHousingConditionsInput {
+  id?: string | undefined;
+  tipoCasa: string;
+  posseCasa: string;
+  banheiroComFossa: boolean;
+  aguaCagepa: boolean;
+  poco: boolean;
+  energia: boolean;
+}
+
+export interface UpdateLivingConditionsInput {
+  id?: string | undefined;
+  trabalhoDaFamilia: string;
+  rendaMensalFamilia: number;
+  quantasPessoasTrabalhamNaCasa: number;
+  programaGoverno: string;
+  problemaEnfrentado: CreateProblemFacedProps;
+}
+
 export interface CreateConditionsInput {
   condicaoMoradia: CreateHousingConditionsInput;
   condicaoVida: CreateLivingConditionsInput;
+}
+
+export interface UpdateConditionsInput {
+  condicaoMoradia: UpdateHousingConditionsInput;
+  condicaoVida: UpdateLivingConditionsInput;
 }
 
 export interface ProblemFacedProps {

@@ -119,8 +119,6 @@ export const ParentsConditionsStep = () => {
   const handleSubmitConditions = (data: ConditionsFormInputs) => {
     addStudentParentsConditions(data.condicoes);
 
-    localStorage.setItem("@educa365:form-state-1.0.0", JSON.stringify({}));
-
     handleNextStep();
   };
 

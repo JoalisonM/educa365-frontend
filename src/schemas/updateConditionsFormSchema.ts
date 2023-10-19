@@ -4,7 +4,7 @@ export const conditionsFormSchema = z.object({
   condicoes: z.array(
     z.object({
       condicaoMoradia: z.object({
-        id: z.string().optional(),
+        id: z.string().nullable(),
         tipoCasa: z
           .string()
           .nonempty("O tipo da casa é obrigatório")
@@ -17,7 +17,7 @@ export const conditionsFormSchema = z.object({
         energia: z.boolean().default(false),
       }),
       condicaoVida: z.object({
-        id: z.string().optional(),
+        id: z.string(),
         trabalhoDaFamilia: z
           .string()
           .nonempty("O trabalho é obrigatório")

@@ -3,7 +3,7 @@ import * as z from "zod";
 export const parentFormSchema = z.object({
   responsaveis: z.array(
     z.object({
-      id: z.string().optional(),
+      id: z.string(),
       nome: z
         .string()
         .regex(/^[A-Za-zÀ-ÖØ-öø-ÿ\s']+$/, {

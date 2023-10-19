@@ -1,8 +1,6 @@
-import { useState } from "react";
 import * as z from "zod";
 import { Form } from "@ui/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckedState } from "@radix-ui/react-checkbox";
 import { useForm, useFieldArray } from "react-hook-form";
 
 import {
@@ -15,6 +13,7 @@ import { FormFields } from "./FormFields";
 import { Button } from "@components/Button";
 import { StudentProps } from "@dtos/studentDTO";
 import { conditionsFormSchema } from "@schemas/conditionsFormSchema";
+import { useConditions } from "@hooks/useConditions";
 
 export type ConditionsFormInputs = z.infer<typeof conditionsFormSchema>;
 
@@ -23,8 +22,10 @@ interface ConditionsProps {
 }
 
 export const Conditions = ({ student }: ConditionsProps) => {
+  const { updateCondition } = useConditions();
   const condicoes = student.responsaveis.map((responsavel) => ({
     condicaoMoradia: {
+      id: responsavel.condicaoMoradia.id,
       tipoCasa: responsavel.condicaoMoradia.tipoCasa,
       posseCasa: responsavel.condicaoMoradia.posseCasa,
       banheiroComFossa: responsavel.condicaoMoradia.banheiroComFossa,
@@ -33,6 +34,7 @@ export const Conditions = ({ student }: ConditionsProps) => {
       energia: responsavel.condicaoMoradia.energia,
     },
     condicaoVida: {
+      id: responsavel.condicaoVida.id,
       trabalhoDaFamilia: responsavel.condicaoVida.trabalhoDaFamilia,
       rendaMensalFamilia: responsavel.condicaoVida.rendaMensalFamilia,
       quantasPessoasTrabalhamNaCasa: responsavel.condicaoVida.quantasPessoasTrabalhamNaCasa,
@@ -48,6 +50,7 @@ export const Conditions = ({ student }: ConditionsProps) => {
       },
     },
   }));
+
   const form = useForm<ConditionsFormInputs>({
     resolver: zodResolver(conditionsFormSchema),
     defaultValues: {
@@ -57,6 +60,7 @@ export const Conditions = ({ student }: ConditionsProps) => {
   const {
     control,
     setValue,
+    handleSubmit,
     formState: { errors },
   } = form;
   const { fields, append, remove } = useFieldArray({ control, name: "condicoes" });
@@ -96,6 +100,16 @@ export const Conditions = ({ student }: ConditionsProps) => {
     remove(Number(index));
   };
 
+  const handleSubmitConditions = (data: ConditionsFormInputs) => {
+    const { condicoes } = data;
+
+    condicoes.map((condicao) => {
+      if (condicao.condicaoMoradia.id && condicao.condicaoVida.id) {
+        updateCondition(condicao);
+      }
+    });
+  };
+
   return (
     <div className="mt-6 flex flex-col">
       <div className="flex flex-col gap-4 justify-between pb-5 border-b border-zinc-100 lg:items-center lg:flex-row">
@@ -110,7 +124,7 @@ export const Conditions = ({ student }: ConditionsProps) => {
       </div>
 
       <Form {...form}>
-        <form>
+        <form onSubmit={handleSubmit(handleSubmitConditions)}>
           {fields.map(( item, index ) => (
             <Accordion key={item.id} type="single" defaultValue={`item-${index}`} collapsible className="mt-5 mb-6">
               <AccordionItem value={`item-${index}`}>
@@ -133,7 +147,7 @@ export const Conditions = ({ student }: ConditionsProps) => {
           <div className="flex items-center justify-end gap-2 pt-5">
             <Button type="button" variant="outline" className="text-sm">Cancelar</Button>
             <Button type="button" disabled={disableNewParent} onClick={() => handleAddNewCondition()}>
-              Novo parente
+              Nova condição
             </Button>
             <Button type="submit" className="text-sm">Salvar</Button>
           </div>

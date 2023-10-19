@@ -27,7 +27,7 @@ export const FormFields = (props: FormFieldsProps) => {
   const { form, index, errors, student, setValue, disableRemoveButton, onRemoveCondition } = props;
 
   useEffect(() => {
-    if (student && student.responsaveis) {
+    if (student && student.responsaveis && student.responsaveis[index]) {
       setValue(
         `condicoes.${index}.condicaoVida.problemaEnfrentado`,
         student.responsaveis?.[index]?.condicaoVida?.problemaEnfrentado,
@@ -42,7 +42,7 @@ export const FormFields = (props: FormFieldsProps) => {
       );
       setValue(
         `condicoes.${index}.condicaoVida.rendaMensalFamilia`,
-        student.responsaveis?.[index]?.condicaoVida?.rendaMensalFamilia,
+        Number(student.responsaveis?.[index]?.condicaoVida?.rendaMensalFamilia),
       );
       setValue(
         `condicoes.${index}.condicaoVida.trabalhoDaFamilia`,
@@ -399,6 +399,20 @@ export const FormFields = (props: FormFieldsProps) => {
             </div>
           </div>
         </div>
+
+        <div className="flex items-center justify-end pt-6">
+        <AlertDialog
+          id={index}
+          title="Você tem certeza absoluta?"
+          description="Essa ação não pode ser desfeita. Isso excluirá permanentemente o responsável."
+          onDelete={onRemoveCondition}
+        >
+          <Button type="button" variant="iconDanger" disabled={disableRemoveButton}>
+            <Trash className="h-5 w-5" />
+            Remover condição
+          </Button>
+        </AlertDialog>
+      </div>
       </div>
     </div>
   );

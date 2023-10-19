@@ -10,7 +10,7 @@ interface Form {
 
 interface Action {
   type: ActionTypes;
-  payload: any;
+  payload?: any;
 }
 
 export function formReducer(state: Form, action: Action) {
@@ -18,6 +18,11 @@ export function formReducer(state: Form, action: Action) {
     case ActionTypes.SET_CURRENT_STEP:
       return produce(state, (draft) => {
         draft.currentStep = action.payload.currentStep;
+      });
+    case ActionTypes.RESET_STUDENT:
+      return produce(state, (draft) => {
+        draft.student = {} as CreateStudentInput;
+        draft.currentStep = 1;
       });
     case ActionTypes.ADD_STUDENT:
       return produce(state, (draft) => {

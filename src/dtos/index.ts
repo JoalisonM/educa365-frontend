@@ -3,12 +3,20 @@ import { EmployeeProps, CreateEmployeeInput, UpdateEmployeeInput } from "./emplo
 import { AddressProps, CreateAddressInput, UpdateAddressInput } from "./addressDTO";
 
 import {
+  UpdateParentsInput,
+  UpdateConditionsInput,
+  UpdateLivingConditionsInput,
+  UpdateHousingConditionsInput,
+} from "./parentsDTO";
+
+import {
   Student,
   StudentProps,
   CreateStudentInput,
   UpdateStudentInput,
   CommentsProps,
   DeficienciaProps,
+  UpdateCommentsInput,
 } from "./studentDTO";
 
 export type {
@@ -24,4 +32,9 @@ export type {
   UpdateStudentInput,
   CommentsProps,
   DeficienciaProps,
+  UpdateParentsInput,
+  UpdateCommentsInput,
+  UpdateConditionsInput,
+  UpdateLivingConditionsInput,
+  UpdateHousingConditionsInput,
 };

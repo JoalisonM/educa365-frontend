@@ -5,10 +5,6 @@ export const commentsFormSchema = z.object({
     .string({ required_error: "A alimentação é obrigatória" })
     .nonempty("A alimentação é obrigatória")
     .trim(),
-  alergia: z
-    .string({ required_error: "A alergia é obrigatória" })
-    .nonempty("A alergia é obrigatória")
-    .trim(),
   medicacao: z
     .string({ required_error: "A medicação é obrigatória" })
     .nonempty("A medicação é obrigatória")

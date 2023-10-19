@@ -6,6 +6,7 @@ export enum ActionTypes {
   SET_CURRENT_STEP = "SET_CURRENT_STEP",
   ADD_NEW_STUDENT = "ADD_NEW_STUDENT",
   ADD_STUDENT = "ADD_STUDENT",
+  RESET_STUDENT = "RESET_STUDENT",
   ADD_STUDENT_ADDRESS = "ADD_STUDENT_ADDRESS",
   ADD_STUDENT_COMMENTS = "ADD_STUDENT_COMMENTS",
   ADD_STUDENT_PARENTS = "ADD_STUDENT_PARENTS",
@@ -27,6 +28,12 @@ export function addNewStudentAction(newStudent: CreateStudentInput) {
     payload: {
       newStudent,
     },
+  };
+}
+
+export function resetStudentAction() {
+  return {
+    type: ActionTypes.RESET_STUDENT,
   };
 }
 

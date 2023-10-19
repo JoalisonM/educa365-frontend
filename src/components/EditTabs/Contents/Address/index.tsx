@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useToast } from "@ui/components/ui/use-toast";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@ui/components/ui/form";
 
 import * as Input from "@components/Input";
@@ -16,8 +17,10 @@ interface AddressContentProps {
   student: StudentProps;
 }
 
-export const Address = ({ student }: AddressContentProps ) => {
+export const Address = ({ student }: AddressContentProps) => {
+  const { toast } = useToast();
   const { updateAddress } = useAddress();
+
   const form = useForm<AddressFormInputs>({
     resolver: zodResolver(addressFormSchema),
   });
@@ -52,6 +55,10 @@ export const Address = ({ student }: AddressContentProps ) => {
       bairro,
       telefone,
       referencia,
+    });
+
+    toast({
+      title: "Endereço atualizado com sucesso.",
     });
   };
 

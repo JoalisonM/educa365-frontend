@@ -34,7 +34,6 @@ export const CommentsStep = () => {
 
   useEffect(() => {
     if (student && student.observacoesEducando) {
-      setValue("alergia", student.observacoesEducando.alergia);
       setValue("alimentacao", student.observacoesEducando.alimentacao);
       setValue("laudoMedico", student.observacoesEducando.laudoMedico ? "1" : "0");
       setValue("medicacao", student.observacoesEducando.medicacao);
@@ -92,23 +91,23 @@ export const CommentsStep = () => {
               />
               <FormField
                 control={form.control}
-                name="alergia"
+                name="produtoHigienePessoal"
                 render={({ field }) => (
                   <FormItem className="space-y-1">
-                    <FormLabel htmlFor="allergy">Alergia</FormLabel>
+                    <FormLabel htmlFor="hygiene">Produto higiene pessoal</FormLabel>
                     <FormControl>
                       <Input.Root>
-                        <Input.Control id="allergy" type="text" placeholder="Digite a(s) alergia(s)" {...field} />
+                        <Input.Control id="hygiene" type="text" placeholder="Digite o produto" {...field} />
                       </Input.Root>
                     </FormControl>
                     <FormMessage className="text-sm font-normal text-error-500">
-                      {errors.alergia && errors.alergia.message}
+                      {errors.produtoHigienePessoal && errors.produtoHigienePessoal.message}
                     </FormMessage>
                   </FormItem>
                 )}
               />
             </div>
-            <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">
               <FormField
                 control={form.control}
                 name="medicacao"
@@ -122,23 +121,6 @@ export const CommentsStep = () => {
                     </FormControl>
                     <FormMessage className="text-sm font-normal text-error-500">
                       {errors.medicacao && errors.medicacao.message}
-                    </FormMessage>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="produtoHigienePessoal"
-                render={({ field }) => (
-                  <FormItem className="space-y-1">
-                    <FormLabel htmlFor="hygiene">Produto higiene pessoal</FormLabel>
-                    <FormControl>
-                      <Input.Root>
-                        <Input.Control id="hygiene" type="text" placeholder="Digite o produto" {...field} />
-                      </Input.Root>
-                    </FormControl>
-                    <FormMessage className="text-sm font-normal text-error-500">
-                      {errors.produtoHigienePessoal && errors.produtoHigienePessoal.message}
                     </FormMessage>
                   </FormItem>
                 )}

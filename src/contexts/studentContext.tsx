@@ -1,5 +1,6 @@
 import { ReactNode, useCallback, useState } from "react";
 import { createContext } from "use-context-selector";
+import { useToast } from "@ui/components/ui/use-toast";
 
 import { Student } from "@api/student";
 import { StudentProps, CreateStudentInput, UpdateStudentInput } from "@dtos/studentDTO";
@@ -22,6 +23,7 @@ interface StudentContextProviderProps {
 }
 
 export const StudentContextProvider = ({ children }: StudentContextProviderProps) => {
+  const { toast } = useToast();
   const [students, setStudents] = useState<StudentProps[]>([]);
   const [student, setStudent] = useState<StudentProps>({} as StudentProps);
 
@@ -42,9 +44,16 @@ export const StudentContextProvider = ({ children }: StudentContextProviderProps
   }, []);
 
   const createStudent = useCallback(async (data: CreateStudentInput) => {
-    const response = await Student.create(data);
+    try {
+      const response = await Student.create(data);
 
-    setStudents((state) => [response.data, ...state]);
+      setStudents((state) => [response.data, ...state]);
+    } catch (err) {
+      // console.log("Err: ", err);
+      // toast({
+      //   title: "Funcionário atualizado com sucesso",
+      // });
+    }
   }, []);
 
   const updateStudent = useCallback(async (data: UpdateStudentInput) => {

@@ -83,7 +83,6 @@ export interface UpdateStudentInput {
 
 export interface CreateCommentsProps {
   alimentacao: string;
-  alergia: string;
   medicacao: string;
   produtoHigienePessoal: string;
   tipoSangue: string;
@@ -93,8 +92,8 @@ export interface CreateCommentsProps {
 }
 
 export interface UpdateCommentsInput {
+  id: string;
   alimentacao: string;
-  alergia: string;
   medicacao: string;
   produtoHigienePessoal: string;
   tipoSangue: string;
@@ -106,7 +105,6 @@ export interface UpdateCommentsInput {
 export interface CommentsProps {
   id: string;
   alimentacao: string;
-  alergia: string;
   medicacao: string;
   produtoHigienePessoal: string;
   tipoSangue: string;

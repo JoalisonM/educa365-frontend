@@ -43,7 +43,7 @@ export const FormFields = (props: FormFieldsProps) => {
   const { student } = useFormContext();
 
   useEffect(() => {
-    if (student && student.responsaveis) {
+    if (student && student.responsaveis && student.responsaveis[index]) {
       setValue(`responsaveis.${index}.nome`, student.responsaveis?.[index].nome);
       setValue(`responsaveis.${index}.apelido`, student.responsaveis?.[index].apelido);
       setValue(`responsaveis.${index}.bolsaFamilia.nis`, student?.responsaveis?.[index]?.bolsaFamilia?.nis);

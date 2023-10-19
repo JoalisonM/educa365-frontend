@@ -52,7 +52,7 @@ export const ParentsStep = () => {
           profissao: "",
           nomeMae: "",
           bolsaFamilia: {
-            nis: "",
+            nis: null,
           },
           familiaresCasa: 0,
         },
@@ -102,7 +102,7 @@ export const ParentsStep = () => {
       profissao: "",
       nomeMae: "",
       bolsaFamilia: {
-        nis: "",
+        nis: null,
       },
       familiaresCasa: 0,
     });

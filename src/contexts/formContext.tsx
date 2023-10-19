@@ -3,6 +3,7 @@ import { createContext } from "use-context-selector";
 
 import {
   addStudentAction,
+  resetStudentAction,
   addNewStudentAction,
   setCurrentStepAction,
   addStudentAddressAction,
@@ -17,6 +18,7 @@ import { Student, CreateCommentsProps, CreateStudentInput } from "@dtos/studentD
 
 interface FormContextType {
   currentStep: number;
+  resetStudent: () => void;
   student: CreateStudentInput;
   addStudent: (data: Student) => void;
   setCurrentStep: (currentStep: number) => void;
@@ -40,14 +42,33 @@ export const FormContextProvider = ({ children }: FormContextProviderProps) => {
     currentStep: 1,
     student: {} as CreateStudentInput,
   };
-  const [formState, dispatch] = useReducer(formReducer, initialData);
+  const [formState, dispatch] = useReducer(
+    formReducer,
+    initialData,
+    () => {
+      const storedStateAsJSON = localStorage.getItem(
+        "@educa365:form-state-1.0.0",
+      );
 
+      if (storedStateAsJSON) {
+        return JSON.parse(storedStateAsJSON);
+      } else {
+        return initialData;
+      }
+    },
+  );
   const { student, currentStep } = formState;
 
   useEffect(() => {
-    const stateJSON = JSON.stringify(formState);
+    if (formState) {
+      const stateJSON = JSON.stringify(formState);
 
-    localStorage.setItem("@educa365:form-state-1.0.0", stateJSON);
+      localStorage.setItem("@educa365:form-state-1.0.0", stateJSON);
+    } else {
+      const stateJSON = JSON.stringify(initialData);
+
+      localStorage.setItem("@educa365:form-state-1.0.0", stateJSON);
+    }
   }, [formState]);
 
   const setCurrentStep = (currentStep: number) => {
@@ -77,6 +98,9 @@ export const FormContextProvider = ({ children }: FormContextProviderProps) => {
   const addNewStudent = (data: CreateStudentInput) => {
     dispatch(addNewStudentAction(data));
   };
+  const resetStudent = () => {
+    dispatch(resetStudentAction());
+  };
 
   return (
     <FormContext.Provider
@@ -84,6 +108,7 @@ export const FormContextProvider = ({ children }: FormContextProviderProps) => {
         student,
         addStudent,
         currentStep,
+        resetStudent,
         addNewStudent,
         setCurrentStep,
         addStudentAddress,

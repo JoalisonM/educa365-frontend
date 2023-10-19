@@ -81,8 +81,8 @@ export const StudentStep = () => {
 
     addStudent({
       ...newData,
-      turma_id: "9f4f6328-afe8-478d-8984-ac55867e42a9",
-      instituicao_id: "76dc54c7-46c4-4c0e-9e5f-5a8702fdb1b7",
+      turma_id: "b3743666-c5e1-4b33-9b7a-d23ecff1d8d1",
+      instituicao_id: "7108f02f-d852-4e7a-9fe5-b9e27b5e1e8f",
       dataNascimento: data_nascimento_string,
       dataEmissaoCertidao: data_emissao_certidao_string,
     });

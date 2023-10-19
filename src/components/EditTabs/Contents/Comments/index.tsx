@@ -2,12 +2,14 @@ import { useEffect } from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useToast } from "@ui/components/ui/use-toast";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@ui/components/ui/form";
 
 import * as Input from "@components/Input";
 import { Button } from "@components/Button";
 import { useStudent } from "@hooks/useStudent";
 import { StudentProps } from "@dtos/studentDTO";
+import { useComments } from "@hooks/useComments";
 import { Checkbox } from "@/components/ui/checkbox";
 import { commentsFormSchema } from "@schemas/commentsFormSchema";
 
@@ -18,7 +20,9 @@ interface CommentsProps {
 }
 
 export const Comments = ({ student }: CommentsProps) => {
+  const { toast } = useToast();
   const { updateStudent } = useStudent();
+  const { updateComments } = useComments();
 
   const form = useForm<CommentsFormInputs>({
     resolver: zodResolver(commentsFormSchema),
@@ -31,7 +35,6 @@ export const Comments = ({ student }: CommentsProps) => {
 
   useEffect(() => {
     if (student && student.observacoesEducando) {
-      setValue("alergia", student.observacoesEducando.alergia);
       setValue("alimentacao", student.observacoesEducando.alimentacao);
       setValue("laudoMedico", student.observacoesEducando.laudoMedico ? "1" : "0");
       setValue("medicacao", student.observacoesEducando.medicacao);
@@ -45,15 +48,12 @@ export const Comments = ({ student }: CommentsProps) => {
   const handleSubmitComments = (data: CommentsFormInputs) => {
     const { laudoMedico ,...newData } = data;
     const laudo = laudoMedico === "1" ? true : false;
-    const { turma, instituicao, ...dataStudent } = student;
-    updateStudent({
-      ...dataStudent,
-      turma_id: turma.id,
-      instituicao_id: instituicao.id,
-      observacoesEducando: {
-        ...newData,
-        laudoMedico: laudo,
-      },
+    const { observacoesEducando } = student;
+
+    updateComments({
+      ...newData,
+      laudoMedico: laudo,
+      id: observacoesEducando.id,
     });
   };
 
