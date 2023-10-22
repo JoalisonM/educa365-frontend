@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import * as z from "zod";
 import { format } from "date-fns";
 import { useForm } from "react-hook-form";
-import * as Dialog from "@radix-ui/react-dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@ui/components/ui/use-toast";
 import {
@@ -244,8 +243,8 @@ export const EmployeeForm = () => {
                       {Object.entries(genders).map(([key, gender]) => (
                         <Select.Item
                           key={key}
-                          value={gender.value}
                           text={gender.title}
+                          value={String(gender.value)}
                         />
                       ))}
                     </Select.Root>

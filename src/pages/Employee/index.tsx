@@ -13,6 +13,7 @@ import { EmployeeForm } from "./EmployeeForm";
 import * as Input from "@components/Input";
 import { Drawer } from "@components/Drawer";
 import { Button } from "@components/Button";
+import { formatDate } from "@utils/format-date";
 import { AlertDialog } from "@components/Alert";
 import { useEmployee } from "@hooks/useEmployee";
 
@@ -78,7 +79,7 @@ export const Employee = () => {
                 <th className="py-4 px-8 whitespace-nowrap">Nome</th>
                 <th className="py-4 px-8 whitespace-nowrap">E-mail</th>
                 <th className="py-4 px-8 whitespace-nowrap">Cargo</th>
-                <th className="py-4 px-8 whitespace-nowrap">Nascimento</th>
+                <th className="py-4 px-8 whitespace-nowrap">Data de nascimento</th>
               </tr>
             </thead>
             <tbody>
@@ -93,7 +94,7 @@ export const Employee = () => {
                     </td>
                     <td className="py-5 px-8">{employee.email}</td>
                     <td className="py-5 px-8">{employee.cargo}</td>
-                    <td className="py-5 px-8">{employee.dataNascimento}</td>
+                    <td className="py-5 px-8">{formatDate(employee.dataNascimento)}</td>
                     <td className=" rounded-tr-md rounded-br-md py-5 px-8 text-right space-x-4">
                       <Sheet>
                         <SheetTrigger asChild>

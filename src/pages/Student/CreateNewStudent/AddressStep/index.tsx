@@ -12,16 +12,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@ui/components/ui/form";
+import { useCep } from "@hooks/useCep";
 import * as Input from "@components/Input";
 import { Button } from "@components/Button";
 import { useFormContext } from "@hooks/useForm";
 import { FormLayout } from "@layouts/FormLayout";
-import { ButtonLink } from "@components/ButtonLink";
 import { addressFormSchema } from "@schemas/addressFormSchema";
 
 export type AddressFormInputs = z.infer<typeof addressFormSchema>;
 
 export const AddressStep = () => {
+  const { getCep } = useCep();
   const navigate = useNavigate();
   const location = useLocation();
   const { student, addStudentAddress, setCurrentStep } = useFormContext();
@@ -51,6 +52,21 @@ export const AddressStep = () => {
       setValue("uf", student.endereco.uf);
     }
   }, [student, setValue]);
+
+  const checkCep = async (value: string) => {
+    if (!value) {
+      return;
+    }
+
+    const cep = value.replace(/\D/g, "");
+
+    const data = await getCep(cep);
+
+    if (data) {
+      setValue("uf", data.uf);
+      setValue("cidade", data.localidade);
+    }
+  };
 
   const handleBackStep = () => {
     navigate(`${location.pathname.replace("/address", "")}`);
@@ -148,7 +164,7 @@ export const AddressStep = () => {
               <FormField
                 control={form.control}
                 name="cep"
-                render={({ field }) => (
+                render={({ field: { onBlur, ...field } }) => (
                   <FormItem className="space-y-1">
                     <FormLabel htmlFor="cep">CEP</FormLabel>
                     <FormControl>
@@ -157,6 +173,7 @@ export const AddressStep = () => {
                           id="cep"
                           type="text"
                           placeholder="Digite o CEP"
+                          onBlur={(event) => checkCep(event.target.value)}
                           {...field}
                         />
                       </Input.Root>
@@ -178,6 +195,7 @@ export const AddressStep = () => {
                         <Input.Control
                           id="uf"
                           type="text"
+                          disabled
                           placeholder="Digite a UF"
                           {...field}
                         />
@@ -202,6 +220,7 @@ export const AddressStep = () => {
                         <Input.Control
                           id="city"
                           type="text"
+                          disabled
                           placeholder="Digite a cidade"
                           {...field}
                         />

@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/form";
 import * as Input from "@components/Input";
 import { EmployeeFormInputs } from "./EmployeeForm";
+import { useCep } from "@hooks/useCep";
 
 interface AddressFieldsFormProps {
   form: UseFormReturn<EmployeeFormInputs>;
@@ -16,6 +17,23 @@ interface AddressFieldsFormProps {
 }
 
 export const AddressFieldsForm = ({ form, errors }: AddressFieldsFormProps) => {
+  const { getCep } = useCep();
+
+  const checkCep = async (value: string) => {
+    if (!value) {
+      return;
+    }
+
+    const cep = value.replace(/\D/g, "");
+
+    const data = await getCep(cep);
+
+    if (data) {
+      form.setValue("endereco.uf", data.uf);
+      form.setValue("endereco.cidade", data.localidade);
+    }
+  };
+
   return (
     <>
       <h1 className="text-xl font-bold">Endereço</h1>
@@ -92,7 +110,7 @@ export const AddressFieldsForm = ({ form, errors }: AddressFieldsFormProps) => {
         <FormField
           control={form.control}
           name="endereco.cep"
-          render={({ field }) => (
+          render={({ field: { onBlur, ...field } }) => (
             <FormItem className="space-y-1">
               <FormLabel htmlFor="cep">CEP</FormLabel>
               <FormControl>
@@ -101,6 +119,7 @@ export const AddressFieldsForm = ({ form, errors }: AddressFieldsFormProps) => {
                     id="cep"
                     type="text"
                     placeholder="Digite o CEP"
+                    onBlur={(event) => checkCep(event.target.value)}
                     {...field}
                   />
                 </Input.Root>
@@ -122,6 +141,7 @@ export const AddressFieldsForm = ({ form, errors }: AddressFieldsFormProps) => {
                   <Input.Control
                     id="uf"
                     type="text"
+                    disabled
                     placeholder="Digite a UF"
                     {...field}
                   />
@@ -146,6 +166,7 @@ export const AddressFieldsForm = ({ form, errors }: AddressFieldsFormProps) => {
                   <Input.Control
                     id="city"
                     type="text"
+                    disabled
                     placeholder="Digite a cidade"
                     {...field}
                   />

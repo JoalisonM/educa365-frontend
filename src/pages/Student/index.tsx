@@ -1,7 +1,8 @@
+import { useEffect } from "react";
 import {
+  Trash,
   MagnifyingGlass,
   PencilSimpleLine,
-  Trash,
 } from "@phosphor-icons/react";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 
@@ -10,14 +11,12 @@ import * as Input from "@components/Input";
 import { useNavigate } from "react-router-dom";
 import { useStudent } from "@hooks/useStudent";
 import { AlertDialog } from "@components/Alert";
-import { useEffect } from "react";
-import { useFormContext } from "@hooks/useForm";
+import { formatDate, formatDateToAge } from "@utils/format-date";
 import { useToast } from "@ui/components/ui/use-toast";
 
 export const Student = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
-  // const { student } = useFormContext();
   const { students, getStudent, fetchStudents, deleteStudent } = useStudent();
 
   useEffect(() => {
@@ -30,10 +29,6 @@ export const Student = () => {
 
   const handleEdit = async (id: string) => {
     await getStudent(id);
-
-    // const studentJSON = JSON.stringify({ student: response });
-
-    // localStorage.setItem("@educa365:form-state-1.0.0", studentJSON);
 
     handleNavigate(id, id);
   };
@@ -74,7 +69,9 @@ export const Student = () => {
               <tr className="text-left text-grayTableTitle">
                 <th className="py-4 px-8 whitespace-nowrap">Nome</th>
                 <th className="py-4 px-8 whitespace-nowrap">Nome da mãe</th>
-                <th className="py-4 px-8 whitespace-nowrap">Nascimento</th>
+                <th className="py-4 px-8 whitespace-nowrap">Turma</th>
+                <th className="py-4 px-8 whitespace-nowrap">Idade</th>
+                <th className="py-4 px-8 whitespace-nowrap">Data de nascimento</th>
               </tr>
             </thead>
             <tbody>
@@ -84,7 +81,9 @@ export const Student = () => {
                   {student.nome}
                 </td>
                 <td className="py-5 px-8">{student.nomeMae}</td>
-                <td className="py-5 px-8">{student.dataNascimento}</td>
+                <td className="py-5 px-8">{student.turma.nome}</td>
+                <td className="py-5 px-8">{formatDateToAge(student.dataNascimento)}</td>
+                <td className="py-5 px-8">{formatDate(student.dataNascimento)}</td>
                 <td className=" rounded-tr-md rounded-br-md py-5 px-8 text-right space-x-4">
                   <Button type="button" variant="ghost" onClick={() => handleEdit(student.id)}>
                     <PencilSimpleLine className="h-5 w-5" />
