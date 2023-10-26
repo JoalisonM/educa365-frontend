@@ -71,6 +71,8 @@ export const FormContextProvider = ({ children }: FormContextProviderProps) => {
     }
   }, [formState]);
 
+  console.log("Student: ", student);
+
   const setCurrentStep = (currentStep: number) => {
     dispatch(setCurrentStepAction(currentStep));
   };

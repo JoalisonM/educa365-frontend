@@ -1,5 +1,4 @@
 import { EditTabs } from "@components/EditTabs";
-import * as Tabs from "@radix-ui/react-tabs";
 
 export const EditStudent = () => {
   return (

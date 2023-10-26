@@ -1,4 +1,5 @@
-import { ComponentProps } from "react";
+import React from "react";
+import { Slot } from "@radix-ui/react-slot";
 import { tv, VariantProps } from "tailwind-variants";
 
 const button = tv({
@@ -31,8 +32,18 @@ const button = tv({
   },
 });
 
-type ButtonProps = ComponentProps<"button"> & VariantProps<typeof button>;
+// type ButtonProps = ComponentProps<"button"> & VariantProps<typeof button>;
 
-export const Button = ({ variant, className, ...props }: ButtonProps) => {
-  return <button className={button({ variant, className })} {...props} />;
-};
+interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof button> {
+  asChild?: boolean;
+}
+
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ variant, className, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button";
+
+    return <Comp ref={ref} className={button({ variant, className })} {...props} />;
+  },
+);

@@ -26,7 +26,10 @@ export function formReducer(state: Form, action: Action) {
       });
     case ActionTypes.ADD_STUDENT:
       return produce(state, (draft) => {
-        draft.student = action.payload.student;
+        draft.student = {
+          ...draft.student,
+          ...action.payload.student,
+        };
       });
     case ActionTypes.ADD_STUDENT_ADDRESS:
       return produce(state, (draft) => {
