@@ -1,16 +1,17 @@
 import { ReactNode } from "react";
-import { SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { SheetContent, SheetHeader, SheetTitle } from "@ui/components/ui/sheet";
 
 interface DrawerProps {
   title: string;
   children: ReactNode;
+  variant?: "md" | "sm" | "lg" | null | undefined;
 }
 
 export const Drawer = (props: DrawerProps) => {
-  const { title, children } = props;
+  const { title, children, variant } = props;
 
   return (
-    <SheetContent>
+    <SheetContent variant={variant}>
       <SheetHeader>
         <SheetTitle>{title}</SheetTitle>
       </SheetHeader>

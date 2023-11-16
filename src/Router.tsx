@@ -5,6 +5,7 @@ import { Employee } from "./pages/Employee";
 import { Settings } from "./pages/Settings";
 import { DefaultLayout } from "./layouts/DefaultLayout";
 
+import { Class } from "@pages/class";
 import { Student } from "./pages/Student";
 import { EditStudent } from "@pages/Student/EditStudent";
 import { FinishStep } from "@pages/Student/CreateNewStudent/FinishStep";
@@ -22,6 +23,7 @@ export const Router = () => {
         <Route path="/employees" element={<Employee />} />
         <Route path="/settings" element={<Settings />} />
 
+        <Route path="/classes" element={<Class />} />
         <Route path="/students" element={<Student />} />
         <Route  path="/students/new-student" element={<StudentStep />} />
         <Route path="/students/new-student/address" element={<AddressStep />} />

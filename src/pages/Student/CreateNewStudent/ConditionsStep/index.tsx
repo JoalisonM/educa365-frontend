@@ -68,8 +68,8 @@ export const ParentsConditionsStep = () => {
   } = form;
   const { fields, append, remove } = useFieldArray({ control, name: "condicoes" });
 
-  const disableNewParent = fields.length === 2;
   const disableRemoveButton = fields.length < 2;
+  const disableNewParent = fields.length === 2 || student.responsaveis.length === 1;
 
   useEffect(() => {
     setCurrentStep(5);

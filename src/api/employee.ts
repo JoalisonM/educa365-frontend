@@ -8,7 +8,11 @@ export const Employee = {
     return api.get(`${uriEmployee}/${id}`);
   },
 
-  getAll() {
+  getAll(cargo?: string) {
+    if (cargo) {
+      return api.get(`${uriEmployee}/${cargo}`);
+    }
+
     return api.get(uriEmployee);
   },
 

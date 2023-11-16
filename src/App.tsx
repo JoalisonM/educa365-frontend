@@ -5,6 +5,7 @@ import { Router } from "./Router";
 import { FormContextProvider } from "./contexts/formContext";
 import { EmployeeContextProvider } from "./contexts/employeeContext";
 import { StudentContextProvider } from "@contexts/studentContext";
+import { ClassContextProvider } from "@contexts/classContext";
 
 function App() {
   return (
@@ -12,8 +13,10 @@ function App() {
       <EmployeeContextProvider>
         <StudentContextProvider>
           <FormContextProvider>
-            <Router />
-            <Toaster />
+            <ClassContextProvider>
+              <Router />
+              <Toaster />
+            </ClassContextProvider>
           </FormContextProvider>
         </StudentContextProvider>
       </EmployeeContextProvider>

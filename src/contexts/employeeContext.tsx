@@ -11,10 +11,10 @@ import { Employee } from "../api/employee";
 interface EmployeeContextType {
   employee: EmployeeProps;
   employees: EmployeeProps[];
-  fetchEmployees: () => Promise<void>;
   deleteEmployee: (id: string) => void;
   setEmployee: (value: EmployeeProps) => void;
   getEmployee: (id: string) => Promise<void>;
+  fetchEmployees: (cargo?: string) => Promise<void>;
   createEmployee: (data: CreateEmployeeInput) => Promise<void>;
   updateEmployee: (data: UpdateEmployeeInput) => Promise<void>;
 }
@@ -31,8 +31,8 @@ export const EmployeeContextProvider = ({
   const [employees, setEmployees] = useState<EmployeeProps[]>([]);
   const [employee, setEmployee] = useState<EmployeeProps>({} as EmployeeProps);
 
-  const fetchEmployees = useCallback(async () => {
-    const response = await Employee.getAll();
+  const fetchEmployees = useCallback(async (cargo?: string) => {
+    const response = await Employee.getAll(cargo);
 
     setEmployees(response.data);
   }, []);

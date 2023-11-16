@@ -5,7 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
   SelectItem,
-} from "@/components/ui/select";
+} from "@ui/components/ui/select";
 import { FormControl } from "@/components/ui/form";
 import * as SelectRadix from "@radix-ui/react-select";
 
@@ -48,7 +48,7 @@ export const Root = ({
         side="bottom"
         position="popper"
         sideOffset={6}
-        className="z-10 w-[--radix-select-trigger-width] animate-slideDownAndFade rounded-lg border border-zinc-200 bg-white overflow-hidden"
+        className="w-[--radix-select-trigger-width] animate-slideDownAndFade rounded-lg border border-zinc-200 bg-white overflow-hidden"
       >
         {children}
       </SelectContent>
