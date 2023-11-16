@@ -1,6 +1,7 @@
 import { EmployeeProps, CreateEmployeeInput, UpdateEmployeeInput } from "./employeeDTO";
 
 import { AddressProps, CreateAddressInput, UpdateAddressInput } from "./addressDTO";
+import { ReportProps, CreateReportInput, UpdateReportInput } from "./reportDTO";
 
 import {
   UpdateParentsInput,
@@ -37,4 +38,7 @@ export type {
   UpdateConditionsInput,
   UpdateLivingConditionsInput,
   UpdateHousingConditionsInput,
+  ReportProps,
+  CreateReportInput,
+  UpdateReportInput,
 };

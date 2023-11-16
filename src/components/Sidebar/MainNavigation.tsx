@@ -1,4 +1,4 @@
-import { Chalkboard, House, Student, Users } from "@phosphor-icons/react";
+import { Chalkboard, FileCloud, House, Student, Users } from "@phosphor-icons/react";
 
 import { NavItem } from "./NavItem";
 
@@ -22,6 +22,11 @@ const MenuItems = {
     to: "/classes",
     title: "Turmas",
     icon: Chalkboard,
+  },
+  REPORTS: {
+    to: "/reports",
+    title: "Relatórios",
+    icon: FileCloud,
   },
 };
 

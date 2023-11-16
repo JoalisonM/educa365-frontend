@@ -4,9 +4,14 @@ import {
   useContext,
   createContext,
   ComponentProps,
+  useEffect,
 } from "react";
 
-type RootProps = ComponentProps<"div">;
+type RootType = {
+  setFilesInfo?: (files: any) => void;
+}
+
+type RootProps = ComponentProps<"div"> & RootType;
 
 type UploadContextType = {
   id: string;
@@ -16,9 +21,15 @@ type UploadContextType = {
 
 const UploadContext = createContext({} as UploadContextType);
 
-export const Root = (props: RootProps) => {
+export const Root = ({ setFilesInfo, ...rest }: RootProps) => {
   const id = useId();
   const [files, setFiles] = useState<File[]>([]);
+
+  useEffect(() => {
+    if (setFilesInfo) {
+      setFilesInfo(files);
+    }
+  }, [files]);
 
   const onFilesSelected = (files: File[], multiple: boolean) => {
     if (multiple) {
@@ -30,7 +41,7 @@ export const Root = (props: RootProps) => {
 
   return (
     <UploadContext.Provider value={{ id, files, onFilesSelected }}>
-      <div {...props} />
+      <div {...rest} />
     </UploadContext.Provider>
   );
 };

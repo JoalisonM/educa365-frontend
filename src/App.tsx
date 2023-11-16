@@ -3,9 +3,10 @@ import { Toaster } from "@ui/components/ui/toaster";
 
 import { Router } from "./Router";
 import { FormContextProvider } from "./contexts/formContext";
-import { EmployeeContextProvider } from "./contexts/employeeContext";
-import { StudentContextProvider } from "@contexts/studentContext";
 import { ClassContextProvider } from "@contexts/classContext";
+import { ReportContextProvider } from "@contexts/reportContext";
+import { StudentContextProvider } from "@contexts/studentContext";
+import { EmployeeContextProvider } from "./contexts/employeeContext";
 
 function App() {
   return (
@@ -14,8 +15,10 @@ function App() {
         <StudentContextProvider>
           <FormContextProvider>
             <ClassContextProvider>
-              <Router />
-              <Toaster />
+              <ReportContextProvider>
+                <Router />
+                <Toaster />
+              </ReportContextProvider>
             </ClassContextProvider>
           </FormContextProvider>
         </StudentContextProvider>
