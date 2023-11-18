@@ -1,7 +1,6 @@
 import { api } from "../lib/axios";
-import { CreateReportInput, UpdateReportInput } from "../dtos";
 
-const uriReport = "relatorios";
+const uriReport = "relatorio";
 
 export const Report = {
   get(id: string) {
@@ -12,7 +11,7 @@ export const Report = {
     return api.get(uriReport);
   },
 
-  create(report: CreateReportInput) {
+  create(report: FormData) {
     return api.post(uriReport, report, {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -20,10 +19,8 @@ export const Report = {
     });
   },
 
-  update(report: UpdateReportInput) {
-    const { id, ...newReport } = report;
-
-    return api.put(`${uriReport}/${id}`, newReport, {
+  update(id: string, report: FormData) {
+    return api.put(`${uriReport}/${id}`, report, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

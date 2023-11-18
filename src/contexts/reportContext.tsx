@@ -15,8 +15,8 @@ interface ReportContextType {
   setReport: (value: ReportProps) => void;
   getReport: (id: string) => Promise<void>;
   fetchReports: () => Promise<void>;
-  createReport: (data: CreateReportInput) => Promise<void>;
-  updateReport: (data: UpdateReportInput) => Promise<void>;
+  createReport: (data: FormData) => Promise<void>;
+  updateReport: (id: string, data: FormData) => Promise<void>;
 }
 
 export const ReportContext = createContext({} as ReportContextType);
@@ -45,7 +45,7 @@ export const ReportContextProvider = ({
     }
   }, []);
 
-  const createReport = useCallback(async (data: CreateReportInput) => {
+  const createReport = useCallback(async (data: FormData) => {
     const response = await Report.create(data);
 
     return response.data;
@@ -53,14 +53,14 @@ export const ReportContextProvider = ({
     // setReports((state) => [response.data, ...state]);
   }, []);
 
-  const updateReport = useCallback(async (data: UpdateReportInput) => {
-    const response = await Report.update(data);
+  const updateReport = useCallback(async (id: string, data: FormData) => {
+    const response = await Report.update(id, data);
 
-    setReports((state) =>
-      state.map((employee) =>
-        employee.id === data.id ? response.data : employee,
-      ),
-    );
+    // setReports((state) =>
+    //   state.map((employee) =>
+    //     employee.id === data.id ? response.data : employee,
+    //   ),
+    // );
   }, []);
 
   const deleteReport = async (id: string) => {

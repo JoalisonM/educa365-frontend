@@ -13,25 +13,26 @@ import { reportFormSchema } from "@schemas/reportFormSchema";
 
 export type ReportFormInputs = z.infer<typeof reportFormSchema>;
 
-export const ReportForm = () => {
+interface ReportFormProps {
+  studentId?: string;
+}
+
+export const ReportForm = ({ studentId }: ReportFormProps) => {
   const { createReport } = useReport();
   const [files, setFiles] = useState<File[]>([]);
 
   const form = useForm<any>();
 
   const handleSubmitReport = () => {
-    files.map(async (file, index) => {
+    files.map(async (file) => {
       const formData = new FormData();
-      formData.append(`file${index}`, file);
+      formData.append("relatorio", file);
+      formData.append("tipo", "Academico");
+      formData.append("titulo", file.name);
+      studentId && formData.append("educando_id", studentId);
+      formData.append("funcionario_id", "d9b644f8-6adf-476f-97b8-733db8f1f8ce");
 
-      const response = await createReport({
-        tipo: "Academico",
-        titulo: file.name,
-        funcionario_id: "d9b644f8-6adf-476f-97b8-733db8f1f8ce",
-        relatorio: formData,
-      });
-
-      console.log("response: ", response);
+      await createReport(formData);
     });
   };
 

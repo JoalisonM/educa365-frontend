@@ -39,7 +39,7 @@ export const ethnicities = {
   },
   BRANCO: {
     value: "BRANCO",
-    title: "Pardo",
+    title: "Branco",
   },
   INDIO: {
     value: "ÍNDIO",

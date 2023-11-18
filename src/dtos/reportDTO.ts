@@ -1,22 +1,21 @@
+import { EmployeeProps } from "./employeeDTO";
+import { StudentProps } from "./studentDTO";
+
 export interface ReportProps {
   id: string;
   tipo: string;
   titulo: string;
-  funcionario_id: string;
   relatorio: File;
+  dataCriacao: string;
+  educando: StudentProps;
+  funcionario: EmployeeProps;
 }
 
 export interface CreateReportInput {
-  tipo: string;
-  titulo: string;
-  funcionario_id: string;
-  relatorio: FormData;
+  formData: FormData;
 }
 
 export interface UpdateReportInput {
   id: string;
-  tipo: string;
-  titulo: string;
-  funcionario_id: string;
-  relatorio: File;
+  formData: FormData;
 }

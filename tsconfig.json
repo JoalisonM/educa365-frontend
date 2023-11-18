@@ -29,7 +29,8 @@
       "@schemas/*": ["./src/schemas/*"],
       "@reducers/*": ["./src/reducers/*"],
       "@contexts/*": ["./src/contexts/*"],
-      "@layouts/*": ["./src/layouts/*"]
+      "@layouts/*": ["./src/layouts/*"],
+      "@assets/*": ["./src/assets/*"],
     }
   },
   "include": ["src"],

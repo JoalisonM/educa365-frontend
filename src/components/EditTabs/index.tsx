@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 
 import { TabItem } from "./TabItem";
+import { Report } from "./Contents/Report";
 import { Address } from "./Contents/Address";
 import { Parents } from "./Contents/Parents";
 import { Comments } from "./Contents/Comments";
@@ -30,6 +31,7 @@ export const EditTabs = () => {
             <TabItem value="tab3" title="Observações específicas" isSelected={currentTab === "tab3"} />
             <TabItem value="tab4" title="Responsáveis" isSelected={currentTab === "tab4"} />
             <TabItem value="tab5" title="Condições de moradia e vida" isSelected={currentTab === "tab5"} />
+            <TabItem value="tab6" title="Relatórios" isSelected={currentTab === "tab6"} />
           </Tabs.List>
         </ScrollArea.Viewport>
 
@@ -45,6 +47,7 @@ export const EditTabs = () => {
       <Tabs.Content value="tab3"><Comments student={student} /></Tabs.Content>
       <Tabs.Content value="tab4"><Parents student={student} /></Tabs.Content>
       <Tabs.Content value="tab5"><Conditions student={student} /></Tabs.Content>
+      <Tabs.Content value="tab6"><Report student={student} /></Tabs.Content>
     </Tabs.Root>
   );
 };

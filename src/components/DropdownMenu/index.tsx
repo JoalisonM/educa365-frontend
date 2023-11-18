@@ -9,11 +9,16 @@ import {
 import { Trash } from "lucide-react";
 import { DownloadSimple } from "@phosphor-icons/react";
 
+import { useReport } from "@hooks/useReport";
+
 interface DropdownMenuProps {
+  id: string;
   children: ReactNode;
 }
 
-export const DropdownMenu = ({ children }: DropdownMenuProps) => {
+export const DropdownMenu = ({ id, children }: DropdownMenuProps) => {
+  const { deleteReport } = useReport();
+
   return (
     <DropdownMenuPrimitive>
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
@@ -23,7 +28,7 @@ export const DropdownMenu = ({ children }: DropdownMenuProps) => {
           <span>Fazer download</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={() => deleteReport(id)}>
           <Trash className="mr-2 h-4 w-4" />
           <span>Deletar arquivo</span>
         </DropdownMenuItem>

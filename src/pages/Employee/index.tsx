@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import * as Dialog from "@radix-ui/react-dialog";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import {
   MagnifyingGlass,
@@ -8,11 +7,12 @@ import {
 } from "@phosphor-icons/react";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 
-import { EmployeeProps } from "@dtos/index";
-import { EmployeeForm } from "./EmployeeForm";
 import * as Input from "@components/Input";
+import { EmployeeProps } from "@dtos/index";
 import { Drawer } from "@components/Drawer";
 import { Button } from "@components/Button";
+import { EmployeeForm } from "./EmployeeForm";
+import { Tooltip } from "@components/Tooltip";
 import { formatDate } from "@utils/format-date";
 import { AlertDialog } from "@components/Alert";
 import { useEmployee } from "@hooks/useEmployee";
@@ -95,16 +95,18 @@ export const Employee = () => {
                     <td className="py-5 px-8">{employee.email}</td>
                     <td className="py-5 px-8">{employee.cargo}</td>
                     <td className="py-5 px-8">{formatDate(employee.dataNascimento)}</td>
-                    <td className=" rounded-tr-md rounded-br-md py-5 px-8 text-right space-x-4">
+                    <td className=" rounded-tr-md rounded-br-md py-5 px-8 flex justify-end gap-4">
                       <Sheet>
                         <SheetTrigger asChild>
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            onClick={() => handleShowEmployee(employee.id)}
-                          >
-                            <PencilSimpleLine className="h-5 w-5" />
-                          </Button>
+                          <Tooltip content="Editar">
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              onClick={() => handleShowEmployee(employee.id)}
+                            >
+                              <PencilSimpleLine className="h-5 w-5" />
+                            </Button>
+                          </Tooltip>
                         </SheetTrigger>
 
                         <Drawer title="Atualizar funcionário">

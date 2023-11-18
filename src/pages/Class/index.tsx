@@ -81,7 +81,7 @@ export const Class = () => {
                     <td className="py-5 px-8">{institutionClass.turno}</td>
                     <td className="py-5 px-8">{institutionClass.instituicao.nome}</td>
                     <td className="py-5 px-8">{institutionClass.professor.nome}</td>
-                    <td className=" rounded-tr-md rounded-br-md py-5 px-8 text-right space-x-4">
+                    <td className=" rounded-tr-md rounded-br-md py-5 px-8 flex justify-end gap-4">
                       <Sheet>
                         <SheetTrigger>
                           <Tooltip content="Adicionar professor(a)">

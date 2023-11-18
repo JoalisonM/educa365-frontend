@@ -1,15 +1,16 @@
+import { MagnifyingGlass } from "@phosphor-icons/react";
 import {
-  MagnifyingGlass,
-  DotsThreeVertical,
-} from "@phosphor-icons/react";
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "@ui/components/ui/dialog";
 import { Sheet, SheetTrigger } from "@ui/components/ui/sheet";
 
 import * as Input from "@components/Input";
 import { Button } from "@components/Button";
-import { Tooltip } from "@components/Tooltip";
 import { Drawer } from "@components/Drawer";
-import { DropdownMenu } from "@components/DropdownMenu";
-import { ReportForm } from "./ReportForm";
+import { ReportForm } from "@components/ReportForm";
+import { CardFile } from "@components/CardFile";
 
 export const Report = () => {
   return (
@@ -41,20 +42,10 @@ export const Report = () => {
       </Input.Root>
 
       <section className="w-full grid grid-cols-5 gap-4 mt-4">
-        <div className="flex flex-col gap-3 p-6 rounded-lg bg-zinc-100">
-          <div className="flex items-center gap-2">
-            <h3 className="text-ellipsis overflow-hidden whitespace-nowrap text-zinc-700">Lorem ipsum dolor sit amet consectetur</h3>
-            <Tooltip content="Mais opções">
-              <DropdownMenu>
-                <Button type="button" variant="ghost">
-                  <DotsThreeVertical weight="bold" className="h-5 w-5" />
-                </Button>
-              </DropdownMenu>
-            </Tooltip>
-          </div>
-
-          <img className="rounded-md" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
-        </div>
+        <CardFile
+          title="Lorem ipsum dolor sit amet consectetur"
+          imgUrl="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        />
       </section>
     </div>
   );

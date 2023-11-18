@@ -1,18 +1,23 @@
 import { useEffect } from "react";
 import {
+  Files,
   Trash,
   MagnifyingGlass,
   PencilSimpleLine,
 } from "@phosphor-icons/react";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
+import { Sheet, SheetTrigger } from "@ui/components/ui/sheet";
 
-import { Button } from "@components/Button";
 import * as Input from "@components/Input";
+import { Drawer } from "@components/Drawer";
+import { Button } from "@components/Button";
+import { Tooltip } from "@components/Tooltip";
 import { useNavigate } from "react-router-dom";
 import { useStudent } from "@hooks/useStudent";
 import { AlertDialog } from "@components/Alert";
-import { formatDate, formatDateToAge } from "@utils/format-date";
+import { ReportForm } from "@components/ReportForm";
 import { useToast } from "@ui/components/ui/use-toast";
+import { formatDate, formatDateToAge } from "@utils/format-date";
 
 export const Student = () => {
   const { toast } = useToast();
@@ -84,10 +89,28 @@ export const Student = () => {
                 <td className="py-5 px-8">{student.turma.nome}</td>
                 <td className="py-5 px-8">{formatDateToAge(student.dataNascimento)}</td>
                 <td className="py-5 px-8">{formatDate(student.dataNascimento)}</td>
-                <td className=" rounded-tr-md rounded-br-md py-5 px-8 text-right space-x-4">
-                  <Button type="button" variant="ghost" onClick={() => handleEdit(student.id)}>
-                    <PencilSimpleLine className="h-5 w-5" />
-                  </Button>
+                <td className=" rounded-tr-md rounded-br-md py-5 px-8 flex justify-end gap-4">
+                  <Tooltip content="editar">
+                      <Button type="button" variant="ghost" onClick={() => handleEdit(student.id)}>
+                        <PencilSimpleLine className="h-5 w-5" />
+                      </Button>
+                  </Tooltip>
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                      >
+                        <Tooltip content="Adicionar relatório">
+                          <Files className="h-5 w-5" />
+                        </Tooltip>
+                      </Button>
+                    </SheetTrigger>
+
+                    <Drawer title="Adicionar relatórios">
+                      <ReportForm studentId={student.id} />
+                    </Drawer>
+                  </Sheet>
                   <AlertDialog
                     id={student.id}
                     title="Você tem certeza absoluta?"
