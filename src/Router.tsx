@@ -19,8 +19,8 @@ import { ParentsConditionsStep } from "@pages/Student/CreateNewStudent/Condition
 export const Router = () => {
   return (
     <Routes>
+      <Route path="/" element={<Login />} />
       <Route path="/" element={<DefaultLayout />}>
-        <Route path="/" element={<Login />} />
         <Route path="/employees" element={<Employee />} />
         <Route path="/settings" element={<Settings />} />
 

@@ -8,12 +8,8 @@ export const Employee = {
     return api.get(`${uriEmployee}/${id}`);
   },
 
-  getAll(cargo?: string) {
-    if (cargo) {
-      return api.get(`${uriEmployee}/${cargo}`);
-    }
-
-    return api.get(uriEmployee);
+  getAll(params: object) {
+    return api.get(uriEmployee, params);
   },
 
   create(employee: CreateEmployeeInput) {

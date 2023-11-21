@@ -32,7 +32,18 @@ export const EmployeeContextProvider = ({
   const [employee, setEmployee] = useState<EmployeeProps>({} as EmployeeProps);
 
   const fetchEmployees = useCallback(async (cargo?: string) => {
-    const response = await Employee.getAll(cargo);
+    const params = {
+      nome: "",
+      sexo: 0,
+      rg: "",
+      cpf: "",
+      dataNascimento: "",
+      email: "",
+      cargo: cargo ? cargo : "",
+      senha: "",
+      endereco: {},
+    };
+    const response = await Employee.getAll(params);
 
     setEmployees(response.data);
   }, []);

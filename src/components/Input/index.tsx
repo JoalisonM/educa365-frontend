@@ -1,9 +1,15 @@
-import { ComponentProps } from "react";
+import { ComponentProps, ReactNode } from "react";
 
 type PrefixProps = ComponentProps<"div">;
 
 export const Prefix = (props: PrefixProps) => {
   return <div {...props} />;
+};
+
+type SuffixProps = ComponentProps<"button">;
+
+export const Suffix = (props: SuffixProps) => {
+  return <button {...props} />;
 };
 
 type ControlProps = ComponentProps<"input">;

@@ -32,6 +32,7 @@ module.exports = {
         gray700: "#2D3132",
         selectiveYellow: "#FFBC00",
         blueLagoon: "#006667",
+        blueBg: "#3F5C63",
 
         emerald: {
           25: "#F7FCFC",

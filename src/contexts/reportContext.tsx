@@ -13,9 +13,9 @@ interface ReportContextType {
   reports: ReportProps[];
   deleteReport: (id: string) => void;
   setReport: (value: ReportProps) => void;
-  getReport: (id: string) => Promise<void>;
-  fetchReports: () => Promise<void>;
+  fetchReports: () => Promise<ReportProps[]>;
   createReport: (data: FormData) => Promise<void>;
+  getReport: (id: string) => Promise<Blob | undefined>;
   updateReport: (id: string, data: FormData) => Promise<void>;
 }
 
@@ -34,14 +34,18 @@ export const ReportContextProvider = ({
   const fetchReports = useCallback(async () => {
     const response = await Report.getAll();
 
-    setReports(response.data);
+    // setReports(response.data);
+
+    return response.data;
   }, []);
 
   const getReport = useCallback(async (id: string) => {
-    const response = await Report.get(id);
+    const response = await fetch(`http://127.0.0.1:5000/relatorio/${id}`);
 
-    if (response) {
-      setReport(response.data);
+    if (response.ok) {
+      const blob = await response.blob();
+
+      return blob;
     }
   }, []);
 

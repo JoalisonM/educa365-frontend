@@ -1,17 +1,30 @@
+import { format, formatDistanceToNow } from "date-fns";
+import ptBR from "date-fns/locale/pt-BR";
+
 import { Button } from "@components/Button";
 import { Trash } from "@phosphor-icons/react";
 
 interface CommentProps {
-  id: string;
+  id: number;
   text: string;
+  publishedAt: Date;
 }
 
 interface CommentItemProps {
   content: CommentProps;
-  onDeleteComment: (id: string) => void;
+  onDeleteComment: (id: number) => void;
 }
 
 export const CommentItem = ({ content, onDeleteComment }: CommentItemProps) => {
+  const publishedDateFormat = format(content.publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
+    locale: ptBR,
+  });
+
+  const publishedDateRelativeToNow = formatDistanceToNow(content.publishedAt, {
+    locale: ptBR,
+    addSuffix: true,
+  });
+
   const handleDeleteComment = () => {
     onDeleteComment(content.id);
   };
@@ -26,11 +39,11 @@ export const CommentItem = ({ content, onDeleteComment }: CommentItemProps) => {
                 Joalison Matheus
               </strong>
               <time
-                title="25 de Julho às 09:31h"
-                dateTime="2022-07-25 09:31:30"
+                title={publishedDateFormat}
+                dateTime={content.publishedAt.toISOString()}
                 className="block text-xs leading-relaxed text-zinc-500"
               >
-                Cerca de 1hr atrás
+                {publishedDateRelativeToNow}
               </time>
             </div>
 

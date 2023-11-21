@@ -3,11 +3,6 @@ import { Chalkboard, FileCloud, House, Student, Users } from "@phosphor-icons/re
 import { NavItem } from "./NavItem";
 
 const MenuItems = {
-  HOME: {
-    to: "/",
-    title: "Home",
-    icon: House,
-  },
   STUDENTS: {
     to: "/students",
     title: "Educandos",

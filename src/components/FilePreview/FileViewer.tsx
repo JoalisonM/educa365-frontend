@@ -1,14 +1,12 @@
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 
-import file from "../../assets/custom.pdf";
-
-const docs = [{ uri: file }];
-
 interface FileViewerProps {
-  doc: string;
+  fileUrl: string;
 }
 
-export const FileViewer = ({ doc }: FileViewerProps) => {
+export const FileViewer = ({ fileUrl }: FileViewerProps) => {
+  const docs = [{ uri: fileUrl }];
+
   return (
     <DocViewer
       config={{
@@ -17,6 +15,7 @@ export const FileViewer = ({ doc }: FileViewerProps) => {
           disableFileName: true,
           retainURLParams: false,
         },
+        pdfVerticalScrollByDefault: true,
       }}
       documents={docs}
       pluginRenderers={DocViewerRenderers}

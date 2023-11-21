@@ -5,9 +5,8 @@ export interface ReportProps {
   id: string;
   tipo: string;
   titulo: string;
-  relatorio: File;
   dataCriacao: string;
-  educando: StudentProps;
+  // educando: StudentProps;
   funcionario: EmployeeProps;
 }
 
