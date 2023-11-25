@@ -21,7 +21,7 @@ export const Trigger = () => {
           </span>{" "}
           ou arraste e solte
         </span>
-        <span className="text-sm">SVG, PNG, JPG ou GIF (max. 800x400px)</span>
+        <span className="text-sm">PDF, DOC, DOCX, ODT ou XLSX</span>
       </div>
     </label>
   );

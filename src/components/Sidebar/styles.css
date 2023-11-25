@@ -1,0 +1,14 @@
+.ring_circle {
+  stroke-dasharray: 440;
+  stroke-dashoffset: 440;
+  stroke-linecap: round;
+}
+
+.ring_circle:nth-child(1) {
+  stroke-dashoffset: 0;
+  stroke: transparent;
+}
+
+.ring_circle:nth-child(2) {
+  stroke-dashoffset: 310;
+}

@@ -7,6 +7,7 @@ import { ClassContextProvider } from "@contexts/classContext";
 import { ReportContextProvider } from "@contexts/reportContext";
 import { StudentContextProvider } from "@contexts/studentContext";
 import { EmployeeContextProvider } from "./contexts/employeeContext";
+import { AuthProvider } from "@contexts/auth";
 
 function App() {
   return (
@@ -16,8 +17,10 @@ function App() {
           <FormContextProvider>
             <ClassContextProvider>
               <ReportContextProvider>
-                <Router />
-                <Toaster />
+                <AuthProvider>
+                  <Router />
+                  <Toaster />
+                </AuthProvider>
               </ReportContextProvider>
             </ClassContextProvider>
           </FormContextProvider>

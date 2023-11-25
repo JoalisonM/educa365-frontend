@@ -11,8 +11,8 @@ export const genders = {
 
 export const occupations = {
   TEACHER: {
-    value: "EDUCADOR(A)",
-    title: "Educador(a)",
+    value: "PROFESSOR(A)",
+    title: "PROFESSOR(a)",
   },
   MANAGER: {
     value: "COORDENADOR(A)",

@@ -5,7 +5,7 @@ export interface EmployeeProps {
   nome: string;
   email: string;
   dataNascimento: string;
-  sexo: boolean;
+  sexo: string;
   rg: string;
   cpf: string;
   cargo: string;

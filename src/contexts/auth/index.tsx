@@ -1,12 +1,12 @@
 import { useState, useCallback, ReactNode, useEffect } from "react";
 import { useContextSelector } from "use-context-selector";
 
-import { useLogin } from "../../hooks/useLogin";
-import { LoginProps } from "../../api/authenticator";
 import AuthContext from "./context";
-import { EmployeeProps } from "../../api/employee";
+import { useLogin } from "@hooks/useLogin";
+import { LoginProps } from "@dtos/loginDTO";
+import { EmployeeProps } from "@dtos/employeeDTO";
 
-const STORAGE_KEYS = {
+export const STORAGE_KEYS = {
   USER_KEY: "user-storage",
   ACCESS_TOKEN: "access-token",
 };
@@ -53,12 +53,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const handleUser = useCallback(async () => {
     const newUser = await getMe();
-    if(newUser) {
+    if (newUser) {
       setUser(newUser);
     }
 
     localStorage.setItem(STORAGE_KEYS.USER_KEY, JSON.stringify({
-      userId: newUser && newUser.id
+      userId: newUser && newUser.id,
+      role: newUser && newUser.cargo,
     }));
   }, []);
 
@@ -70,9 +71,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   const clearSessionData = () => {
-  localStorage.setItem(STORAGE_KEYS.USER_KEY, "");
-  localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, "");
-}
+    localStorage.setItem(STORAGE_KEYS.USER_KEY, "");
+    localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, "");
+  };
 
   return (
     <AuthContext.Provider

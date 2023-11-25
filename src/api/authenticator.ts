@@ -1,11 +1,6 @@
 import { api } from "../lib/axios";
-import { EmployeeProps } from "./employee";
-import { PersonProps } from "./person";
-
-export interface LoginProps {
-  email: string;
-  senha: string;
-}
+import { LoginProps } from "@dtos/loginDTO";
+import { EmployeeProps } from "@dtos/employeeDTO";
 
 export interface LoginResponse {
   pessoa: {
@@ -26,9 +21,9 @@ const uriGetMe = "/funcionarios/me";
 
 export const Authenticator = {
   doLogin(parameter: LoginProps) {
-    return api.post<LoginResponse>(
+    return api.post<any>(
       uriLogin,
-      parameter
+      parameter,
     );
   },
 
@@ -38,5 +33,5 @@ export const Authenticator = {
 
   getMe() {
     return api.get<EmployeeProps>(uriGetMe);
-  }
+  },
 };

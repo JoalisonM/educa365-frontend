@@ -1,18 +1,23 @@
-import { ReactNode } from "react"
+import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 
-import { useAuth } from ".";
+import { STORAGE_KEYS } from ".";
+
+interface UserProps {
+  userId: string;
+  role: string;
+}
 
 interface RequiredAuthProps {
   children: ReactNode;
 }
 
 export const RequiredAuth = ({ children }: RequiredAuthProps) => {
-  const { user, loadingUser } = useAuth();
+  const userStorage: UserProps = JSON.parse(localStorage.getItem(STORAGE_KEYS.USER_KEY) as string);
 
-  if (!loadingUser && !user) {
-    return <Navigate to="/login" replace />;
+  if (!userStorage?.userId) {
+    return <Navigate to="/" replace />;
   }
 
   return <>{children}</>;
-}
+};

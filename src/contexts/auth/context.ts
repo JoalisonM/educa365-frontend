@@ -1,7 +1,7 @@
 import { createContext } from "use-context-selector";
 
-import { LoginProps } from "../../api/authenticator";
-import { EmployeeProps } from "../../api/employee";
+import { LoginProps } from "@dtos/loginDTO";
+import { EmployeeProps } from "@dtos/employeeDTO";
 
 interface AuthContextData {
   user: EmployeeProps | null;

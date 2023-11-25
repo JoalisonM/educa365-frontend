@@ -35,7 +35,7 @@ export const TeacherForm = ({ classId }: TeacherFormProps) => {
   const { fetchEmployees, employees } = useEmployee();
 
   useEffect(() => {
-    fetchEmployees("EDUCADOR(A)");
+    fetchEmployees("PROFESSOR(A)");
   }, []);
 
   useEffect(() => {
