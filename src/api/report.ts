@@ -7,8 +7,8 @@ export const Report = {
     return api.get(`${uriReport}/${id}`);
   },
 
-  getAll() {
-    return api.get(uriReport);
+  getAll(params: object) {
+    return api.get(uriReport, { params });
   },
 
   create(report: FormData) {

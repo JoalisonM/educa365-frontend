@@ -16,7 +16,11 @@ export const FilePreview = ({ title, author, fileUrl }: FilePreviewProps) => {
       </header>
 
       <div className="flex justify-between w-full py-8">
-        <FileViewer fileUrl={fileUrl} />
+        {/* <iframe
+          src={fileUrl}
+          className="rounded-lg border border-zinc-300 shadow-sm h-[700px] w-full max-w-[750px]"
+        ></iframe> */}
+        <FileViewer fileUrl={fileUrl} title={title} />
 
         <Comments />
       </div>

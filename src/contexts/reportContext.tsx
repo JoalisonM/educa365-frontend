@@ -5,16 +5,27 @@ import {
   ReportProps,
   CreateReportInput,
   UpdateReportInput,
+  EmployeeProps,
 } from "../dtos";
 import { Report } from "../api/report";
 
+export interface ReportDataProps {
+  id: string;
+  tipo: string;
+  titulo: string;
+  fileUrl: string;
+  dataCriacao: string;
+  funcionario: EmployeeProps;
+}
+
 interface ReportContextType {
   report: ReportProps;
-  reports: ReportProps[];
+  reports: ReportDataProps[];
   deleteReport: (id: string) => void;
   setReport: (value: ReportProps) => void;
-  fetchReports: () => Promise<ReportProps[]>;
+  setReports: (value: ReportDataProps[]) => void;
   createReport: (data: FormData) => Promise<void>;
+  fetchReports: (studentId?: string) => Promise<void>;
   getReport: (id: string) => Promise<Blob | undefined>;
   updateReport: (id: string, data: FormData) => Promise<void>;
 }
@@ -28,19 +39,68 @@ interface ReportContextProviderProps {
 export const ReportContextProvider = ({
   children,
 }: ReportContextProviderProps) => {
-  const [reports, setReports] = useState<ReportProps[]>([]);
+  const [reports, setReports] = useState<ReportDataProps[]>([]);
   const [report, setReport] = useState<ReportProps>({} as ReportProps);
 
-  const fetchReports = useCallback(async () => {
-    const response = await Report.getAll();
+  const fetchReports = useCallback(async (studentId?: string) => {
+    const params = {
+      educando_id: studentId ? studentId : "",
+    };
+    const response = await Report.getAll(params);
+    const reports = response.data;
 
-    // setReports(response.data);
+    if (reports) {
+        reports.map(async (report: any) => {
+          const reportResponse = await getReport(report.id);
 
-    return response.data;
+          if (reportResponse) {
+            const fileURL = window.URL.createObjectURL(reportResponse);
+
+            setReports((state) => {
+              const existingReport = state.find((existing) => existing.id === report.id);
+
+              if (existingReport) {
+                return state.map((item) =>
+                  item.id === report.id
+                    ? {
+                      ...item,
+                      titulo: report.titulo,
+                      funcionario: report.funcionario,
+                      tipo: report.tipo,
+                      dataCriacao: report.dataCriacao,
+                      fileUrl: fileURL,
+                    }
+                    : item,
+                );
+              } else {
+                return [
+                  ...state,
+                  {
+                    id: report.id,
+                    titulo: report.titulo,
+                    funcionario: report.funcionario,
+                    tipo: report.tipo,
+                    dataCriacao: report.dataCriacao,
+                    fileUrl: fileURL,
+                  },
+                ];
+              }
+            });
+          }
+        });
+      }
   }, []);
 
   const getReport = useCallback(async (id: string) => {
-    const response = await fetch(`http://127.0.0.1:5000/relatorio/${id}`);
+    const tokenStorage = localStorage.getItem("access-token");
+    const token = `Bearer ${tokenStorage}`;
+
+    const response = await fetch(`http://127.0.0.1:5000/api/relatorio/${id}`, {
+      method: "GET",
+      headers: {
+        authorization: token,
+      },
+    });
 
     if (response.ok) {
       const blob = await response.blob();
@@ -80,6 +140,7 @@ export const ReportContextProvider = ({
         reports,
         setReport,
         getReport,
+        setReports,
         fetchReports,
         createReport,
         updateReport,

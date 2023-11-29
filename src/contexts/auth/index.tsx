@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
 
     localStorage.setItem(STORAGE_KEYS.USER_KEY, JSON.stringify({
-      userId: newUser && newUser.id,
+      id: newUser && newUser.id,
       role: newUser && newUser.cargo,
     }));
   }, []);

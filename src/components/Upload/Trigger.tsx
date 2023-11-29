@@ -21,7 +21,7 @@ export const Trigger = () => {
           </span>{" "}
           ou arraste e solte
         </span>
-        <span className="text-sm">PDF, DOC, DOCX, ODT ou XLSX</span>
+        <span className="text-sm">o(s) arquivo(s) PDF</span>
       </div>
     </label>
   );

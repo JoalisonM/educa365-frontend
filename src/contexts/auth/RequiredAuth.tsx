@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 import { STORAGE_KEYS } from ".";
 
 interface UserProps {
-  userId: string;
+  id: string;
   role: string;
 }
 
@@ -13,9 +13,10 @@ interface RequiredAuthProps {
 }
 
 export const RequiredAuth = ({ children }: RequiredAuthProps) => {
-  const userStorage: UserProps = JSON.parse(localStorage.getItem(STORAGE_KEYS.USER_KEY) as string);
+  const userStorage = localStorage.getItem(STORAGE_KEYS.USER_KEY);
+  const user: UserProps = userStorage && JSON.parse(userStorage);
 
-  if (!userStorage?.userId) {
+  if (!user?.id) {
     return <Navigate to="/" replace />;
   }
 

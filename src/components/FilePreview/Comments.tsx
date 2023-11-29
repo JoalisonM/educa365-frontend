@@ -56,7 +56,7 @@ export const Comments = () => {
   };
 
   return (
-    <div className="flex flex-col gap-8 p-2 max-h-[700px]">
+    <div className="flex flex-col gap-8 px-2 max-h-[700px]">
       <Form {...form}>
         <form className="flex flex-col gap-4" onSubmit={form.handleSubmit(handleCreateNewComment)}>
           <h3 className="leading-relaxed font-medium text-lg text-zinc-900">Deixe seu feedback</h3>

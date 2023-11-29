@@ -20,57 +20,11 @@ export interface ReportDataProps {
 }
 
 export const Report = () => {
-  const { fetchReports, getReport } = useReport();
-  const [reportsData, setReportsData] = useState<ReportDataProps[]>([]);
+  const { fetchReports, reports } = useReport();
 
   useEffect(() => {
-    loadData();
+    fetchReports();
   }, []);
-
-  const loadData = async () => {
-      const reports = await fetchReports();
-
-      if (reports) {
-        reports.map(async (report) => {
-          const response = await getReport(report.id);
-
-          if (response) {
-            const fileURL = URL.createObjectURL(response);
-
-            setReportsData((state) => {
-              const existingReport = state.find((existing) => existing.id === report.id);
-
-              if (existingReport) {
-                return state.map((item) =>
-                  item.id === report.id
-                    ? {
-                      ...item,
-                      titulo: report.titulo,
-                      funcionario: report.funcionario,
-                      tipo: report.tipo,
-                      dataCriacao: report.dataCriacao,
-                      fileUrl: fileURL,
-                    }
-                    : item,
-                );
-              } else {
-                return [
-                  ...state,
-                  {
-                    id: report.id,
-                    titulo: report.titulo,
-                    funcionario: report.funcionario,
-                    tipo: report.tipo,
-                    dataCriacao: report.dataCriacao,
-                    fileUrl: fileURL,
-                  },
-                ];
-              }
-            });
-          }
-        });
-      }
-    };
 
   return (
     <div className="flex flex-col gap-6">
@@ -100,12 +54,11 @@ export const Report = () => {
         <Input.Control placeholder="Pesquisar" />
       </Input.Root>
 
-      <section className="w-full grid grid-cols-5 gap-4 mt-4">
-        {reportsData && reportsData.map((report) => (
+      <section className="w-full grid grid-cols-4 gap-4 mt-4 lg:grid-cols-5">
+        {reports && reports.map((report) => (
           <CardFile
             key={report.id}
             report={report}
-            imgUrl="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           />
         ))}
       </section>

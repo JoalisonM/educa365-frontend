@@ -9,7 +9,7 @@ export const Employee = {
   },
 
   getAll(params: object) {
-    return api.get(uriEmployee, params);
+    return api.get(uriEmployee, { params });
   },
 
   create(employee: CreateEmployeeInput) {

@@ -8,6 +8,7 @@ import {
 import { Button } from "@components/Button";
 import * as Upload from "@components/Upload";
 import { useReport } from "@hooks/useReport";
+import { STORAGE_KEYS } from "@contexts/auth";
 import { SheetClose } from "@ui/components/ui/sheet";
 import { reportFormSchema } from "@schemas/reportFormSchema";
 
@@ -20,6 +21,8 @@ interface ReportFormProps {
 export const ReportForm = ({ studentId }: ReportFormProps) => {
   const { createReport } = useReport();
   const [files, setFiles] = useState<File[]>([]);
+  const userStorage = localStorage.getItem(STORAGE_KEYS.USER_KEY);
+  const user = userStorage && JSON.parse(userStorage);
 
   const form = useForm<any>();
 
@@ -30,7 +33,7 @@ export const ReportForm = ({ studentId }: ReportFormProps) => {
       formData.append("tipo", "Academico");
       formData.append("titulo", file.name);
       studentId && formData.append("educando_id", studentId);
-      formData.append("funcionario_id", "d9b644f8-6adf-476f-97b8-733db8f1f8ce");
+      formData.append("funcionario_id", user.id);
 
       await createReport(formData);
     });

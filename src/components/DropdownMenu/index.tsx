@@ -14,21 +14,28 @@ import { useReport } from "@hooks/useReport";
 interface DropdownMenuProps {
   id: string;
   children: ReactNode;
+  fileUrl: string;
 }
 
-export const DropdownMenu = ({ id, children }: DropdownMenuProps) => {
+export const DropdownMenu = ({ id, fileUrl, children }: DropdownMenuProps) => {
   const { deleteReport } = useReport();
+
+  const handleDeleteReport = (id: string) => {
+    deleteReport(id);
+  };
 
   return (
     <DropdownMenuPrimitive>
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer">
           <DownloadSimple className="mr-2 h-4 w-4" />
-          <span>Fazer download</span>
+          <span>
+            <a href={fileUrl} download>Fazer download</a>
+          </span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => deleteReport(id)}>
+        <DropdownMenuItem onClick={() => handleDeleteReport(id)} className="cursor-pointer">
           <Trash className="mr-2 h-4 w-4" />
           <span>Deletar arquivo</span>
         </DropdownMenuItem>

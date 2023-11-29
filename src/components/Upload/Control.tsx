@@ -25,7 +25,7 @@ export const Control = ({ multiple = false, ...props }: ControlProps) => {
       className="sr-only"
       multiple={multiple}
       onChange={handleFilesSelected}
-      accept=".doc, .docx, .odt, .xlsx, application/pdf"
+      accept=".odt, application/pdf"
     />
   );
 };
