@@ -1,9 +1,9 @@
 import { Routes, Route } from "react-router-dom";
 
-import { Login } from "./pages/Login";
-import { Employee } from "./pages/Employee";
-import { Settings } from "./pages/Settings";
-import { DefaultLayout } from "./layouts/DefaultLayout";
+import { Login } from "../pages/Login";
+import { Employee } from "../pages/Employee";
+import { Settings } from "../pages/Settings";
+import { DefaultLayout } from "../layouts/DefaultLayout";
 
 import { Class } from "@pages/Class";
 import { Report } from "@pages/Report";
