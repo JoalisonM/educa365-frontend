@@ -1,4 +1,5 @@
 import { api } from "../lib/axios";
+import { ReportProps } from "@dtos/reportDTO";
 
 const uriReport = "relatorio";
 
@@ -12,7 +13,7 @@ export const Report = {
   },
 
   create(report: FormData) {
-    return api.post(uriReport, report, {
+    return api.post<ReportProps>(uriReport, report, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

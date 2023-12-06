@@ -31,8 +31,6 @@ export function Combobox({ form, name, label, placeholder, items, itemsOptions, 
   const [open, setOpen] = useState(false);
   const valueLabel = items.find((item: any) => item[itemsOptions[0]] === value)?.[itemsOptions[1]];
 
-  console.log("valueLabel: ", valueLabel);
-
   return (
     <div className="flex flex-col gap-1">
       <label

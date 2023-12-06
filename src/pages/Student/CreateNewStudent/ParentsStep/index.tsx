@@ -175,8 +175,6 @@ export const ParentsStep = () => {
     handleNextStep();
   };
 
-  console.log("parentId: ", parentId);
-
   return (
     <FormLayout>
       <Form {...form}>

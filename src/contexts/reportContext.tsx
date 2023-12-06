@@ -24,9 +24,9 @@ interface ReportContextType {
   deleteReport: (id: string) => void;
   setReport: (value: ReportProps) => void;
   setReports: (value: ReportDataProps[]) => void;
-  createReport: (data: FormData) => Promise<void>;
   fetchReports: (studentId?: string) => Promise<void>;
   getReport: (id: string) => Promise<Blob | undefined>;
+  createReport: (data: FormData) => Promise<ReportProps>;
   updateReport: (id: string, data: FormData) => Promise<void>;
 }
 
@@ -118,8 +118,6 @@ export const ReportContextProvider = ({
     const response = await Report.create(data);
 
     return response.data;
-
-    // setReports((state) => [response.data, ...state]);
   }, []);
 
   const updateReport = useCallback(async (id: string, data: FormData) => {

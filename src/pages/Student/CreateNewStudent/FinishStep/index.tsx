@@ -29,7 +29,6 @@ export const FinishStep = () => {
   };
 
   const handleSubmit = () => {
-    console.log("student: ", student);
     createStudent(student);
 
     // const stateJSON = JSON.stringify(initialData);

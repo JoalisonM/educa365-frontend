@@ -7,6 +7,7 @@ export const useReport = () => {
   const reports = useContextSelector(ReportContext, (context) => context.reports);
   const getReport = useContextSelector(ReportContext, (context) => context.getReport);
   const setReport = useContextSelector(ReportContext, (context) => context.setReport);
+  const setReports = useContextSelector(ReportContext, (context) => context.setReports);
   const createReport = useContextSelector(ReportContext, (context) => context.createReport);
   const deleteReport = useContextSelector(ReportContext, (context) => context.deleteReport);
   const fetchReports = useContextSelector(ReportContext, (context) => context.fetchReports);
@@ -17,6 +18,7 @@ export const useReport = () => {
     reports,
     getReport,
     setReport,
+    setReports,
     fetchReports,
     createReport,
     deleteReport,

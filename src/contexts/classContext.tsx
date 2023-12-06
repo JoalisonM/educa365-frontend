@@ -44,8 +44,6 @@ export const ClassContextProvider = ({
     setInstitutionClass(response.data);
   }, []);
 
-  console.log("classes: ", classes);
-
   const addTeacher = useCallback(async (id: string, params: CreateClassesProps) => {
     try {
       const response = await Class.addTeacher(id, params);
