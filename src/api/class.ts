@@ -21,7 +21,7 @@ export const Class = {
   },
 
   addTeacher(id: string, params: CreateClassesProps) {
-    return api.patch<RequestTeacher>(`${uriClass}/${id}`, params);
+    return api.patch(`${uriClass}/${id}`, params);
   },
 
   delete(id: string | number) {

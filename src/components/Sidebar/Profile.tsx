@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { SignOut } from "@phosphor-icons/react";
 
+import BoyImg from "../../assets/boy.svg";
+import GirlImg from "../../assets/girl.svg";
 import { Button } from "../Button";
 import { useAuth } from "@contexts/auth";
-import Avatar from "avataaars";
 import "./styles.css";
 
 export const Profile = () => {
@@ -31,33 +32,13 @@ export const Profile = () => {
           </svg>
           <div className="absolute flex items-center justify-center w-full h-full top-0 left-0">
             {user && user.sexo === "True" ? (
-              <Avatar
-                avatarStyle="Circle"
-                topType="LongHairFrida"
-                accessoriesType="Blank"
-                facialHairType="Blank"
-                clotheType="Overall"
-                clotheColor="Heather"
-                eyeType="Happy"
-                eyebrowType="DefaultNatural"
-                mouthType="Smile"
-                skinColor="Brown"
+              <img
+                src={GirlImg}
                 className="w-12 h-12 rounded-full"
               />
             ) : (
-              <Avatar
-                avatarStyle='Circle'
-                topType='ShortHairShortFlat'
-                accessoriesType='Blank'
-                hairColor='Platinum'
-                facialHairType='MoustacheFancy'
-                facialHairColor='Brown'
-                clotheType='CollarSweater'
-                clotheColor='PastelGreen'
-                eyeType='Happy'
-                eyebrowType='DefaultNatural'
-                mouthType='Smile'
-                skinColor='Brown'
+              <img
+                src={BoyImg}
                 className="w-12 h-12 rounded-full"
               />
             )}

@@ -1,11 +1,26 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useToast } from "@ui/components/ui/use-toast";
 
 import { Parent } from "@api/parent";
-import { UpdateParentsInput } from "@dtos/parentsDTO";
+import { ParentsProps, UpdateParentsInput } from "@dtos/parentsDTO";
 
 export const useParent = () => {
   const { toast } = useToast();
+  const [parents, setParents] = useState();
+
+  const fetchParents = useCallback(async () => {
+    const response = await Parent.getAll();
+
+    setParents(response.data);
+
+    return response;
+  }, []);
+
+  const getParent = useCallback(async (id: string): Promise<ParentsProps> => {
+    const response = await Parent.get(id);
+
+    return response.data;
+  }, []);
 
   const updateParent = useCallback(async (data: UpdateParentsInput) => {
     try {
@@ -26,6 +41,9 @@ export const useParent = () => {
   }, []);
 
   return {
+    parents,
+    getParent,
+    fetchParents,
     updateParent,
   };
 };

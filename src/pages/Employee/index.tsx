@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import {
+  Trash,
   MagnifyingGlass,
   PencilSimpleLine,
-  Trash,
 } from "@phosphor-icons/react";
-import { Sheet, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetTrigger } from "@ui/components/ui/sheet";
 
 import * as Input from "@components/Input";
 import { EmployeeProps } from "@dtos/index";
@@ -97,17 +97,17 @@ export const Employee = () => {
                     <td className="py-5 px-8">{formatDate(employee.dataNascimento)}</td>
                     <td className=" rounded-tr-md rounded-br-md py-5 px-8 flex justify-end gap-4">
                       <Sheet>
-                        <SheetTrigger asChild>
-                          <Tooltip content="Editar">
+                        <Tooltip content="Editar">
+                          <SheetTrigger asChild>
                             <Button
                               type="button"
                               variant="ghost"
                               onClick={() => handleShowEmployee(employee.id)}
                             >
-                              <PencilSimpleLine className="h-5 w-5" />
+                                <PencilSimpleLine className="h-5 w-5" />
                             </Button>
-                          </Tooltip>
-                        </SheetTrigger>
+                          </SheetTrigger>
+                        </Tooltip>
 
                         <Drawer title="Atualizar funcionário">
                           <EmployeeForm />

@@ -4,14 +4,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@ui/components/ui/form";
 
 import { useCep } from "@hooks/useCep";
+import { useAuth } from "@contexts/auth";
 import * as Input from "@components/Input";
 import { Button } from "@components/Button";
 import { employeeFormSchema } from "@schemas/employeeFormSchema";
 import { EnvelopeSimple, Phone } from "@phosphor-icons/react";
+import { useEffect } from "react";
 
 export type EmployeeFormInputs = z.infer<typeof employeeFormSchema>;
 
 export const Settings = () => {
+  const { user } = useAuth();
   const { getCep } = useCep();
 
   const form = useForm<EmployeeFormInputs>({
@@ -22,6 +25,21 @@ export const Settings = () => {
     handleSubmit,
     formState: { errors },
   } = form;
+
+  useEffect(() => {
+    if (user) {
+      setValue("nome", user.nome);
+      setValue("email", user.email);
+      setValue("endereco.telefone", user.endereco.telefone);
+      setValue("endereco.rua", user.endereco.rua);
+      setValue("endereco.bairro", user.endereco.bairro);
+      setValue("endereco.numero", user.endereco.numero);
+      setValue("endereco.referencia", user.endereco.referencia);
+      setValue("endereco.cep", user.endereco.cep);
+      setValue("endereco.cidade", user.endereco.cidade);
+      setValue("endereco.uf", user.endereco.uf);
+    }
+  }, []);
 
   const checkCep = async (value: string) => {
     if (!value) {
@@ -47,7 +65,7 @@ export const Settings = () => {
       <div className="flex flex-col gap-4 justify-between pb-5 mt-4 border-b border-zinc-100 lg:items-center lg:flex-row">
         <div className="space-y-1">
           <h2 className="text-lg font-medium text-zinc-900">Meus dados</h2>
-          <span className="text-sm text-zinc-500">Atualize as suas informações aqui.</span>
+          <span className="text-sm text-zinc-500">Atualize as suas informações pessoais aqui.</span>
         </div>
         <div className="flex items-center gap-2">
           <Button type="button" variant="outline" className="text-sm">Cancelar</Button>
@@ -226,7 +244,7 @@ export const Settings = () => {
 
               <FormField
                   control={form.control}
-                  name="endereco.numero"
+                  name="endereco.referencia"
                   render={({ field }) => (
                     <FormItem className="space-y-1">
                       <FormControl>

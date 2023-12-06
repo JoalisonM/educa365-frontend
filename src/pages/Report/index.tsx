@@ -1,14 +1,14 @@
+import { useEffect } from "react";
 import { MagnifyingGlass } from "@phosphor-icons/react";
 import { Sheet, SheetTrigger } from "@ui/components/ui/sheet";
 
 import * as Input from "@components/Input";
 import { Button } from "@components/Button";
 import { Drawer } from "@components/Drawer";
-import { ReportForm } from "@components/ReportForm";
-import { CardFile } from "@components/CardFile";
 import { useReport } from "@hooks/useReport";
-import { useEffect, useState } from "react";
+import { CardFile } from "@components/CardFile";
 import { EmployeeProps } from "@dtos/employeeDTO";
+import { ReportForm } from "@components/ReportForm";
 
 export interface ReportDataProps {
   id: string;

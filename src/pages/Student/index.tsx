@@ -90,22 +90,22 @@ export const Student = () => {
                 <td className="py-5 px-8">{formatDateToAge(student.dataNascimento)}</td>
                 <td className="py-5 px-8">{formatDate(student.dataNascimento)}</td>
                 <td className=" rounded-tr-md rounded-br-md py-5 px-8 flex justify-end gap-4">
-                  <Tooltip content="editar">
-                      <Button type="button" variant="ghost" onClick={() => handleEdit(student.id)}>
-                        <PencilSimpleLine className="h-5 w-5" />
-                      </Button>
+                  <Tooltip content="Editar">
+                    <Button type="button" variant="ghost" onClick={() => handleEdit(student.id)}>
+                      <PencilSimpleLine className="h-5 w-5" />
+                    </Button>
                   </Tooltip>
                   <Sheet>
-                    <SheetTrigger asChild>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                      >
-                        <Tooltip content="Adicionar relatório">
-                          <Files className="h-5 w-5" />
-                        </Tooltip>
-                      </Button>
-                    </SheetTrigger>
+                    <Tooltip content="Adicionar relatório">
+                      <SheetTrigger asChild>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                        >
+                            <Files className="h-5 w-5" />
+                        </Button>
+                      </SheetTrigger>
+                    </Tooltip>
 
                     <Drawer title="Adicionar relatórios">
                       <ReportForm studentId={student.id} />

@@ -29,14 +29,15 @@ export const FinishStep = () => {
   };
 
   const handleSubmit = () => {
+    console.log("student: ", student);
     createStudent(student);
 
-    const stateJSON = JSON.stringify(initialData);
-    localStorage.setItem("@educa365:form-state-1.0.0", stateJSON);
+    // const stateJSON = JSON.stringify(initialData);
+    // localStorage.setItem("@educa365:form-state-1.0.0", stateJSON);
 
-    resetStudent();
+    // resetStudent();
 
-    navigate("/students");
+    // navigate("/students");
   };
 
   return (

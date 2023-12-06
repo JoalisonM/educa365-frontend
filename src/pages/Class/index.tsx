@@ -23,7 +23,7 @@ export const Class = () => {
     fetchClasses,
     createClasses,
   } = useClass();
-  const disableClass = classes.length > 0;
+  const disableClass = classes.length === 9;
 
   useEffect(() => {
     fetchClasses();
@@ -63,7 +63,7 @@ export const Class = () => {
             <thead>
               <tr className="text-left text-grayTableTitle">
                 <th className="py-4 px-8 whitespace-nowrap">Nome</th>
-                <th className="py-4 px-8 whitespace-nowrap">turno</th>
+                <th className="py-4 px-8 whitespace-nowrap">Turno</th>
                 <th className="py-4 px-8 whitespace-nowrap">Instituição</th>
                 <th className="py-4 px-8 whitespace-nowrap">Professor</th>
               </tr>

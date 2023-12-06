@@ -44,9 +44,15 @@ export const ClassContextProvider = ({
     setInstitutionClass(response.data);
   }, []);
 
+  console.log("classes: ", classes);
+
   const addTeacher = useCallback(async (id: string, params: CreateClassesProps) => {
     try {
-      await Class.addTeacher(id, params);
+      const response = await Class.addTeacher(id, params);
+
+      setClasses((state) => state.map(
+        (institutionClass) => institutionClass.id === id ? response.data : institutionClass),
+      );
 
       toast({
         title: "Professor adicionado com sucesso!",

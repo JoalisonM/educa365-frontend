@@ -43,14 +43,16 @@ export const ReportContextProvider = ({
   const [report, setReport] = useState<ReportProps>({} as ReportProps);
 
   const fetchReports = useCallback(async (studentId?: string) => {
-    const params = {
-      educando_id: studentId ? studentId : "",
-    };
-    const response = await Report.getAll(params);
-    const reports = response.data;
+    setReports([]);
+    try {
+      const params = {
+        educando_id: studentId ? studentId : "",
+      };
+      const response = await Report.getAll(params);
+      const reports = response.data;
 
-    if (reports) {
-        reports.map(async (report: any) => {
+      if (reports) {
+        reports.map(async (report: ReportDataProps) => {
           const reportResponse = await getReport(report.id);
 
           if (reportResponse) {
@@ -89,6 +91,9 @@ export const ReportContextProvider = ({
           }
         });
       }
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
   const getReport = useCallback(async (id: string) => {

@@ -18,6 +18,10 @@ import { Form } from "@ui/components/ui/form";
 import { FormFields } from "./FormFields";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { format } from "date-fns";
+import { Combobox } from "@components/Combobox";
+import { useEmployee } from "@hooks/useEmployee";
+import { ParentsProps } from "@dtos/parentsDTO";
+import { useParent } from "@hooks/useParent";
 
 interface bolsaFamiliaProps {
   parent1: CheckedState;
@@ -29,6 +33,9 @@ export type ParentFormInputs = z.infer<typeof parentFormSchema>;
 export const ParentsStep = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [parentId, setParentId] = useState("");
+  const [parentIndex, setParentIndex] = useState(0);
+  const { fetchParents, parents, getParent } = useParent();
   const { addStudentParents, setCurrentStep } = useFormContext();
   const [bolsaFamilia, setBolsaFamilia] = useState<bolsaFamiliaProps>({} as bolsaFamiliaProps);
 
@@ -66,8 +73,50 @@ export const ParentsStep = () => {
   const disableRemoveButton = fields.length < 2;
 
   useEffect(() => {
+    fetchParents();
+  }, []);
+
+  useEffect(() => {
     setCurrentStep(4);
   }, []);
+
+  // useEffect(() => {
+  //   const loadParent = async () => {
+  //     const parent = await getParent(parentId);
+  //     console.log("parent: ", parent);
+  //     setParentIndex((index) => index + 1);
+  //     if (parent && Object.keys(parent).length > 0) {
+  //       setValue(`responsaveis.${parentIndex}.nome`, parent.nome);
+  //       setValue(`responsaveis.${parentIndex}.apelido`, parent.apelido);
+  //       setValue(`responsaveis.${parentIndex}.bolsaFamilia.nis`, parent.bolsaFamilia?.nis ? parent.bolsaFamilia.nis : null);
+  //       setValue(`responsaveis.${parentIndex}.cpf`, parent.cpf);
+  //       setValue(`responsaveis.${parentIndex}.dataExpedicaoCpf`, new Date(
+  //         parent.dataExpedicaoCpf,
+  //       ));
+  //       setValue(`responsaveis.${parentIndex}.dataExpedicaoRg`, new Date(
+  //         parent.dataExpedicaoRg,
+  //       ));
+  //       setValue(`responsaveis.${parentIndex}.dataNascimento`, new Date(
+  //         parent.dataNascimento,
+  //       ));
+  //       setValue(`responsaveis.${parentIndex}.emissorRg`, parent.emissorRg);
+  //       setValue(`responsaveis.${parentIndex}.escolaridade`, parent.escolaridade);
+  //       setValue(`responsaveis.${parentIndex}.familiaresCasa`, parent.familiaresCasa);
+  //       setValue(`responsaveis.${parentIndex}.nomeMae`, parent.nomeMae);
+  //       setValue(`responsaveis.${parentIndex}.parentesco`, parent.parentesco);
+  //       setValue(`responsaveis.${parentIndex}.profissao`, parent.profissao);
+  //       setValue(`responsaveis.${parentIndex}.rg`, parent.rg);
+  //       setValue(`responsaveis.${parentIndex}.sexo`, parent.sexo);
+  //       setValue(`responsaveis.${parentIndex}.ufRg`, parent.ufRg);
+
+  //       if (parent.bolsaFamilia?.nis) {
+  //         handleCheckBolsaFamilia(parentIndex, true);
+  //       }
+  //     }
+  //   };
+
+  //   loadParent();
+  // }, [parentId]);
 
   const handleBackStep = () => {
     navigate(`${location.pathname.replace("parents", "comments")}`);
@@ -126,6 +175,8 @@ export const ParentsStep = () => {
     handleNextStep();
   };
 
+  console.log("parentId: ", parentId);
+
   return (
     <FormLayout>
       <Form {...form}>
@@ -149,6 +200,25 @@ export const ParentsStep = () => {
               </AccordionItem>
             </Accordion>
           ))}
+
+          {parents && (
+            <></>
+            // <div className="w-full flex flex-col gap-4 pt-5 px-4">
+            //   <h1 className="text-2xl font-bold">Responsável cadastrado</h1>
+            //   <div className="grid grid-cols-3">
+            //     <Combobox
+            //       form={form}
+            //       value={parentId}
+            //       items={parents}
+            //       name="responsavel"
+            //       label="Responsáveis"
+            //       setValue={setParentId}
+            //       itemsOptions={["id", "nome"]}
+            //       placeholder="Selecione o responsável"
+            //     />
+            //   </div>
+            // </div>
+          )}
 
           <div className="flex items-center justify-end gap-4 pt-5">
             <Button type="button" variant="outline" onClick={() => handleBackStep()}>

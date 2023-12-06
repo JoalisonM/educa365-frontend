@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,6 +16,7 @@ import * as Select from "@components/Select";
 import { useEmployee } from "@hooks/useEmployee";
 import { SheetClose } from "@ui/components/ui/sheet";
 import { classFormSchema } from "@schemas/classFormSchema";
+import { EmployeeProps } from "@dtos/employeeDTO";
 
 export type ClassFormInputs = z.infer<typeof classFormSchema>;
 
@@ -31,6 +32,7 @@ export const TeacherForm = ({ classId }: TeacherFormProps) => {
     setValue,
     formState: { isDirty, isValid },
   } = form;
+  const [employeeId, setEmployeeId] = useState("");
   const { addTeacher, institutionClass } = useClass();
   const { fetchEmployees, employees } = useEmployee();
 
@@ -48,6 +50,12 @@ export const TeacherForm = ({ classId }: TeacherFormProps) => {
     await addTeacher(classId, data);
   };
 
+  // const handleSelectEmployee = (value: string) => {
+  //   setEmployeeId(value);
+  // };
+
+  // console.log("employeeId: ", employeeId);
+
   return (
     <Form {...form}>
       <form
@@ -64,7 +72,10 @@ export const TeacherForm = ({ classId }: TeacherFormProps) => {
                 <FormControl>
                   <Select.Root
                     value={field.value}
-                    onChange={field.onChange}
+                    onChange={(event) => {
+                      field.onChange(event);
+                      // handleSelectEmployee(event);
+                    }}
                     placeholder="Selecione o professor(a)"
                   >
                     {employees && employees.length > 0 && employees.map((employee) => (
