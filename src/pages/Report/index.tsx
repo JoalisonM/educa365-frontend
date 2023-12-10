@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { MagnifyingGlass } from "@phosphor-icons/react";
 import { Sheet, SheetTrigger } from "@ui/components/ui/sheet";
 
+import { useAuth } from "@contexts/auth";
 import * as Input from "@components/Input";
 import { Button } from "@components/Button";
 import { Drawer } from "@components/Drawer";
@@ -9,6 +10,7 @@ import { useReport } from "@hooks/useReport";
 import { CardFile } from "@components/CardFile";
 import { EmployeeProps } from "@dtos/employeeDTO";
 import { ReportForm } from "@components/ReportForm";
+import { occupations } from "@configs/constant/employee";
 
 export interface ReportDataProps {
   id: string;
@@ -20,10 +22,15 @@ export interface ReportDataProps {
 }
 
 export const Report = () => {
+  const { user } = useAuth();
   const { fetchReports, reports } = useReport();
 
   useEffect(() => {
-    fetchReports();
+    if (user?.cargo === occupations.MANAGER.value) {
+      fetchReports();
+    } else {
+      user && fetchReports({ funcionario_id: user.id });
+    }
   }, []);
 
   return (

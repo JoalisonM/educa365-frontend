@@ -3,8 +3,6 @@ import { createContext } from "use-context-selector";
 
 import {
   ReportProps,
-  CreateReportInput,
-  UpdateReportInput,
   EmployeeProps,
 } from "../dtos";
 import { Report } from "../api/report";
@@ -24,13 +22,18 @@ interface ReportContextType {
   deleteReport: (id: string) => void;
   setReport: (value: ReportProps) => void;
   setReports: (value: ReportDataProps[]) => void;
-  fetchReports: (studentId?: string) => Promise<void>;
   getReport: (id: string) => Promise<Blob | undefined>;
+  fetchReports: (params?: ParamsProps) => Promise<void>;
   createReport: (data: FormData) => Promise<ReportProps>;
   updateReport: (id: string, data: FormData) => Promise<void>;
 }
 
 export const ReportContext = createContext({} as ReportContextType);
+
+interface ParamsProps {
+  educando_id?: string;
+  funcionario_id?: string;
+}
 
 interface ReportContextProviderProps {
   children: ReactNode;
@@ -42,12 +45,9 @@ export const ReportContextProvider = ({
   const [reports, setReports] = useState<ReportDataProps[]>([]);
   const [report, setReport] = useState<ReportProps>({} as ReportProps);
 
-  const fetchReports = useCallback(async (studentId?: string) => {
+  const fetchReports = useCallback(async (params?: ParamsProps) => {
     setReports([]);
     try {
-      const params = {
-        educando_id: studentId ? studentId : "",
-      };
       const response = await Report.getAll(params);
       const reports = response.data;
 

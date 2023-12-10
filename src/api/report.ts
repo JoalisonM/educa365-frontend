@@ -8,7 +8,7 @@ export const Report = {
     return api.get(`${uriReport}/${id}`);
   },
 
-  getAll(params: object) {
+  getAll(params: object | undefined) {
     return api.get(uriReport, { params });
   },
 

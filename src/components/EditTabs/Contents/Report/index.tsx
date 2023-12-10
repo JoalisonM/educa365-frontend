@@ -17,7 +17,7 @@ export const Report = ({ student }: ReportProps) => {
 
   useEffect(() => {
     if (student) {
-      fetchReports(student.id);
+      fetchReports({ educando_id: student.id });
     }
   }, []);
 
