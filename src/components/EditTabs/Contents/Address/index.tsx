@@ -5,10 +5,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@ui/components/ui/use-toast";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@ui/components/ui/form";
 
+import { useAuth } from "@contexts/auth";
 import * as Input from "@components/Input";
 import { Button } from "@components/Button";
 import { useAddress } from "@hooks/useAddress";
 import { StudentProps } from "@dtos/studentDTO";
+import { occupations } from "@configs/constant/employee";
 import { addressFormSchema } from "@schemas/addressFormSchema";
 
 export type AddressFormInputs = z.infer<typeof addressFormSchema>;
@@ -18,8 +20,10 @@ interface AddressContentProps {
 }
 
 export const Address = ({ student }: AddressContentProps) => {
+  const { user } = useAuth();
   const { toast } = useToast();
   const { updateAddress } = useAddress();
+  const disableSaveButton = user?.cargo !== occupations.MANAGER.value ? true: false;
 
   const form = useForm<AddressFormInputs>({
     resolver: zodResolver(addressFormSchema),
@@ -71,7 +75,7 @@ export const Address = ({ student }: AddressContentProps) => {
         </div>
         <div className="flex items-center gap-2">
           <Button type="button" variant="outline" className="text-sm">Cancelar</Button>
-          <Button type="submit" form="address" className="text-sm">Salvar</Button>
+          <Button type="submit" disabled={disableSaveButton} form="address" className="text-sm">Salvar</Button>
         </div>
       </div>
 
@@ -299,7 +303,7 @@ export const Address = ({ student }: AddressContentProps) => {
 
           <div className="flex items-center justify-end gap-2 pt-5">
             <Button type="button" variant="outline" className="text-sm">Cancelar</Button>
-            <Button type="submit" className="text-sm">Salvar</Button>
+            <Button type="submit" disabled={disableSaveButton} className="text-sm">Salvar</Button>
           </div>
         </form>
       </Form>

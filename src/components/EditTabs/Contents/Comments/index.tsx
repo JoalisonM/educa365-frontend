@@ -2,15 +2,15 @@ import { useEffect } from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useToast } from "@ui/components/ui/use-toast";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@ui/components/ui/form";
 
+import { useAuth } from "@contexts/auth";
 import * as Input from "@components/Input";
 import { Button } from "@components/Button";
-import { useStudent } from "@hooks/useStudent";
 import { StudentProps } from "@dtos/studentDTO";
 import { useComments } from "@hooks/useComments";
 import { Checkbox } from "@/components/ui/checkbox";
+import { occupations } from "@configs/constant/employee";
 import { commentsFormSchema } from "@schemas/commentsFormSchema";
 
 export type CommentsFormInputs = z.infer<typeof commentsFormSchema>;
@@ -20,9 +20,9 @@ interface CommentsProps {
 }
 
 export const Comments = ({ student }: CommentsProps) => {
-  const { toast } = useToast();
-  const { updateStudent } = useStudent();
+  const { user } = useAuth();
   const { updateComments } = useComments();
+  const disableSaveButton = user?.cargo !== occupations.MANAGER.value ? true: false;
 
   const form = useForm<CommentsFormInputs>({
     resolver: zodResolver(commentsFormSchema),
@@ -66,7 +66,7 @@ export const Comments = ({ student }: CommentsProps) => {
         </div>
         <div className="flex items-center gap-2">
           <Button type="button" variant="outline" className="text-sm">Cancelar</Button>
-          <Button type="submit" form="comments" className="text-sm">Salvar</Button>
+          <Button type="submit" disabled={disableSaveButton} form="comments" className="text-sm">Salvar</Button>
         </div>
       </div>
 
@@ -306,7 +306,7 @@ export const Comments = ({ student }: CommentsProps) => {
 
           <div className="flex items-center justify-end gap-2 pt-5">
             <Button type="button" variant="outline" className="text-sm">Cancelar</Button>
-            <Button type="submit" className="text-sm">Salvar</Button>
+            <Button type="submit" disabled={disableSaveButton} className="text-sm">Salvar</Button>
           </div>
         </form>
       </Form>

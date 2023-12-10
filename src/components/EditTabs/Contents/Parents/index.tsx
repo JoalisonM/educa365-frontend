@@ -1,5 +1,6 @@
 import { useState } from "react";
 import * as z from "zod";
+import { format } from "date-fns";
 import { Form } from "@ui/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckedState } from "@radix-ui/react-checkbox";
@@ -11,12 +12,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@ui/components/ui/accordion";
+import { useAuth } from "@contexts/auth";
 import { FormFields } from "./FormFields";
 import { Button } from "@components/Button";
 import { useParent } from "@hooks/useParent";
 import { StudentProps } from "@dtos/studentDTO";
+import { occupations } from "@configs/constant/employee";
 import { parentFormSchema } from "@schemas/updateParentsFormSchema";
-import { format } from "date-fns";
 
 export type ParentFormInputs = z.infer<typeof parentFormSchema>;
 
@@ -30,7 +32,9 @@ interface ParentsProps {
 }
 
 export const Parents = ({ student }: ParentsProps) => {
+  const { user } = useAuth();
   const { updateParent } = useParent();
+  const disableSaveButton = user?.cargo !== occupations.MANAGER.value ? true: false;
   const [bolsaFamilia, setBolsaFamilia] = useState<BolsaFamiliaProps>({} as BolsaFamiliaProps);
   const responsaveis = student.responsaveis.map((responsavel) => ({
       id: responsavel.id,
@@ -135,7 +139,7 @@ export const Parents = ({ student }: ParentsProps) => {
         </div>
         <div className="flex items-center gap-2">
           <Button type="button" variant="outline" className="text-sm">Cancelar</Button>
-          <Button type="submit" form="parents" className="text-sm">Salvar</Button>
+          <Button type="submit" disabled={disableSaveButton} form="parents" className="text-sm">Salvar</Button>
         </div>
       </div>
 
@@ -167,10 +171,10 @@ export const Parents = ({ student }: ParentsProps) => {
 
           <div className="flex items-center justify-end gap-2 pt-5">
             <Button type="button" variant="outline" className="text-sm">Cancelar</Button>
-            <Button type="button" disabled={disableNewParent} onClick={() => handleAddNewParent()}>
+            <Button type="button" disabled={disableNewParent || disableSaveButton} onClick={() => handleAddNewParent()}>
               Novo parente
             </Button>
-            <Button type="submit" className="text-sm">Salvar</Button>
+            <Button type="submit" disabled={disableSaveButton} className="text-sm">Salvar</Button>
           </div>
         </form>
       </Form>

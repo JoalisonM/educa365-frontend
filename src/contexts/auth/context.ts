@@ -8,6 +8,8 @@ interface AuthContextData {
   loading: boolean;
   signOut: () => void;
   loadingUser: boolean;
+  validateManager: () => Promise<boolean>;
+  validateSocialWorker: () => Promise<boolean>;
   signIn: (user: LoginProps) => Promise<boolean>;
 }
 

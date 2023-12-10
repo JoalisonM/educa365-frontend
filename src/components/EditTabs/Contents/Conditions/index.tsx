@@ -9,11 +9,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@ui/components/ui/accordion";
+import { useAuth } from "@contexts/auth";
 import { FormFields } from "./FormFields";
 import { Button } from "@components/Button";
 import { StudentProps } from "@dtos/studentDTO";
-import { conditionsFormSchema } from "@schemas/conditionsFormSchema";
 import { useConditions } from "@hooks/useConditions";
+import { occupations } from "@configs/constant/employee";
+import { conditionsFormSchema } from "@schemas/conditionsFormSchema";
 
 export type ConditionsFormInputs = z.infer<typeof conditionsFormSchema>;
 
@@ -22,7 +24,9 @@ interface ConditionsProps {
 }
 
 export const Conditions = ({ student }: ConditionsProps) => {
+  const { user } = useAuth();
   const { updateCondition } = useConditions();
+  const disableSaveButton = user?.cargo !== occupations.MANAGER.value ? true: false;
   const condicoes = student.responsaveis.map((responsavel) => ({
     condicaoMoradia: {
       id: responsavel.condicaoMoradia.id,
@@ -119,7 +123,7 @@ export const Conditions = ({ student }: ConditionsProps) => {
         </div>
         <div className="flex items-center gap-2">
           <Button type="button" variant="outline" className="text-sm">Cancelar</Button>
-          <Button type="submit" form="parents" className="text-sm">Salvar</Button>
+          <Button type="submit" disabled={disableSaveButton} form="parents" className="text-sm">Salvar</Button>
         </div>
       </div>
 
@@ -146,10 +150,10 @@ export const Conditions = ({ student }: ConditionsProps) => {
 
           <div className="flex items-center justify-end gap-2 pt-5">
             <Button type="button" variant="outline" className="text-sm">Cancelar</Button>
-            <Button type="button" disabled={disableNewParent} onClick={() => handleAddNewCondition()}>
+            <Button type="button" disabled={disableNewParent || disableSaveButton} onClick={() => handleAddNewCondition()}>
               Nova condição
             </Button>
-            <Button type="submit" className="text-sm">Salvar</Button>
+            <Button type="submit" disabled={disableSaveButton} className="text-sm">Salvar</Button>
           </div>
         </form>
       </Form>

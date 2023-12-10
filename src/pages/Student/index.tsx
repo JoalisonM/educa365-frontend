@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Files,
   Trash,
@@ -18,10 +18,13 @@ import { AlertDialog } from "@components/Alert";
 import { ReportForm } from "@components/ReportForm";
 import { useToast } from "@ui/components/ui/use-toast";
 import { formatDate, formatDateToAge } from "@utils/format-date";
+import { useAuth } from "@contexts/auth";
+import { occupations } from "@configs/constant/employee";
 
 export const Student = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { students, getStudent, fetchStudents, deleteStudent } = useStudent();
 
   useEffect(() => {
@@ -51,13 +54,16 @@ export const Student = () => {
       <div className="flex flex-col gap-4 pb-5 border-b border-gray-200 md:flex-row md:items-center md:justify-between">
         <h1 className="text-3xl font-bold text-zinc-800">Educandos</h1>
 
-        <Button
-          type="button"
-          variant="primary"
-          onClick={() => handleNavigate("new-student")}
-        >
-          Adicionar
-        </Button>
+        {user?.cargo === occupations.MANAGER.value && (
+          <Button
+            type="button"
+            variant="primary"
+            onClick={() => handleNavigate("new-student")}
+          >
+            Adicionar
+          </Button>
+        )
+        }
       </div>
 
       <Input.Root className="mx-1 flex items-center gap-2 rounded-full bg-gray-50 border border-gray-300 px-3 py-2 shadow-sm md:w-96">
@@ -90,12 +96,12 @@ export const Student = () => {
                 <td className="py-5 px-8">{formatDateToAge(student.dataNascimento)}</td>
                 <td className="py-5 px-8">{formatDate(student.dataNascimento)}</td>
                 <td className=" rounded-tr-md rounded-br-md py-5 px-8 flex justify-end gap-4">
-                  <Tooltip content="Editar">
+                  {user?.cargo !== occupations.TEACHER.value && <Tooltip content="Editar">
                     <Button type="button" variant="ghost" onClick={() => handleEdit(student.id)}>
                       <PencilSimpleLine className="h-5 w-5" />
                     </Button>
-                  </Tooltip>
-                  <Sheet>
+                  </Tooltip>}
+                  {user?.cargo === occupations.SOCIAL_WORKER.value && <Sheet>
                     <Tooltip content="Adicionar relatório">
                       <SheetTrigger asChild>
                         <Button
@@ -110,8 +116,8 @@ export const Student = () => {
                     <Drawer title="Adicionar relatórios">
                       <ReportForm studentId={student.id} />
                     </Drawer>
-                  </Sheet>
-                  <AlertDialog
+                  </Sheet>}
+                  {user?.cargo === occupations.MANAGER.value && <AlertDialog
                     id={student.id}
                     title="Você tem certeza absoluta?"
                     description="Essa ação não pode ser desfeita. Isso excluirá permanentemente o educando."
@@ -120,7 +126,7 @@ export const Student = () => {
                     <Button type="button" variant="danger">
                       <Trash className="h-5 w-5" />
                     </Button>
-                  </AlertDialog>
+                  </AlertDialog>}
                 </td>
               </tr>
               ))}

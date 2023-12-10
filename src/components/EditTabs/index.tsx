@@ -11,8 +11,11 @@ import { Comments } from "./Contents/Comments";
 import { Conditions } from "./Contents/Conditions";
 import { StudentDetails } from "./Contents/StudentDetails";
 import { useStudent } from "@hooks/useStudent";
+import { useAuth } from "@contexts/auth";
+import { occupations } from "@configs/constant/employee";
 
 export const EditTabs = () => {
+  const { user } = useAuth();
   const { state } = useLocation();
   const { getStudent, student } = useStudent();
   const [currentTab, setCurrentTab] = useState("tab1");
@@ -31,7 +34,9 @@ export const EditTabs = () => {
             <TabItem value="tab3" title="Observações específicas" isSelected={currentTab === "tab3"} />
             <TabItem value="tab4" title="Responsáveis" isSelected={currentTab === "tab4"} />
             <TabItem value="tab5" title="Condições de moradia e vida" isSelected={currentTab === "tab5"} />
-            <TabItem value="tab6" title="Relatórios" isSelected={currentTab === "tab6"} />
+            {user?.cargo === occupations.SOCIAL_WORKER.value &&
+              <TabItem value="tab6" title="Relatórios" isSelected={currentTab === "tab6"} />
+            }
           </Tabs.List>
         </ScrollArea.Viewport>
 

@@ -6,10 +6,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@ui/components/ui/use-toast";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@ui/components/ui/form";
 
+import { useAuth } from "@contexts/auth";
 import * as Input from "@components/Input";
 import { Button } from "@components/Button";
 import { useStudent } from "@hooks/useStudent";
 import { StudentProps } from "@dtos/studentDTO";
+import { occupations } from "@configs/constant/employee";
 import { studentFormSchema } from "@schemas/studentFormSchema";
 
 export type StudentFormInputs = z.infer<typeof studentFormSchema>;
@@ -19,8 +21,10 @@ interface StudentDetailsProps {
 }
 
 export const StudentDetails = ({ student }: StudentDetailsProps) => {
+  const { user } = useAuth();
   const { toast } = useToast();
   const { updateStudent } = useStudent();
+  const disableSaveButton = user?.cargo !== occupations.MANAGER.value ? true: false;
 
   const form = useForm<StudentFormInputs>({
     resolver: zodResolver(studentFormSchema),
@@ -91,7 +95,7 @@ export const StudentDetails = ({ student }: StudentDetailsProps) => {
         </div>
         <div className="flex items-center gap-2">
           <Button type="button" variant="outline" className="text-sm">Cancelar</Button>
-          <Button type="submit" form="details" className="text-sm">Salvar</Button>
+          <Button type="submit" disabled={disableSaveButton} form="details" className="text-sm disabled:bg-zinc-500">Salvar</Button>
         </div>
       </div>
 
@@ -355,7 +359,7 @@ export const StudentDetails = ({ student }: StudentDetailsProps) => {
 
           <div className="flex items-center justify-end gap-2 pt-5">
             <Button type="button" variant="outline" className="text-sm">Cancelar</Button>
-            <Button type="submit" className="text-sm">Salvar</Button>
+            <Button type="submit" disabled={disableSaveButton} className="text-sm">Salvar</Button>
           </div>
         </form>
       </Form>
