@@ -10,14 +10,14 @@ import {
   CardTitle,
 } from "@ui/components/ui/card";
 import { DotsThreeVertical, File } from "@phosphor-icons/react";
-import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+// import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 
 import { Button } from "@components/Button";
 import { Tooltip } from "@components/Tooltip";
 import { EmployeeProps } from "@dtos/employeeDTO";
 import { FilePreview } from "@components/FilePreview";
 import { DropdownMenu } from "@components/DropdownMenu";
-import { useState } from "react";
+import { ReportCommentsProps } from "@dtos/reportCommentsDTO";
 
 export interface ReportDataProps {
   id: string;
@@ -26,6 +26,7 @@ export interface ReportDataProps {
   fileUrl: string;
   dataCriacao: string;
   funcionario: EmployeeProps;
+  comentarios: Array<ReportCommentsProps>;
 }
 
 interface CardFileProps {
@@ -33,7 +34,7 @@ interface CardFileProps {
 }
 
 export const CardFile = ({ report }: CardFileProps) => {
-  const { titulo, funcionario, fileUrl, id } = report;
+  const { titulo, funcionario, fileUrl, comentarios, id } = report;
 
   return (
     <Dialog>
@@ -61,8 +62,10 @@ export const CardFile = ({ report }: CardFileProps) => {
 
       <DialogContent>
         <FilePreview
+          reportId={id}
           fileUrl={fileUrl}
           title={titulo}
+          comments={comentarios}
           author={funcionario.nome}
         />
       </DialogContent>

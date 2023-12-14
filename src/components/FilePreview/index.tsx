@@ -1,13 +1,16 @@
 import { Comments } from "./Comments";
+import { ReportCommentsProps } from "@dtos/reportCommentsDTO";
 // import { FileViewer } from "./FileViewer";
 
 interface FilePreviewProps {
   title: string;
   author: string;
   fileUrl: string;
+  reportId: string;
+  comments: Array<ReportCommentsProps>;
 }
 
-export const FilePreview = ({ title, author, fileUrl }: FilePreviewProps) => {
+export const FilePreview = ({ title, author, fileUrl, reportId, comments }: FilePreviewProps) => {
   return (
     <div>
       <header className="w-[750px]">
@@ -22,7 +25,7 @@ export const FilePreview = ({ title, author, fileUrl }: FilePreviewProps) => {
         ></iframe>
         {/* <FileViewer fileUrl={fileUrl} title={title} /> */}
 
-        <Comments />
+        <Comments reportId={reportId} comments={comments} />
       </div>
     </div>
   );

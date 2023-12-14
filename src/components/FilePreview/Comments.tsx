@@ -4,27 +4,25 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@ui/components/ui/form";
 
-import { Button } from "@components/Button";
 import { CommentItem } from "./CommentItem";
+import { Button } from "@components/Button";
 import * as Textarea from "@components/Textarea";
+import { useReportComments } from "@hooks/reportComments";
 import { commentFormSchema } from "@schemas/commentFormSchema";
+import { ReportCommentsProps } from "@dtos/reportCommentsDTO";
+import { useAuth } from "@contexts/auth";
 
 export type CommentFormInputs = z.infer<typeof commentFormSchema>;
 
-interface CommentProps {
-  id: number;
-  text: string;
-  publishedAt: Date;
+type CommentProps = {
+  reportId: string;
+  comments: Array<ReportCommentsProps>;
 }
 
-export const Comments = () => {
-  const [commentId, setCommentId] = useState(2);
+export const Comments = ({ comments, reportId }: CommentProps) => {
+  const { user } = useAuth();
+  const { createComment, deleteComment } = useReportComments();
   const [newCommentText, setNewCommentText] = useState("");
-  const [comments, setComments] = useState<CommentProps[]>([{
-    id: 1,
-    text: "Ótimo plano pedagógico, parabéns!",
-    publishedAt: new Date("2023-11-18 16:10:00"),
-  }]);
 
   const isNewCommentEmpty = newCommentText.length === 0;
 
@@ -37,23 +35,24 @@ export const Comments = () => {
     setNewCommentText(value);
   };
 
-  const deleteComment = (commentId: number) => {
-    const commentsWithoutDeletedOne = comments.filter(comment => comment.id !== commentId);
-
-    setComments(commentsWithoutDeletedOne);
+  const handleDeleteComment = (commentId: string) => {
+    deleteComment(commentId);
   };
 
   const handleCreateNewComment = (data: CommentFormInputs) => {
-    setComments([{
-      id: commentId,
-      text: newCommentText,
-      publishedAt: new Date(),
-    }, ...comments]);
+    if (user) {
+      createComment({
+        texto: data.texto,
+        funcionario_id: user?.id,
+        relatorio_id: reportId,
+      });
+    }
 
-    setNewCommentText("");
-    setCommentId(commentId + 1);
     reset();
+    setNewCommentText("");
   };
+
+  console.log("comments: ", comments);
 
   return (
     <div className="flex flex-col gap-8 px-2 max-h-[700px]">
@@ -95,8 +94,11 @@ export const Comments = () => {
         {comments.map((comment) => (
           <CommentItem
             key={comment.id}
-            content={comment}
-            onDeleteComment={deleteComment}
+            id={comment.id}
+            text={comment.texto}
+            author={comment.funcionario.nome}
+            onDeleteComment={handleDeleteComment}
+            publishedAt={new Date(comment.dataCriacao)}
           />
         ))}
       </div>

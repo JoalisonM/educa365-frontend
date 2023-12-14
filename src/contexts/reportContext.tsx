@@ -6,6 +6,7 @@ import {
   EmployeeProps,
 } from "../dtos";
 import { Report } from "../api/report";
+import { ReportCommentsProps } from "@dtos/reportCommentsDTO";
 
 export interface ReportDataProps {
   id: string;
@@ -14,6 +15,7 @@ export interface ReportDataProps {
   fileUrl: string;
   dataCriacao: string;
   funcionario: EmployeeProps;
+  comentarios: Array<ReportCommentsProps>;
 }
 
 interface ReportContextType {
@@ -70,6 +72,7 @@ export const ReportContextProvider = ({
                       funcionario: report.funcionario,
                       tipo: report.tipo,
                       dataCriacao: report.dataCriacao,
+                      comentarios: report.comentarios,
                       fileUrl: fileURL,
                     }
                     : item,
@@ -83,6 +86,7 @@ export const ReportContextProvider = ({
                     funcionario: report.funcionario,
                     tipo: report.tipo,
                     dataCriacao: report.dataCriacao,
+                    comentarios: report.comentarios,
                     fileUrl: fileURL,
                   },
                 ];

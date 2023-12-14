@@ -1,13 +1,13 @@
 import { EmployeeProps } from "./employeeDTO";
-import { StudentProps } from "./studentDTO";
+import { ReportCommentsProps } from "./reportCommentsDTO";
 
 export interface ReportProps {
   id: string;
   tipo: string;
   titulo: string;
   dataCriacao: string;
-  // educando: StudentProps;
   funcionario: EmployeeProps;
+  comentarios: Array<ReportCommentsProps>;
 }
 
 export interface CreateReportInput {

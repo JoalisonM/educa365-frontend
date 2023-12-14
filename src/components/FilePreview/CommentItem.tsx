@@ -11,22 +11,25 @@ interface CommentProps {
 }
 
 interface CommentItemProps {
-  content: CommentProps;
-  onDeleteComment: (id: number) => void;
+  id: string;
+  text: string;
+  author: string;
+  publishedAt: Date;
+  onDeleteComment: (id: string) => void;
 }
 
-export const CommentItem = ({ content, onDeleteComment }: CommentItemProps) => {
-  const publishedDateFormat = format(content.publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
+export const CommentItem = ({ id, text, publishedAt, author, onDeleteComment }: CommentItemProps) => {
+  const publishedDateFormat = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
     locale: ptBR,
   });
 
-  const publishedDateRelativeToNow = formatDistanceToNow(content.publishedAt, {
+  const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
     locale: ptBR,
     addSuffix: true,
   });
 
   const handleDeleteComment = () => {
-    onDeleteComment(content.id);
+    onDeleteComment(id);
   };
 
   return (
@@ -36,11 +39,11 @@ export const CommentItem = ({ content, onDeleteComment }: CommentItemProps) => {
           <header className="flex items-start justify-between">
             <div>
               <strong className="block text-sm leading-relaxed text-zinc-700">
-                Joalison Matheus
+                {author}
               </strong>
               <time
                 title={publishedDateFormat}
-                dateTime={content.publishedAt.toISOString()}
+                dateTime={publishedAt.toISOString()}
                 className="block text-xs leading-relaxed text-zinc-500"
               >
                 {publishedDateRelativeToNow}
@@ -56,7 +59,7 @@ export const CommentItem = ({ content, onDeleteComment }: CommentItemProps) => {
             </Button>
           </header>
 
-          <p className="mt-4 text-zinc-800">{content.text}</p>
+          <p className="mt-4 text-zinc-800">{text}</p>
         </div>
       </div>
     </div>
